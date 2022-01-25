@@ -1,0 +1,33 @@
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Simple Split</mat-card-title>
+    </mat-card-header>
+
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="logIn()"  autocomplete="off">
+      <mat-card-content>
+
+        <mat-form-field class="login-full-width">
+          <input matInput placeholder="Ονομα χρήστη" [formControlName]="'userName'" autofocus>
+          <mat-error *ngIf="userName.errors?.['required'] && userName.dirty">
+            Το όνομα χρήστη είναι υποχρεωτικό
+          </mat-error>
+          <mat-error *ngIf="userName.errors?.['minlength'] && userName.dirty">
+            Το όνομα χρήστη πρέπει να είναι παραπάνω από 5 χαρακτήρες
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="login-full-width">
+          <input matInput type='password' placeholder="Κωδικός" [formControlName]="'password'">
+          <mat-error *ngIf="password.errors?.['required'] && password.touched">
+            Ο κωδικός χρήστη είναι υποχρεωτικός
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+
+      <button [disabled]="!loginForm.valid" mat-stroked-button color="accent" class="btn-block">Σύνδεση</button>
+    </form>
+  </mat-card>
+
+</div>

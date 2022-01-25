@@ -1,0 +1,50 @@
+// ----------------------------------------------------------------------------------------------------
+// Custom typography - local fonts
+@import '~assets/css/fira-sans.css';
+@import '~@angular/material/theming';
+$custom-typography: mat-typography-config(
+  $font-family: 'Fira Sans, sans-serif, monospace',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(14px, 24px, 500),
+);
+@include angular-material-typography($custom-typography);
+// ----------------------------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------------------------
+// Font awesome
+//
+@import '~assets/css/fontawesome.css';
+@import '~assets/css/solid.css';
+@import '~assets/css/regular.css';
+@import '~assets/css/brands.css';
+// ----------------------------------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------------------------------
+// Global styles
+//
+html, body { height: 100%; }
+body { margin: 0; font-family: "Fira Sans", "Helvetica Neue", sans-serif; }
+
+[hidden] { display: none !important;}
+.hidden { display: none !important; }
+.link {
+  cursor: pointer !important;
+  color: blue;
+}
+.mat-icon { height: auto !important; } // Fix icons height
+.filler { flex: 1 1 auto; }
+
+// ----------------------------------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------------------------------
+// Fixes yellow background on auto fills on Chrome, https://stackoverflow.com/a/29350537/3410871
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}
+// ----------------------------------------------------------------------------------------------------
+

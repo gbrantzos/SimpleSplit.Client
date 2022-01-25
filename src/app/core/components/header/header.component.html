@@ -1,0 +1,27 @@
+<mat-toolbar class="mat-elevation-z2">
+  <i class="far fa-folder-open fa-2x light"></i>&nbsp;&nbsp;&nbsp;
+  <span>Αρχική</span>
+  <span class="filler"></span>
+  <button mat-icon-button class="favorite-icon">
+    <i class="far fa-user-circle fa-2x light"></i>
+  </button>
+
+  <button mat-icon-button [matMenuTriggerFor]="userMenu">
+    <mat-icon fontSet="far" fontIcon="fa-caret-square-down fa-2x"></mat-icon>
+  </button>
+
+  <!--
+  <button mat-icon-button [ngClass]="{ hidden: !showMenuIcon }" (click)="onToggleSidenav()">
+    <mat-icon fontSet="fas" fontIcon="fa-bars"></mat-icon>
+  </button>
+  -->
+
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item (click)="logout()">
+      <mat-icon fontSet="fas" fontIcon="fa-sign-out-alt"></mat-icon>
+      Exit
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+

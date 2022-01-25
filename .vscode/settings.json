@@ -1,0 +1,11 @@
+{
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "files.exclude": {
+        ".angular/**": true,
+        ".vscode/**": true,
+        "dist/**": true,
+        "node_modules/**": true
+    },
+    "material-icon-theme.activeIconPack": "none",
+    "vsicons.presets.foldersAllDefaultIcon": true
+}
