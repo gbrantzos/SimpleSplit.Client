@@ -39,8 +39,17 @@ export class LoginComponent implements OnInit {
     const formValues = this.loginForm.getRawValue();
     this.authenticationService
       .login(formValues.userName, formValues.password)
-      .subscribe(user => {
-        this.router.navigate([this.returnUrl]);
-      })
+      .subscribe({
+        next: user => {
+          this.router.navigate([this.returnUrl]);
+        },
+        error: error => {
+          console.error(error);
+          const message = typeof(error.error) === 'string'
+            ? error.error
+            : error.statusText
+          alert(message);
+        }
+      });
   }
 }

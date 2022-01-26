@@ -40,7 +40,7 @@ export class AuthenticationService {
           token: resp.token
         } as User;
         const expirationDate = this.getExpirationDate(user.token);
-        this.userSubject.next(user);console.log({user, expirationDate});
+        this.userSubject.next(user);
         localStorage.setItem(this.STORAGE_ITEM, JSON.stringify({user, expirationDate}));
 
         return user;

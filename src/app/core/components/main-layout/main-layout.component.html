@@ -1,0 +1,20 @@
+<mat-sidenav-container fullscreen>
+  <mat-sidenav mode="side" opened>
+    <smp-side-menu></smp-side-menu>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div fxLayout="column" fxFill>
+
+      <!-- Header -->
+      <smp-header></smp-header>
+
+      <!-- Main content -->
+      <div id="main-content" fxFlex="auto" class="mat-elevation-z1">
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

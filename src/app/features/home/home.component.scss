@@ -1,0 +1,16 @@
+.container {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-top: 80px;
+}
+
+.mat-card {
+  max-width: 650px;
+}
+
+.header-image {
+  background-image: url('/assets/images/calculator.png');
+  background-size: cover;
+  border-radius: 6px;
+}
