@@ -1,6 +1,13 @@
 .login-wrapper {
   background-color: grey;
   height: 100%;
+
+  background-image: url('/assets/images/login_background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.safe {
   background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
 
   background: #7d7e7d;
@@ -16,20 +23,17 @@
   width: 100%;
 }
 
-.login-wrapper .login-full-width,
-.login-wrapper .btn-block {
+.login-wrapper .login-full-width {
   width: 100%;
 }
 
 .login-wrapper mat-card-header {
-  text-align: center;
-  width: 100%;
-  display: block;
-  font-weight: 700;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
+  align-items: center;
 }
 
 .login-wrapper mat-card-header mat-card-title {
+  font-weight: 700 !important;
   font-size: 30px;
   margin: 0;
 }
@@ -40,7 +44,6 @@
 
 .login-wrapper .mat-stroked-button {
   border: 1px solid currentColor;
-  line-height: 54px;
   background: #FFF7FA;
 }
 
@@ -71,4 +74,10 @@
   top: -20px;
   opacity: .8;
   z-index: -1;
+}
+
+.header-image {
+  background-image: url('/assets/images/calculator.png');
+  background-size: cover;
+  border-radius: 6px;
 }

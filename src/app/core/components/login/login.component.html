@@ -2,10 +2,11 @@
 
   <mat-card class="box">
     <mat-card-header>
+      <div mat-card-avatar class="header-image"></div>
       <mat-card-title>Simple Split</mat-card-title>
     </mat-card-header>
 
-    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="logIn()"  autocomplete="off">
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="logIn()" autocomplete="off" spellcheck="false">
       <mat-card-content>
 
         <mat-form-field class="login-full-width">
@@ -26,7 +27,11 @@
         </mat-form-field>
       </mat-card-content>
 
-      <button [disabled]="!loginForm.valid" mat-stroked-button color="accent" class="btn-block">Σύνδεση</button>
+      <div mat-dialog-actions align="end">
+        <button #connectBtn [disabled]="!loginForm.valid" mat-stroked-button color="accent">
+          Σύνδεση&nbsp;&nbsp;&nbsp;<i class="fas fa-sign-in-alt"></i>
+        </button>
+      </div>
     </form>
   </mat-card>
 

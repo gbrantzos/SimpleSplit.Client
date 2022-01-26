@@ -22,7 +22,7 @@ import { MainLayoutComponent } from './core/components/main-layout/main-layout.c
   imports: [
     BrowserModule,
     SharedModule,
-    MaterialModule,
+    MaterialModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule
   ],

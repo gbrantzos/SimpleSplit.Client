@@ -48,3 +48,37 @@ input:-webkit-autofill:active {
 }
 // ----------------------------------------------------------------------------------------------------
 
+
+// ----------------------------------------------------------------------------------------------------
+// Snack-bar customization
+.snack-bar {
+  max-width: 80vw !important;
+}
+.mat-snack-bar-container {
+  max-width: 680px !important;
+}
+.snack-panel {
+  white-space: pre-line;
+  padding-left: 24px !important;
+  background-color: rgba(0, 0, 0, 0.87);
+}
+.snack-panel-info {
+  border-left: 6px rgb(96, 96, 189) solid;
+}
+.snack-panel-success {
+  border-left: 6px #28a745 solid;
+}
+.snack-panel-warning {
+  border-left: 6px orange solid;
+}
+.snack-panel-error {
+  border-left: 6px #bf0000 solid;
+}
+.base-component {
+  overflow: hidden;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+// ----------------------------------------------------------------------------------------------------
