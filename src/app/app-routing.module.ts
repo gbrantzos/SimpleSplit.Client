@@ -15,9 +15,14 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)
+      },
+      {
+        path: 'expenses',
+        loadChildren: () => import('./features/expenses/expenses.module').then(m => m.ExpensesModule)
       }
     ]
   },
+
 
   // otherwise redirect to home
   { path: '**', redirectTo: '' }

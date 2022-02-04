@@ -30,9 +30,8 @@ export class AuthenticationService {
 
   login(userName: string, password: string): Observable<User> {
     return this.http
-      .post('http://localhost:4890/users', {userName, password})
+      .post('http://localhost:4100/users', {userName, password})
       .pipe(map((resp: any) => {
-        console.log(resp);
         const user = {
           id: resp.user.id,
           userName: resp.user.userName,
