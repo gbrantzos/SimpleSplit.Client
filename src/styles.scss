@@ -2,6 +2,7 @@
 // Custom typography - local fonts
 @import '~assets/css/fira-sans.css';
 @import '~@angular/material/theming';
+
 $custom-typography: mat-typography-config(
   $font-family: 'Fira Sans, sans-serif, monospace',
   $headline: mat-typography-level(32px, 48px, 700),
@@ -23,17 +24,36 @@ $custom-typography: mat-typography-config(
 // ----------------------------------------------------------------------------------------------------
 // Global styles
 //
-html, body { height: 100%; }
-body { margin: 0; font-family: "Fira Sans", "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
 
-[hidden] { display: none !important;}
-.hidden { display: none !important; }
+body {
+  margin: 0;
+  font-family: "Fira Sans", "Helvetica Neue", sans-serif;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
 .link {
   cursor: pointer !important;
   color: blue;
 }
-.mat-icon { height: auto !important; } // Fix icons height
-.filler { flex: 1 1 auto; }
+
+.mat-icon {
+  height: auto !important;
+}
+
+// Fix icons height
+.filler {
+  flex: 1 1 auto;
+}
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -46,6 +66,7 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
 }
+
 // ----------------------------------------------------------------------------------------------------
 
 
@@ -54,31 +75,98 @@ input:-webkit-autofill:active {
 .snack-bar {
   max-width: 80vw !important;
 }
+
 .mat-snack-bar-container {
   max-width: 680px !important;
 }
+
 .snack-panel {
   white-space: pre-line;
   padding-left: 24px !important;
   background-color: rgba(0, 0, 0, 0.87);
 }
+
 .snack-panel-info {
   border-left: 6px rgb(96, 96, 189) solid;
 }
+
 .snack-panel-success {
   border-left: 6px #28a745 solid;
 }
+
 .snack-panel-warning {
   border-left: 6px orange solid;
 }
+
 .snack-panel-error {
   border-left: 6px #bf0000 solid;
 }
+
 .base-component {
   overflow: hidden;
   flex: 1;
 
   display: flex;
   flex-direction: column;
+}
+
+// ----------------------------------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------------------------------
+// Custom scroll bars
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #d6d6d6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+  width: 10px;
+}
+// ----------------------------------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------------------------------
+// Make sidenav backdrop full-page
+.mat-drawer-backdrop {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+// ----------------------------------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------------------------------
+// Base styles for components
+.base-component {
+  margin: 12px;
+  border-radius: 6px;
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.component-container {
+  padding: 8px;
+  flex: 1 1 auto;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.auto-overflow-y {
+  overflow-y: auto;
 }
 // ----------------------------------------------------------------------------------------------------

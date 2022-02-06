@@ -17,7 +17,9 @@ export class AuthenticationService {
     this.user$ = this.userSubject.asObservable();
 
     const tmp = JSON.parse(localStorage.getItem(this.STORAGE_ITEM));
-    if (!tmp) { return; }
+    if (!tmp) {
+      return;
+    }
     const {user, expirationDate} = tmp;
     const now = new Date();
     if (new Date(expirationDate) > now && !!user) {
@@ -25,8 +27,13 @@ export class AuthenticationService {
     }
   }
 
-  get currentUser(): User { return this.userSubject.value; }
-  get userLoggedIn() : boolean { return !!this.currentUser; }
+  get currentUser(): User {
+    return this.userSubject.value;
+  }
+
+  get userLoggedIn(): boolean {
+    return !!this.currentUser;
+  }
 
   login(userName: string, password: string): Observable<User> {
     return this.http

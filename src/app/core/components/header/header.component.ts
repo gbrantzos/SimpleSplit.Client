@@ -7,8 +7,13 @@ import { AuthenticationService } from '@core/services/authentication.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private authenticationService: AuthenticationService) {
+  }
 
-  ngOnInit(): void { }
-  logout() { this.authenticationService.logout(); }
+  ngOnInit(): void {
+  }
+
+  logout() {
+    this.authenticationService.logout();
+  }
 }

@@ -1,9 +1,9 @@
 mat-sidenav {
-  width: 230px;
+  width: 220px;
   background-color: rgb(64, 64, 64);
   color: lightgrey;
-  padding: 16px;
-  padding-top: 8px;
+  margin: 0;
+  padding: 0;
 }
 
 .mat-sidenav-content {
@@ -11,8 +11,7 @@ mat-sidenav {
 }
 
 #main-content {
-  margin: 10px;
-  padding: 16px;
-  border-radius: 10px;
-  background-color: RGB(245, 245, 245);
+  display: flex;
+  overflow-y: auto;
 }
+

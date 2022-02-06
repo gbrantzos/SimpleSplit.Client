@@ -1,11 +1,24 @@
 <div class="wrapper">
-  <h1>Simple Split</h1>
 
-  <nav>
-    <ul>
-      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-      <li><a routerLink="/expenses" routerLinkActive="active">Expenses</a></li>
-    </ul>
-  </nav>
+  <h1>Simple Split</h1>
+  <ul>
+    <mat-divider></mat-divider>
+    <div class="menu-title"> Μενού</div>
+
+    <li *ngFor="let menuItem of menuItems"
+        routerLinkActive="active-menu"
+        [routerLink]="menuItem.route">
+      <div class="menu-item" fxLayout="row" fxFlexAlign="center center" fxLayoutGap="18px">
+        <div>
+          <i class="fas fa-2x fa-fw" [class]="menuItem.icon"></i>
+        </div>
+
+        <div class="menu-label">
+          {{menuItem.name}}
+        </div>
+
+      </div>
+    </li>
+  </ul>
 
 </div>

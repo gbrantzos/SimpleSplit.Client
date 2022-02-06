@@ -11,10 +11,10 @@
   background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
 
   background: #7d7e7d;
-  background: -moz-linear-gradient(left,  #7d7e7d 0%, #0e0e0e 100%);
-  background: -webkit-linear-gradient(left,  #7d7e7d 0%,#0e0e0e 100%);
-  background: linear-gradient(to right,  #7d7e7d 0%,#0e0e0e 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=1 );
+  background: -moz-linear-gradient(left, #7d7e7d 0%, #0e0e0e 100%);
+  background: -webkit-linear-gradient(left, #7d7e7d 0%, #0e0e0e 100%);
+  background: linear-gradient(to right, #7d7e7d 0%, #0e0e0e 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d7e7d', endColorstr='#0e0e0e', GradientType=1);
 }
 
 .login-wrapper .login-form {

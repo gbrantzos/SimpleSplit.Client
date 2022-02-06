@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home.component';
-import { HomeRoutingModule } from './home-routing.module';
-import { MaterialModule } from '@shared/material.module';
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {HomeComponent} from './home.component';
+import {HomeRoutingModule} from './home-routing.module';
+import {SharedModule} from "@shared/shared.module";
 
 
 @NgModule({
@@ -13,7 +12,8 @@ import { MaterialModule } from '@shared/material.module';
   imports: [
     CommonModule,
     HomeRoutingModule,
-    MaterialModule
+    SharedModule
   ]
 })
-export class HomeModule { }
+export class HomeModule {
+}

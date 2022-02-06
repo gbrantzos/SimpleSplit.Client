@@ -18,8 +18,13 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   @ViewChild('connectBtn') connectBtn: MatButton;
 
-  get userName() { return this.loginForm.get('userName'); }
-  get password() { return this.loginForm.get('password'); }
+  get userName() {
+    return this.loginForm.get('userName');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,12 +32,12 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private dialogService: DialogService,
     private authenticationService: AuthenticationService) {
-      // Get return url from route parameters or default to '/'
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-      if (this.authenticationService.userLoggedIn) {
-        this.router.navigate([this.returnUrl]);
-      }
+    // Get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    if (this.authenticationService.userLoggedIn) {
+      this.router.navigate([this.returnUrl]);
     }
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -53,7 +58,7 @@ export class LoginComponent implements OnInit {
         },
         error: error => {
           console.error('Login failed', formValues, error);
-          const message = typeof(error.error) === 'string'
+          const message = typeof (error.error) === 'string'
             ? error.error
             : error.statusText
           this.dialogService.snackWarning(`Αποτυχία σύνδεσης!\n${message}`);

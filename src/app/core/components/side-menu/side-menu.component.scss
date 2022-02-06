@@ -1,1 +1,44 @@
-.wrapper { }
+.wrapper {
+}
+
+h1 {
+  padding: 8px 12px;
+  margin-bottom: 0;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-title {
+  padding: 12px 2px;
+  margin: 8px 12px 18px;
+}
+
+li {
+  padding: 12px;
+
+  // TODO is it better without margin
+  margin: 8px;
+  border-radius: 6px;
+  color: gray;
+}
+
+.label {
+  padding: 4px 0;
+}
+
+.menu-label {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 32px;
+  cursor: pointer;
+}
+
+.active-menu {
+  color: #fff;
+  background: rgb(233, 119, 81);
+  background: linear-gradient(133deg, rgba(233, 119, 81, 1) 24%, rgba(218, 83, 16, 1) 87%);
+}

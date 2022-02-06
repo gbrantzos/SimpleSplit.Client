@@ -1,0 +1,14 @@
+table {
+  width: 100%;
+  background-color: rgb(250, 250, 250);
+}
+
+.value {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+th.mat-header-cell {
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.78);
+}

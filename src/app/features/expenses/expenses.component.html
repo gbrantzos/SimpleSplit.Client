@@ -1,1 +1,19 @@
-<p>expenses works!</p>
+<mat-sidenav-container hasBackdrop="true" class="component-container">
+
+  <mat-sidenav-content>
+    <div class="full-height" fxLayout="column">
+      <smp-list-header title="Λίστα Εξόδων"
+                       (newClicked)="onNew()"
+                       (searchClicked)="onSearch()">
+      </smp-list-header>
+      <div *ngIf="expenses$ | async as expenses" class="auto-overflow-y" fxFlex>
+        <smp-expenses-table [data]="expenses" (expenseClicked)="onExpenseClick($event)"></smp-expenses-table>
+      </div>
+    </div>
+  </mat-sidenav-content>
+
+  <mat-sidenav #sidenav mode="over" position="end" fixedInViewport>
+    <p>Editor form</p>
+  </mat-sidenav>
+
+</mat-sidenav-container>

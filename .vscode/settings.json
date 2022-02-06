@@ -9,12 +9,12 @@
     "material-icon-theme.activeIconPack": "none",
     "vsicons.presets.foldersAllDefaultIcon": true,
     "workbench.colorCustomizations": {
-        "sash.hoverBorder": "#ab307e",
-        "statusBar.background": "#832561",
+        "sash.hoverBorder": "#d04649",
+        "statusBar.background": "#b52e31",
         "statusBar.foreground": "#e7e7e7",
-        "statusBarItem.hoverBackground": "#ab307e",
-        "statusBarItem.remoteBackground": "#832561",
+        "statusBarItem.hoverBackground": "#d04649",
+        "statusBarItem.remoteBackground": "#b52e31",
         "statusBarItem.remoteForeground": "#e7e7e7"
     },
-    "peacock.color": "#832561"
+    "peacock.color": "#b52e31"
 }
