@@ -42,10 +42,11 @@ export class AuthenticationService {
         const user = {
           id: resp.user.id,
           userName: resp.user.userName,
+          email: resp.user.email,
           displayName: resp.user.displayName,
           token: resp.token
         } as User;
-        const expirationDate = this.getExpirationDate(user.token);
+        const expirationDate = AuthenticationService.getExpirationDate(user.token);
         this.userSubject.next(user);
         localStorage.setItem(this.STORAGE_ITEM, JSON.stringify({user, expirationDate}));
 
@@ -62,7 +63,7 @@ export class AuthenticationService {
   // Add refresh token functionality
   // https://jasonwatmore.com/post/2020/07/25/angular-10-jwt-authentication-with-refresh-tokens
 
-  private getExpirationDate(jwtToken: string) {
+  private static getExpirationDate(jwtToken: string) {
     const dateToken = JSON.parse(atob(jwtToken.split('.')[1]));
     return new Date(dateToken.exp * 1000);
   }
@@ -72,6 +73,7 @@ export class AuthenticationService {
 export interface User {
   id: number;
   userName: string;
+  email: string;
   displayName: string;
   token: string;
 }

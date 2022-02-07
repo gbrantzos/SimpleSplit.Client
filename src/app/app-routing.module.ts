@@ -14,18 +14,24 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)
+        loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),
+        data: {
+          description: 'Αρχική'
+        }
       },
       {
         path: 'expenses',
-        loadChildren: () => import('./features/expenses/expenses.module').then(m => m.ExpensesModule)
+        loadChildren: () => import('./features/expenses/expenses.module').then(m => m.ExpensesModule),
+        data: {
+          description: 'Εξοδα'
+        }
       }
     ]
   },
 
 
   // otherwise redirect to home
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '/home' } // TODO Add page 404
 ];
 
 @NgModule({

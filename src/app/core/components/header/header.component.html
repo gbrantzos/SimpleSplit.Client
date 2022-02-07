@@ -1,13 +1,12 @@
 <mat-toolbar class="mat-elevation-z2">
   <i class="far fa-folder-open fa-2x light"></i>&nbsp;&nbsp;&nbsp;
-  <span>Αρχική</span>
+  <span><b>{{this.title}}</b></span>
   <span class="filler"></span>
-  <button mat-icon-button class="favorite-icon">
-    <i class="far fa-user-circle fa-2x light"></i>
-  </button>
+  <span>{{userDisplayName}}</span>
+  <img [src]="userAvatar" class="avatar"  alt="User avatar"/>
 
   <button mat-icon-button [matMenuTriggerFor]="userMenu">
-    <mat-icon fontSet="far" fontIcon="fa-caret-square-down fa-2x"></mat-icon>
+    <mat-icon fontSet="fas" fontIcon="fa-caret-down"></mat-icon>
   </button>
 
   <!--

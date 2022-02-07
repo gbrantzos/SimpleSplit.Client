@@ -5,6 +5,9 @@ mat-sidenav {
   margin: 0;
   padding: 0;
 }
+.mat-drawer.mat-drawer-side {
+  z-index: 1; // TODO Is this safe?
+}
 
 .mat-sidenav-content {
   background-color: RGB(220, 220, 220);
