@@ -1,0 +1,7 @@
+<div><span [matMenuTriggerFor]="menu">Μέγεθος σελίδας: {{currentSize}}</span>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item
+            *ngFor="let size of sizes"
+            (click)="onSizeSelected(size)">{{size}}</button>
+  </mat-menu>
+</div>

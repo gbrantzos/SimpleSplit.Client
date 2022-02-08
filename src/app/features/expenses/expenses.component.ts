@@ -3,6 +3,7 @@ import { MatSidenav } from "@angular/material/sidenav";
 import { Expense, ExpensesStore } from '@features/expenses/services/expenses-store';
 import { Observable } from 'rxjs';
 import { SubSink } from "subsink";
+import { PagedResult } from "@shared/models/paged-result";
 
 @Component({
   selector: 'smp-expenses',
@@ -13,9 +14,10 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   @HostBinding('class') class = 'base-component';
   @ViewChild("sidenav") public sidenav: MatSidenav;
 
+  public pageSize: number = 20;
   public loading: boolean = true;
   public errorMessage: string;
-  public expenses$: Observable<Expense[]>;
+  public expenses$: Observable<PagedResult<Expense>>;
   private subs = new SubSink();
 
   constructor(private expensesStore: ExpensesStore) {
@@ -47,5 +49,19 @@ export class ExpensesComponent implements OnInit, OnDestroy {
 
   onSearch() {
     this.loadData();
+  }
+
+  dataInfo(data: PagedResult<Expense>): string {
+    if (data.rows.length === 0) {
+      return '';
+    }
+
+    const from = (data.currentPage - 1) * data.pageSize + 1;
+    const to = Math.min((data.currentPage) * data.pageSize, data.totalRows);
+    return `Εμφάνιση ${from} - ${to} από σύνολο ${data.totalRows} εγγραφών`;
+  }
+
+  pageSelected(size: number) {
+    this.pageSize = size;
   }
 }

@@ -6,18 +6,29 @@
                        (newClicked)="onNew()"
                        (searchClicked)="onSearch()">
       </smp-list-header>
-      <div *ngIf="expenses$ | async as expenses" class="auto-overflow-y" fxFlex>
-        <smp-expenses-table [data]="expenses" (expenseClicked)="onExpenseClick($event)"></smp-expenses-table>
+      <ng-container *ngIf="expenses$ | async as data">
 
-        <smp-loading *ngIf="loading"></smp-loading>
-        <smp-no-data *ngIf="!loading && expenses.length === 0"></smp-no-data>
-
-        <div *ngIf="!loading && errorMessage">
-          <p>Error while retrieving data</p>
-          <p>{{errorMessage}}</p>
+        <div class="info" *ngIf="!loading && !errorMessage" fxLayout="row">
+          <div> {{dataInfo(data)}}</div>
+          <div class="filler"></div>
+          <smp-page-size [sizes]="[10,20,50]"
+                         [currentSize]="pageSize"
+                         (sizeSelected)="pageSelected($event)"></smp-page-size>
         </div>
 
-      </div>
+        <div class="auto-overflow-y" fxFlex>
+          <smp-expenses-table [data]="data.rows" (expenseClicked)="onExpenseClick($event)"></smp-expenses-table>
+
+          <smp-loading *ngIf="loading"></smp-loading>
+          <smp-no-data *ngIf="!loading && data.rows?.length === 0"></smp-no-data>
+
+          <div *ngIf="!loading && errorMessage">
+            <p>Error while retrieving data</p>
+            <p>{{errorMessage}}</p>
+          </div>
+
+        </div>
+      </ng-container>
 
     </div>
   </mat-sidenav-content>
