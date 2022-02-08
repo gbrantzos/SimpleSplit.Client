@@ -12,15 +12,26 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next
       .handle(req)
       .pipe(
-        catchError(err => {console.log(err)
+        catchError(err => {
           if ([401, 403].includes(err.status) && this.authService.currentUser) {
             // Auto logout
             this.authService.logout()
+            // TODO Shall we handle 403 separately?
           }
 
-          const error = (err && err.error && err.error.message) || err.statusText;
           console.error(err);
-          return throwError(error);
+          let errorMessage = '';
+          if (err.error instanceof ErrorEvent) {
+            // Client-side error
+            console.warn('Client side error');
+            errorMessage = `${err.error.message || err.statusText}`;
+          } else {
+            // Server-side error
+            console.warn('Server side error');
+            errorMessage = `${err.message}`;
+          }
+
+          return throwError(() => errorMessage);
         }))
   }
 

@@ -12,6 +12,7 @@ export class ExpensesApiClient {
     return this
       .httpClient
       .get('http://localhost:4100/expenses?pageNumber=1&pageSize=40&sorting=-enteredAt')
+      // &conditions=description%7Cstarts%7Cbbb
       .pipe(
         map((resp: any) => {
           const rows = resp.rows;

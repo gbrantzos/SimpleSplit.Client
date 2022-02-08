@@ -1,22 +1,31 @@
 import { Injectable } from '@angular/core';
 import { ExpensesApiClient } from '@features/expenses/services/expenses-api-client';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 
 @Injectable()
 export class ExpensesStore {
   private readonly expenses$ = new BehaviorSubject<Expense[]>([]);
+  private readonly errors$ = new BehaviorSubject<string>('');
+  private readonly loading$ = new BehaviorSubject<boolean>(false);
+
   public readonly expenses = this.expenses$.asObservable();
+  public readonly errors = this.errors$.asObservable();
+  public readonly loading = this.loading$.asObservable();
 
   constructor(private apiClient: ExpensesApiClient) { }
 
   load = () => {
-    const call$ = this.apiClient.get()
+    this.loading$.next(true);
+    this.expenses$.next([]);
+    this.apiClient.get()
       .subscribe({
         next: exp => {
+          this.loading$.next(false);
           this.expenses$.next(exp);
         },
-        error: err => {
-          console.error(err);
+        error: err => {console.warn(err)
+          this.errors$.next(err);
+          this.loading$.next(false);
           this.expenses$.next([]);
         }
       });

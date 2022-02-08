@@ -4,10 +4,14 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {materialModules} from "@shared/materialModules";
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
 import { ListHeaderComponent } from './components/list-header/list-header.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { NoDataComponent } from './components/no-data/no-data.component';
 
 @NgModule({
   declarations: [
-    ListHeaderComponent
+    ListHeaderComponent,
+    LoadingComponent,
+    NoDataComponent
   ],
   imports: [
     CommonModule,
@@ -16,7 +20,9 @@ import { ListHeaderComponent } from './components/list-header/list-header.compon
   exports: [
     ReactiveFormsModule,
     ...materialModules,
-    ListHeaderComponent
+    ListHeaderComponent,
+    LoadingComponent,
+    NoDataComponent
   ]
 })
 export class SharedModule {

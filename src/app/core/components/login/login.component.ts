@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
           console.error('Login failed', formValues, error);
           const message = typeof (error.error) === 'string'
             ? error.error
-            : error.statusText
+            : error.statusText || error;
           this.dialogService.snackWarning(`Αποτυχία σύνδεσης!\n${message}`);
         }
       });

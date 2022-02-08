@@ -36,9 +36,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.title = e.description || 'NO DESCRIPTION';
     });
 
-    const currentUser = this.authenticationService.currentUser;
-    this.userDisplayName = currentUser.displayName;
-    this.userAvatar = avatarService.getAvatarUrl(currentUser.email);
+    this.subs.sink = this.authenticationService
+      .user$
+      .subscribe(user => {
+        this.userDisplayName = user?.displayName;
+        this.userAvatar = avatarService.getAvatarUrl(user?.email);
+      })
+    ;
   }
 
   ngOnInit(): void { }

@@ -8,7 +8,17 @@
       </smp-list-header>
       <div *ngIf="expenses$ | async as expenses" class="auto-overflow-y" fxFlex>
         <smp-expenses-table [data]="expenses" (expenseClicked)="onExpenseClick($event)"></smp-expenses-table>
+
+        <smp-loading *ngIf="loading"></smp-loading>
+        <smp-no-data *ngIf="!loading && expenses.length === 0"></smp-no-data>
+
+        <div *ngIf="!loading && errorMessage">
+          <p>Error while retrieving data</p>
+          <p>{{errorMessage}}</p>
+        </div>
+
       </div>
+
     </div>
   </mat-sidenav-content>
 

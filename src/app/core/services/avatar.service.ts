@@ -5,11 +5,10 @@ import { Md5 } from "ts-md5";
   providedIn: 'root'
 })
 export class AvatarService {
-  private readonly md5 = new Md5();
-
   public getAvatarUrl(email: string): string {
+    const md5 = new Md5();
     return email
-      ? `https://www.gravatar.com/avatar/${this.md5.appendAsciiStr(email).end()}`
+      ? `https://www.gravatar.com/avatar/${md5.appendAsciiStr(email).end()}`
       : 'assets/images/default-avatar.png';
   }
 }
