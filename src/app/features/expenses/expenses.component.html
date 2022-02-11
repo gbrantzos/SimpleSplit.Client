@@ -14,7 +14,11 @@
         </div>
 
         <div class="auto-overflow-y" fxFlex>
-          <smp-expenses-table [data]="data.rows" (expenseClicked)="onExpenseClick($event)"></smp-expenses-table>
+          <smp-expenses-table [data]="{rows: data.rows, sort: currentParams.sort}"
+                              (sortChanged)="onSortChanged($event)"
+                              (expenseClicked)="onExpenseClick($event)">
+
+          </smp-expenses-table>
           <smp-paginator *ngIf="data.rows?.length !== 0"
                          [sizes]="[5, 10, 20]"
                          [pageSize]="data.pageSize"

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { SubSink } from "subsink";
 import { PagedResult } from "@shared/models/paged-result";
 import { PaginatorEvent } from "@shared/components/paginator/paginator.component";
-import { QueryParameters } from "@shared/models/query-parameters";
+import { QueryParameters, SortInfo } from "@shared/models/query-parameters";
 
 @Component({
   selector: 'smp-expenses',
@@ -16,12 +16,14 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   @HostBinding('class') class = 'base-component';
   @ViewChild("sidenav") public sidenav: MatSidenav;
 
-  public pageSize: number = 10;
+  private static readonly StorageKey = 'ExpensesList_QueryParameters'
+  private subs = new SubSink();
+
   public loading: boolean = true;
   public errorMessage: string;
   public expenses$: Observable<PagedResult<Expense>>;
-  private subs = new SubSink();
-  private currentParams: QueryParameters;
+  public pageSize: number = 10;
+  public currentParams: QueryParameters;
 
   constructor(private expensesStore: ExpensesStore) {
     this.expenses$ = expensesStore.expenses;
@@ -30,13 +32,19 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   }
 
   private loadData() {
+    localStorage.setItem(ExpensesComponent.StorageKey, JSON.stringify(this.currentParams));
     this.expensesStore.load(this.currentParams);
   }
 
   ngOnInit(): void {
-    this.currentParams = {
+    const values = localStorage.getItem(ExpensesComponent.StorageKey);
+    this.currentParams = JSON.parse(values) || {
       pageNumber: 1,
-      pageSize: this.pageSize
+      pageSize: this.pageSize,
+      sort: {
+        column: 'enteredAt',
+        direction: 'desc'
+      }
     };
     this.loadData();
   }
@@ -73,6 +81,19 @@ export class ExpensesComponent implements OnInit, OnDestroy {
       ...this.currentParams,
       pageNumber: changes.pageNumber,
       pageSize: changes.pageSize
+    };
+    this.loadData();
+  }
+
+  onSortChanged(changes: SortInfo) {
+    if (changes.column == this.currentParams.sort.column &&
+      changes.direction == this.currentParams.sort.direction) { return; }
+    this.currentParams = {
+      ...this.currentParams,
+      sort: {
+        column: changes.column,
+        direction: changes.direction
+      }
     };
     this.loadData();
   }
