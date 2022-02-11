@@ -24,6 +24,7 @@ li {
   margin: 8px;
   border-radius: 6px;
   color: gray;
+  cursor: pointer;
 }
 
 .label {
@@ -34,7 +35,6 @@ li {
   text-align: center;
   vertical-align: middle;
   line-height: 32px;
-  cursor: pointer;
 }
 
 .active-menu {

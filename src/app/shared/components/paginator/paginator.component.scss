@@ -1,0 +1,17 @@
+.wrapper {
+  padding: 24px 12px 8px;
+}
+
+.page-item {
+  padding: 4px 6px;
+}
+
+.page-link {
+  cursor: pointer;
+}
+
+.active {
+  background-color: orange;
+  border-radius: 6px;
+  font-weight: bold;
+}

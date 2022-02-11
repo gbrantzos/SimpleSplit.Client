@@ -1,0 +1,28 @@
+<div class="wrapper" fxLayout="row" fxLayoutAlign="center center">
+
+  <!-- Page size selection -->
+  <div id="page-size">
+    <span>Μέγεθος σελίδας &nbsp;{{pageSize}}</span>
+    <i [matMenuTriggerFor]="menu" class="fas fa-caret-down fa-fw"></i>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button mat-menu-item
+              *ngFor="let size of sizes"
+              (click)="onSizeSelected(size)">{{size}}</button>
+    </mat-menu>
+  </div>
+  <div class="filler"></div>
+
+  <!-- Navigation links -->
+  <div class="links">
+    <i *ngIf="currentPage !== 1"
+       (click)="onPageSelected((currentPage -1).toString())"
+       class="fas fa-caret-left fa-fw page-link"></i>
+    <span class="page-item"
+          [ngClass]="{'active': link === currentPage.toString(), 'page-link': isNumber(link)}"
+          (click)="onPageSelected(link)"
+          *ngFor="let link of links">{{link}}</span>
+    <i *ngIf="currentPage !== totalPages"
+       (click)="onPageSelected((currentPage +1).toString())"
+       class="fas fa-caret-right fa-fw page-link"></i>
+  </div>
+</div>

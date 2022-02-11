@@ -1,9 +1,15 @@
 mat-sidenav {
   width: 220px;
-  background-color: rgb(64, 64, 64);
   color: lightgrey;
   margin: 0;
   padding: 0;
+
+
+  // https://www.css-gradient.com/
+  background: #010101;
+  background: -webkit-linear-gradient(bottom left, #010101, #37332F);
+  background: -moz-linear-gradient(bottom left, #010101, #37332F);
+  background: linear-gradient(to top right, #010101, #37332F);
 }
 .mat-drawer.mat-drawer-side {
   z-index: 1; // TODO Is this safe?

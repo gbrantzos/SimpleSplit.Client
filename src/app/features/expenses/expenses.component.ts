@@ -4,6 +4,8 @@ import { Expense, ExpensesStore } from '@features/expenses/services/expenses-sto
 import { Observable } from 'rxjs';
 import { SubSink } from "subsink";
 import { PagedResult } from "@shared/models/paged-result";
+import { PaginatorEvent } from "@shared/components/paginator/paginator.component";
+import { QueryParameters } from "@shared/models/query-parameters";
 
 @Component({
   selector: 'smp-expenses',
@@ -14,11 +16,12 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   @HostBinding('class') class = 'base-component';
   @ViewChild("sidenav") public sidenav: MatSidenav;
 
-  public pageSize: number = 20;
+  public pageSize: number = 10;
   public loading: boolean = true;
   public errorMessage: string;
   public expenses$: Observable<PagedResult<Expense>>;
   private subs = new SubSink();
+  private currentParams: QueryParameters;
 
   constructor(private expensesStore: ExpensesStore) {
     this.expenses$ = expensesStore.expenses;
@@ -27,10 +30,14 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   }
 
   private loadData() {
-    this.expensesStore.load();
+    this.expensesStore.load(this.currentParams);
   }
 
   ngOnInit(): void {
+    this.currentParams = {
+      pageNumber: 1,
+      pageSize: this.pageSize
+    };
     this.loadData();
   }
 
@@ -61,7 +68,12 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     return `Εμφάνιση ${from} - ${to} από σύνολο ${data.totalRows} εγγραφών`;
   }
 
-  pageSelected(size: number) {
-    this.pageSize = size;
+  onPaginatorChanges(changes: PaginatorEvent) {
+    this.currentParams = {
+      ...this.currentParams,
+      pageNumber: changes.pageNumber,
+      pageSize: changes.pageSize
+    };
+    this.loadData();
   }
 }

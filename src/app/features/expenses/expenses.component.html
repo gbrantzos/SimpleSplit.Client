@@ -11,13 +11,16 @@
         <div class="info" *ngIf="!loading && !errorMessage" fxLayout="row">
           <div> {{dataInfo(data)}}</div>
           <div class="filler"></div>
-          <smp-page-size [sizes]="[10,20,50]"
-                         [currentSize]="pageSize"
-                         (sizeSelected)="pageSelected($event)"></smp-page-size>
         </div>
 
         <div class="auto-overflow-y" fxFlex>
           <smp-expenses-table [data]="data.rows" (expenseClicked)="onExpenseClick($event)"></smp-expenses-table>
+          <smp-paginator *ngIf="data.rows?.length !== 0"
+                         [sizes]="[5, 10, 20]"
+                         [pageSize]="data.pageSize"
+                         [currentPage]="data.currentPage"
+                         [totalPages]="data.totalPages"
+                         (changes)="onPaginatorChanges($event)"></smp-paginator>
 
           <smp-loading *ngIf="loading"></smp-loading>
           <smp-no-data *ngIf="!loading && data.rows?.length === 0"></smp-no-data>

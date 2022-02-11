@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ExpensesApiClient } from '@features/expenses/services/expenses-api-client';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { emptyPagedResult, PagedResult } from "@shared/models/paged-result";
+import { QueryParameters } from "@shared/models/query-parameters";
 
 @Injectable()
 export class ExpensesStore {
@@ -18,16 +19,19 @@ export class ExpensesStore {
 
   constructor(private apiClient: ExpensesApiClient) { }
 
-  load = () => {
+  load = (params: QueryParameters) => {
     this.loading$.next(true);
+    this.errors$.next('');
     this.expenses$.next(ExpensesStore.Empty);
-    this.apiClient.get()
+
+    this.apiClient.get(params)
       .subscribe({
         next: exp => {
           this.loading$.next(false);
           this.expenses$.next(exp);
         },
-        error: err => {console.warn(err)
+        error: err => {
+          console.warn(err)
           this.errors$.next(err);
           this.loading$.next(false);
           this.expenses$.next(ExpensesStore.Empty);
