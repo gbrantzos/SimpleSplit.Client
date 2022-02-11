@@ -20,7 +20,11 @@
         </mat-form-field>
 
         <mat-form-field class="login-full-width">
-          <input matInput type='password' placeholder="Κωδικός" [formControlName]="'password'">
+          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Κωδικός" [formControlName]="'password'">
+          <div matSuffix>
+            <i *ngIf="hide" class="far fa-eye fa-fw" (click)="hide = !hide"></i>
+            <i *ngIf="!hide" class="far fa-eye-slash fa-fw" (click)="hide = !hide"></i>
+          </div>
           <mat-error *ngIf="password.errors?.['required'] && password.touched">
             Ο κωδικός χρήστη είναι υποχρεωτικός
           </mat-error>

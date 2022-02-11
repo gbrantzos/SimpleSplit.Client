@@ -81,3 +81,9 @@
   background-size: cover;
   border-radius: 6px;
 }
+
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}

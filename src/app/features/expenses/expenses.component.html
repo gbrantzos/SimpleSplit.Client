@@ -9,8 +9,9 @@
       <ng-container *ngIf="expenses$ | async as data">
 
         <div class="info" *ngIf="!loading && !errorMessage" fxLayout="row">
-          <div> {{dataInfo(data)}}</div>
+          <!--<div>Αναζήτηση <input type="text"></div>-->
           <div class="filler"></div>
+          <div> {{dataInfo(data)}}</div>
         </div>
 
         <div class="auto-overflow-y" fxFlex>

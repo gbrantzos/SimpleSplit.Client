@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isSubmitted = false;
   returnUrl: string;
+  hide = true;
   @ViewChild('connectBtn') connectBtn: MatButton;
 
   get userName() {

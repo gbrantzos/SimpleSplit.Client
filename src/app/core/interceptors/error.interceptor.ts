@@ -28,7 +28,9 @@ export class ErrorInterceptor implements HttpInterceptor {
           } else {
             // Server-side error
             console.warn('Server side error');
-            errorMessage = `${err.message}`;
+            errorMessage = typeof (err.error) === 'string'
+              ? err.error
+              : `${err.message}`;
           }
 
           return throwError(() => errorMessage);
