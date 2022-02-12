@@ -7,7 +7,20 @@ import { ListHeaderComponent } from '@shared/components/list-header/list-header.
 import { LoadingComponent } from '@shared/components/loading/loading.component';
 import { NoDataComponent } from '@shared/components/no-data/no-data.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
+import { MomentDateAdapter } from "@angular/material-moment-adapter";
 
+export const SIMPLE_SPLIT_FORMATS = {
+  parse: {
+    dateInput: 'D/M/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @NgModule({
   declarations: [
@@ -42,6 +55,9 @@ export class SharedModule {
             horizontalPosition: 'right',
           },
         },
+        { provide: MAT_DATE_LOCALE, useValue: 'el-GR' },
+        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+        { provide: MAT_DATE_FORMATS, useValue: SIMPLE_SPLIT_FORMATS }
         // {
         //   provide: MAT_DIALOG_DEFAULT_OPTIONS,
         //   useValue: {

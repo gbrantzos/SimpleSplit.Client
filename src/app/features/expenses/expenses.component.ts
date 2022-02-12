@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { Expense, ExpensesStore } from '@features/expenses/services/expenses-store';
 import { Observable } from 'rxjs';
@@ -6,6 +6,8 @@ import { SubSink } from "subsink";
 import { PagedResult } from "@shared/models/paged-result";
 import { PaginatorEvent } from "@shared/components/paginator/paginator.component";
 import { QueryParameters, SortInfo } from "@shared/models/query-parameters";
+import { ExpensesEditorComponent } from "@features/expenses/expenses-editor/expenses-editor.component";
+import * as moment from 'moment';
 
 @Component({
   selector: 'smp-expenses',
@@ -15,6 +17,7 @@ import { QueryParameters, SortInfo } from "@shared/models/query-parameters";
 export class ExpensesComponent implements OnInit, OnDestroy {
   @HostBinding('class') class = 'base-component';
   @ViewChild("sidenav") public sidenav: MatSidenav;
+  @ViewChild('sidenavView', {read: ViewContainerRef}) vrf: ViewContainerRef;
 
   private static readonly StorageKey = 'ExpensesList_QueryParameters'
   private subs = new SubSink();
@@ -54,15 +57,30 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   }
 
   onNew() {
-    this.sidenav.open();
+    this.displaySideEditor({
+      id: 0,
+      rowVersion: 0,
+      description: '>>Περιγραφή<<',
+      enteredAt: moment().startOf('day').toDate(),
+      amount: 0,
+      category: undefined,
+      isOwnerCharge: false
+    });
   }
 
   onExpenseClick(expense: Expense) {
-    alert(expense.description);
-    console.log(expense);
+    this.displaySideEditor({...expense});
   }
 
-  onSearch() {
+  displaySideEditor(expense: Expense) {
+    this.vrf.clear();
+    const componentRef = this.vrf.createComponent(ExpensesEditorComponent);
+    componentRef.instance.sidenavHost = this.sidenav;
+    componentRef.instance.expense = expense;
+    this.sidenav.open()
+  }
+
+  onRefresh() {
     this.loadData();
   }
 
@@ -77,6 +95,8 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   }
 
   onPaginatorChanges(changes: PaginatorEvent) {
+    if (changes.pageNumber == this.currentParams.pageNumber &&
+      changes.pageSize == this.currentParams.pageSize) { return; }
     this.currentParams = {
       ...this.currentParams,
       pageNumber: changes.pageNumber,

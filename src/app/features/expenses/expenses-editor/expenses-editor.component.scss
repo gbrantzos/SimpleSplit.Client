@@ -1,0 +1,49 @@
+.wrapper {
+  margin: 6px;
+  padding: 6px;
+  width: 480px;
+}
+
+.title {
+  i {
+    margin-bottom: 16px;
+    color: darkgray;
+    font-size: 1.4em;
+    cursor: pointer;
+  }
+}
+
+.expense-editor {
+  width: 100%;
+  padding: 36px 8px 12px;
+
+  .full-width {
+    margin-top: 4px;
+    width: 100%;
+  }
+
+  .align-right {
+    text-align: right;
+  }
+
+  .for-owner {
+    margin-top: 8px;
+  }
+
+  .actions {
+    margin-top: 12px;
+  }
+
+  .mat-flat-button.mat-primary {
+    background-color: rgba(218, 83, 16, 1)
+  }
+
+  .mat-flat-button.mat-primary.mat-button-disabled {
+    background-color: rgba(0, 0, 0, .12);
+  }
+
+  #actions {
+    margin-top: 32px;
+  }
+}
+

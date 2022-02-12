@@ -13,6 +13,7 @@ import { SortInfo } from "@shared/models/query-parameters";
 })
 export class ExpensesTableComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
+
   public selection = new SelectionModel<any>(false);
   public dataSource = new MatTableDataSource<any>([]);
   public availableColumns: string[] = ['id', 'rowVersion', 'description', 'enteredAt', 'amount'];

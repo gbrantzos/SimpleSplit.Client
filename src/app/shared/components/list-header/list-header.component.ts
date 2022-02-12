@@ -9,7 +9,7 @@ import {Expense} from "@features/expenses/services/expenses-store";
 export class ListHeaderComponent implements OnInit {
   @Input() title: string;
   @Output() newClicked: EventEmitter<Expense> = new EventEmitter();
-  @Output() searchClicked: EventEmitter<Expense> = new EventEmitter();
+  @Output() refreshClicked: EventEmitter<Expense> = new EventEmitter();
 
   constructor() {
   }
@@ -18,5 +18,5 @@ export class ListHeaderComponent implements OnInit {
   }
 
   onNewClicked = () => this.newClicked.emit();
-  onSearchClicked = () => this.searchClicked.emit();
+  onRefreshClicked = () => this.refreshClicked.emit();
 }

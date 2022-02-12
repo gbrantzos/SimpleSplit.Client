@@ -4,7 +4,7 @@
     <div class="full-height" fxLayout="column">
       <smp-list-header title="Λίστα Εξόδων"
                        (newClicked)="onNew()"
-                       (searchClicked)="onSearch()">
+                       (refreshClicked)="onRefresh()">
       </smp-list-header>
       <ng-container *ngIf="expenses$ | async as data">
 
@@ -41,8 +41,8 @@
     </div>
   </mat-sidenav-content>
 
-  <mat-sidenav #sidenav mode="over" position="end" fixedInViewport>
-    <p>Editor form</p>
+  <mat-sidenav #sidenav mode="over" position="end" fixedInViewport disableClose>
+    <div class="sidenav-view" #sidenavView></div>
   </mat-sidenav>
 
 </mat-sidenav-container>
