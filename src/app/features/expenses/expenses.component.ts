@@ -1,13 +1,14 @@
 import { Component, HostBinding, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { Expense, ExpensesStore } from '@features/expenses/services/expenses-store';
-import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, startWith } from 'rxjs';
 import { SubSink } from "subsink";
 import { PagedResult } from "@shared/models/paged-result";
 import { PaginatorEvent } from "@shared/components/paginator/paginator.component";
 import { QueryParameters, SortInfo } from "@shared/models/query-parameters";
 import { ExpensesEditorComponent } from "@features/expenses/expenses-editor/expenses-editor.component";
 import * as moment from 'moment';
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
   selector: 'smp-expenses',
@@ -21,12 +22,14 @@ export class ExpensesComponent implements OnInit, OnDestroy {
 
   private static readonly StorageKey = 'ExpensesList_QueryParameters'
   private subs = new SubSink();
+  private searchDelay: number = 400;
 
   public loading: boolean = true;
   public errorMessage: string;
   public expenses$: Observable<PagedResult<Expense>>;
   public pageSize: number = 10;
   public currentParams: QueryParameters;
+  public searchForm: FormGroup;
 
   constructor(private expensesStore: ExpensesStore) {
     this.expenses$ = expensesStore.expenses;
@@ -39,7 +42,33 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     this.expensesStore.load(this.currentParams);
   }
 
+  private listenToSearchInputChanges() {
+    this.subs.sink = this.searchForm.get('searchValue')
+      .valueChanges
+      .pipe(
+        startWith(''),
+        debounceTime(this.searchDelay),
+        distinctUntilChanged()
+      ).subscribe({
+          next: search => {
+            if (search !== this.currentParams.criteria) { this.currentParams.pageNumber = 1 }
+            this.currentParams = {
+              ...this.currentParams,
+              criteria: search
+            }
+            this.loadData();
+          },
+          error: err => console.error(err)
+        }
+      );
+  }
+
   ngOnInit(): void {
+    this.searchForm = new FormGroup({
+      searchValue: new FormControl()
+    });
+    this.listenToSearchInputChanges();
+
     const values = localStorage.getItem(ExpensesComponent.StorageKey);
     this.currentParams = JSON.parse(values) || {
       pageNumber: 1,
@@ -49,7 +78,7 @@ export class ExpensesComponent implements OnInit, OnDestroy {
         direction: 'desc'
       }
     };
-    this.loadData();
+    // this.loadData();
   }
 
   ngOnDestroy(): void {
@@ -57,7 +86,7 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   }
 
   onNew() {
-    this.displaySideEditor({
+    this.displayEditor({
       id: 0,
       rowVersion: 0,
       description: '>>Περιγραφή<<',
@@ -69,16 +98,17 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   }
 
   onExpenseClick(expense: Expense) {
-    this.displaySideEditor({...expense});
+    this.displayEditor({...expense});
   }
 
-  displaySideEditor(expense: Expense) {
+  displayEditor(expense: Expense) {
     this.vrf.clear();
     const componentRef = this.vrf.createComponent(ExpensesEditorComponent);
     componentRef.instance.sidenavHost = this.sidenav;
     componentRef.instance.expense = expense;
     this.sidenav.open()
   }
+  clearSearch = () => this.searchForm.reset();
 
   onRefresh() {
     this.loadData();

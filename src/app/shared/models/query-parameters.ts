@@ -1,7 +1,8 @@
 ﻿export interface QueryParameters {
   pageNumber: number;
   pageSize: number;
-  sort: SortInfo
+  sort: SortInfo;
+  criteria?: string;
 }
 
 export interface SortInfo {

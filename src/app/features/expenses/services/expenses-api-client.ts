@@ -13,17 +13,17 @@ export class ExpensesApiClient {
 
   get(params: QueryParameters): Observable<PagedResult<Expense>> {
     const url = `${this.apiUrl}/expenses`;
-    const httpParams = new HttpParams()
+    let httpParams = new HttpParams()
       .set('pageNumber', params.pageNumber)
       .set('pageSize', params.pageSize)
       .set('sorting', params.sort.direction == 'asc' ? params.sort.column : `-${params.sort.column}`);
-
+    if (!!params.criteria) {
+      httpParams = httpParams.append('conditions', `description|like|${params.criteria}`)
+    }
     return this
       .httpClient
       .get<PagedResult<Expense>>(url, {
         params: httpParams
       });
-    // &conditions=description%7Cstarts%7Cbbb
-
   }
 }

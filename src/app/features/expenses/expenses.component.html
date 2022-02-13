@@ -8,8 +8,13 @@
       </smp-list-header>
       <ng-container *ngIf="expenses$ | async as data">
 
-        <div class="info" *ngIf="!loading && !errorMessage" fxLayout="row">
-          <!--<div>Αναζήτηση <input type="text"></div>-->
+        <div class="info" *ngIf="!errorMessage" fxLayout="row">
+          <form id="search-box" [formGroup]="searchForm">
+            <i class="fas fa-search fa-fw search-icon"></i>
+            <input #search id="search" type="text" formControlName="searchValue" placeholder="Αναζήτηση με περιγραφή">
+            <i *ngIf="!!search.value" class="fas fa-times fa-fw clear" (click)="clearSearch()"></i>
+            <i class="fas fa-sliders-h fa-fw advanced"></i>
+          </form>
           <div class="filler"></div>
           <div> {{dataInfo(data)}}</div>
         </div>
@@ -18,8 +23,8 @@
           <smp-expenses-table [data]="{rows: data.rows, sort: currentParams.sort}"
                               (sortChanged)="onSortChanged($event)"
                               (expenseClicked)="onExpenseClick($event)">
-
           </smp-expenses-table>
+
           <smp-paginator *ngIf="data.rows?.length !== 0"
                          [sizes]="[5, 10, 20]"
                          [pageSize]="data.pageSize"

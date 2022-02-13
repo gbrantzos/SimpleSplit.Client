@@ -39,7 +39,7 @@ export class ExpensesEditorComponent implements OnInit {
 
   isInvalid(controlName: string): boolean {
     const control = this.expenseEditor.controls[controlName]
-    return control && control.invalid && control.touched;
+    return control && control.invalid && !control.pristine;
   }
 
   onExit = () => {
