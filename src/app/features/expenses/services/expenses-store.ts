@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ExpensesApiClient } from '@features/expenses/services/expenses-api-client';
-import { BehaviorSubject, Subscription, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, firstValueFrom, map, of, Subscription } from 'rxjs';
 import { emptyPagedResult, PagedResult } from "@shared/models/paged-result";
 import { QueryParameters } from "@shared/models/query-parameters";
 
@@ -19,7 +19,7 @@ export class ExpensesStore {
 
   constructor(private apiClient: ExpensesApiClient) { }
 
-  load = (params: QueryParameters) => {
+  public load = (params: QueryParameters) => {
     if (this.apiCall$ && !this.apiCall$.closed) {
       this.apiCall$.unsubscribe();
     }
@@ -41,6 +41,31 @@ export class ExpensesStore {
         }
       });
   }
+
+  public save = (expense: Expense): Promise<string> => {
+    const apiCall$ = this.apiClient
+      .save(expense)
+      .pipe(
+        map(res => ''),
+        catchError(err => {
+          return of(err)
+        })
+      );
+    return firstValueFrom(apiCall$);
+  }
+
+  public delete = (id: number, rowVersion: number): Promise<string> => {
+    const apiCall$ = this.apiClient
+      .delete(id, rowVersion)
+      .pipe(
+        map(res => ''),
+        catchError(err => {
+          return of(err)
+        })
+      );
+    return firstValueFrom(apiCall$);
+  }
+
 }
 
 export interface Expense {

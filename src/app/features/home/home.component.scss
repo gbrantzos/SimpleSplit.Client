@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   display: flex;
-  margin-top: 80px;
+  margin-top: 48px;
 }
 
 .mat-card {
@@ -14,7 +14,7 @@
 }
 
 .header-image {
-  background-image: url('/assets/images/calculator.png');
+  background-image: url('^/assets/images/calculator.png');
   background-size: cover;
   border-radius: 6px;
 }

@@ -1,4 +1,8 @@
+:host {
+  height: 100vh;
+}
 .wrapper {
+  height: 100vh;
 }
 
 h1 {
@@ -45,4 +49,25 @@ li {
 
 .mat-divider {
   border-top-color: rgba(128, 128, 128, 0.65);
+}
+
+.build-info {
+  text-align: center;
+}
+
+img {
+  opacity: 0.6;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+
+img:hover {
+  opacity: 1.0;
+}
+
+#copyright {
+  font-size: 0.84em;
 }

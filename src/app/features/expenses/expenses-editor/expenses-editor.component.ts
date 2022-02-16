@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Expense } from "@features/expenses/services/expenses-store";
+import { Expense, ExpensesStore } from "@features/expenses/services/expenses-store";
 import * as moment from 'moment';
+import { ExpensesComponent } from "@features/expenses/expenses.component";
+import { DialogService } from "@shared/services/dialog.service";
 
 @Component({
   selector: 'smp-expenses-editor',
@@ -11,17 +13,22 @@ import * as moment from 'moment';
 })
 export class ExpensesEditorComponent implements OnInit {
   @Input() public sidenavHost: MatSidenav;
+  @Input() public host: ExpensesComponent;
 
   public _expense: Expense;
   get expense(): Expense { return this._expense; }
 
-  @Input()
-  public set expense(e: Expense) { this._expense = e; };
+  @Input() set expense(e: Expense) {
+    this._expense = e;
+    this.allowDelete = !(e.id == 0 && e.rowVersion == 0);
+  };
 
   public expenseEditor!: FormGroup;
   public allowDelete: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+              private store: ExpensesStore,
+              private dialog: DialogService) { }
 
   ngOnInit(): void {
     this.expenseEditor = this.formBuilder.group({
@@ -30,7 +37,7 @@ export class ExpensesEditorComponent implements OnInit {
       description: ['', Validators.required],
       enteredAt: ['', Validators.required],
       isOwnerCharge: [false],
-      amount: [0, Validators.required]
+      amount: [0, [Validators.required, Validators.min(0.01)]]
     });
     if (this.expense) {
       this.expenseEditor.patchValue((this.expense));
@@ -38,24 +45,49 @@ export class ExpensesEditorComponent implements OnInit {
   }
 
   isInvalid(controlName: string): boolean {
-    const control = this.expenseEditor.controls[controlName]
-    return control && control.invalid && !control.pristine;
+    const control = this.expenseEditor.controls[controlName];
+    return control && control.invalid && control.touched;
   }
 
   onExit = () => {
     this.sidenavHost.close();
   }
 
-  onSave() {
-    const formModel = this.getExpenseFromEditor();
-    console.log(formModel);
+  onSave = async (): Promise<void> => {
+    const expense = this.getExpenseFromEditor();
+    const message = await this.store.save(expense);
+
+    if (message !== '') {
+      console.warn(`Η αποθήκευση απέτυχε: ${message}`, expense);
+      this.dialog.snackError(`Η αποθήκευση απέτυχε!\n${message}`);
+      return;
+    }
+
+    this.dialog.snackSuccess('Η εγγραφή αποθηκεύτηκε!', 'Κλείσιμο')
+    this.sidenavHost.close();
+    this.host.loadData();
   }
 
-  onDelete() {}
+  onDelete = async (): Promise<void> => {
+    if (await this.dialog.confirm('Πρόκειται να διαγράψετε την εγγραφή! Θέλετε να συνεχίσετε;') === false) {
+      return;
+    }
+
+    const expense = this.getExpenseFromEditor();
+    const message = await this.store.delete(expense.id, expense.rowVersion);
+    if (message !== '') {
+      console.warn(`Η διαγραφή απέτυχε: ${message}`, expense);
+      this.dialog.snackError(`Η διαγραφή απέτυχε!\n${message}`);
+      return;
+    }
+
+    this.dialog.snackSuccess('Η εγγραφή διαγράφηκε!', 'Κλείσιμο')
+    this.sidenavHost.close();
+    this.host.loadData();
+  }
 
   private getExpenseFromEditor(): Expense {
     const form = this.expenseEditor.getRawValue();
-    // console.log('Moment', moment(form.enteredAt).utcOffset(0, true).toISOString());
 
     return {
       id: form.id,
@@ -67,34 +99,3 @@ export class ExpensesEditorComponent implements OnInit {
     };
   }
 }
-
-/*
-onDelete = async (): Promise<void> => {
-    if (await this.dialog.confirm('Πρόκειται να διαγράψετε την εγγραφή!<br />Θέλετε να συνεχίσετε;').toPromise() === false) {
-      return;
-    }
-    const expense: Expense = this.getExpenseFromEditor();
-
-    // if (await !this.service.save(expense)) {
-    //   this.dialog.snackError('Η αποθήκευση απέτυχε!', 'Κλείσιμο');
-    //   return;
-    // }
-
-    // this.dialogRef.close();
-  }
-
-  onSave = async (): Promise<void> => {
-    const expense = this.getExpenseFromEditor();
-    const result = await this.service.save(expense);
-
-    if (!result) {
-      console.warn('Η αποθήκευση απέτυχε!', expense);
-      return;
-    }
-
-    this.dialog.snackSuccess('Η εγγραφή αποθηκεύτηκε!', 'Κλείσιμο')
-    this.dialogRef.close();
-  }
-
-
- */

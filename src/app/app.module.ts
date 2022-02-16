@@ -1,6 +1,6 @@
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { AppComponent } from 'src/app/app.component';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LoginComponent } from '@core/components/login/login.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -11,6 +11,9 @@ import { MainLayoutComponent } from '@core/components/main-layout/main-layout.co
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from '@core/interceptors/jwt.interceptor';
 import { ErrorInterceptor } from "@core/interceptors/error.interceptor";
+import { AuthenticationService } from "@core/services/authentication.service";
+import { authInitializer } from "@core/initializers/authInitializer";
+import { NotFoundComponent } from './core/components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,8 @@ import { ErrorInterceptor } from "@core/interceptors/error.interceptor";
     LoginComponent,
     SideMenuComponent,
     HeaderComponent,
-    MainLayoutComponent
+    MainLayoutComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -28,6 +32,7 @@ import { ErrorInterceptor } from "@core/interceptors/error.interceptor";
     BrowserAnimationsModule
   ],
   providers: [
+    {provide: APP_INITIALIZER, useFactory: authInitializer, multi: true, deps: [AuthenticationService]},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
   ],

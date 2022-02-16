@@ -4,14 +4,17 @@ import { Expense } from '@features/expenses/services/expenses-store';
 import { map, Observable } from 'rxjs';
 import { PagedResult } from "@shared/models/paged-result";
 import { QueryParameters } from "@shared/models/query-parameters";
+import { environment } from "@environments/environment";
 
 @Injectable()
 export class ExpensesApiClient {
-  private apiUrl = "http://localhost:4100"
+  private readonly apiUrl: string;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+    this.apiUrl = environment.apiUrl;
+  }
 
-  get(params: QueryParameters): Observable<PagedResult<Expense>> {
+  public get(params: QueryParameters): Observable<PagedResult<Expense>> {
     const url = `${this.apiUrl}/expenses`;
     let httpParams = new HttpParams()
       .set('pageNumber', params.pageNumber)
@@ -25,5 +28,20 @@ export class ExpensesApiClient {
       .get<PagedResult<Expense>>(url, {
         params: httpParams
       });
+  }
+
+  public save(expense: Expense): Observable<boolean> {
+    const url = `${this.apiUrl}/expenses`;
+    return this.httpClient.post<boolean>(url, expense);
+  }
+
+  public delete(id: number, rowVersion: number): Observable<boolean> {
+    const url = `${this.apiUrl}/expenses`;
+    return this.httpClient.delete<boolean>(url, {
+      body: {
+        id: id,
+        rowVersion: rowVersion
+      }
+    });
   }
 }

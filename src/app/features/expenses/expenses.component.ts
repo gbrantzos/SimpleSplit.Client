@@ -37,7 +37,7 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     this.subs.sink = this.expensesStore.loading.subscribe(loading => this.loading = loading);
   }
 
-  private loadData() {
+  public loadData() {
     localStorage.setItem(ExpensesComponent.StorageKey, JSON.stringify(this.currentParams));
     this.expensesStore.load(this.currentParams);
   }
@@ -78,7 +78,6 @@ export class ExpensesComponent implements OnInit, OnDestroy {
         direction: 'desc'
       }
     };
-    // this.loadData();
   }
 
   ngOnDestroy(): void {
@@ -89,7 +88,7 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     this.displayEditor({
       id: 0,
       rowVersion: 0,
-      description: '>>Περιγραφή<<',
+      description: '<<Περιγραφή>>',
       enteredAt: moment().startOf('day').toDate(),
       amount: 0,
       category: undefined,
@@ -97,32 +96,9 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     });
   }
 
-  onExpenseClick(expense: Expense) {
-    this.displayEditor({...expense});
-  }
+  onExpenseClick = (expense: Expense) => this.displayEditor({...expense});
 
-  displayEditor(expense: Expense) {
-    this.vrf.clear();
-    const componentRef = this.vrf.createComponent(ExpensesEditorComponent);
-    componentRef.instance.sidenavHost = this.sidenav;
-    componentRef.instance.expense = expense;
-    this.sidenav.open()
-  }
-  clearSearch = () => this.searchForm.reset();
-
-  onRefresh() {
-    this.loadData();
-  }
-
-  dataInfo(data: PagedResult<Expense>): string {
-    if (data.rows.length === 0) {
-      return '';
-    }
-
-    const from = (data.currentPage - 1) * data.pageSize + 1;
-    const to = Math.min((data.currentPage) * data.pageSize, data.totalRows);
-    return `Εμφάνιση ${from} - ${to} από σύνολο ${data.totalRows} εγγραφών`;
-  }
+  onRefresh = () => this.loadData();
 
   onPaginatorChanges(changes: PaginatorEvent) {
     if (changes.pageNumber == this.currentParams.pageNumber &&
@@ -147,4 +123,26 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     };
     this.loadData();
   }
+
+  displayEditor(expense: Expense) {
+    this.vrf.clear();
+    const componentRef = this.vrf.createComponent(ExpensesEditorComponent);
+    componentRef.instance.sidenavHost = this.sidenav;
+    componentRef.instance.expense = expense;
+    componentRef.instance.host = this;
+    this.sidenav.open()
+  }
+
+  clearSearch = () => this.searchForm.reset();
+
+  dataInfo(data: PagedResult<Expense>): string {
+    if (data.rows.length === 0) {
+      return '';
+    }
+
+    const from = (data.currentPage - 1) * data.pageSize + 1;
+    const to = Math.min((data.currentPage) * data.pageSize, data.totalRows);
+    return `Εμφάνιση ${from} - ${to} από σύνολο ${data.totalRows} εγγραφών`;
+  }
+
 }

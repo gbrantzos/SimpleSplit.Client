@@ -17,7 +17,7 @@ export class ExpensesTableComponent implements OnInit {
   public selection = new SelectionModel<any>(false);
   public dataSource = new MatTableDataSource<any>([]);
   public availableColumns: string[] = ['id', 'rowVersion', 'description', 'enteredAt', 'amount'];
-  public displayedColumns: string[] = ['id', 'description', 'enteredAt', 'amount'];
+  public displayedColumns: string[] = ['description', 'enteredAt', 'amount'];
 
   public rows: Expense[] = [];
 

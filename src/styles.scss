@@ -106,6 +106,10 @@ input:-webkit-autofill:active {
   border-left: 6px #bf0000 solid;
 }
 
+.confirm-dialog-container .mat-dialog-container {
+  border-left: 6px darkorange solid;
+}
+
 .base-component {
   overflow: hidden;
   flex: 1;

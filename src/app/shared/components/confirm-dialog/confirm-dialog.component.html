@@ -1,0 +1,10 @@
+<mat-dialog-content class="confirm-dialog-content">
+  <h2>{{title}} </h2>
+  <mat-divider></mat-divider>
+  <p class="body" [innerHTML]="message"></p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" (click)="onYes()">&nbsp;&nbsp; Εντάξει &nbsp;&nbsp;</button>
+  <button mat-stroked-button (click)="onCancel()">Ακύρωση</button>
+</mat-dialog-actions>

@@ -9,6 +9,7 @@ import { NoDataComponent } from '@shared/components/no-data/no-data.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 export const SIMPLE_SPLIT_FORMATS = {
   parse: {
@@ -27,7 +28,8 @@ export const SIMPLE_SPLIT_FORMATS = {
     ListHeaderComponent,
     LoadingComponent,
     NoDataComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,

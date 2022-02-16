@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  left: 0;
+  height:100%;
+  width:100%;
+  overflow:hidden;
+  background-color: lightgray !important;
+}
+
+.wrapper {
+  margin-top: 200px;
+}
+
+#p-404 {
+  font-weight: bold;
+  font-size: 12em;
+  margin-bottom: 72px;
+}
+
+h2 {
+  margin: 18px 0 0;
+}
