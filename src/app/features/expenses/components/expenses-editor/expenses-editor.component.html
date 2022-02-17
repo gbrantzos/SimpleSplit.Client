@@ -59,7 +59,7 @@
     <div class="actions" fxLayout="row" fxLayoutGap="12px">
       <button *ngIf="allowDelete" mat-stroked-button color="warn" (click)="onDelete()">Διαγραφή</button>
       <div class="filler"></div>
-      <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!f.valid">
+      <button mat-flat-button smp-base-button (click)="onSave()" [disabled]="!f.valid">
         <i class="fas fa-check"></i>
         &nbsp;&nbsp;
         Αποθήκευση

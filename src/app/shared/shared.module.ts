@@ -10,6 +10,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { BaseButtonDirective } from './directives/base-button.directive';
 
 export const SIMPLE_SPLIT_FORMATS = {
   parse: {
@@ -29,20 +30,22 @@ export const SIMPLE_SPLIT_FORMATS = {
     LoadingComponent,
     NoDataComponent,
     PaginatorComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    BaseButtonDirective
   ],
   imports: [
     CommonModule,
     ...materialModules
   ],
-  exports: [
-    ReactiveFormsModule,
-    ...materialModules,
-    ListHeaderComponent,
-    LoadingComponent,
-    NoDataComponent,
-    PaginatorComponent
-  ]
+    exports: [
+        ReactiveFormsModule,
+        ...materialModules,
+        ListHeaderComponent,
+        LoadingComponent,
+        NoDataComponent,
+        PaginatorComponent,
+        BaseButtonDirective
+    ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {

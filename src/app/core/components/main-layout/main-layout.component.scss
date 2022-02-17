@@ -12,7 +12,8 @@ mat-sidenav {
   background: linear-gradient(to top right, #010101, #37332F);
 }
 .mat-drawer.mat-drawer-side {
-  z-index: 1; // TODO Is this safe?
+  // Set z-index to 1 to overcome some problems with multiple side-navs
+  z-index: 1;
 }
 
 .mat-sidenav-content {

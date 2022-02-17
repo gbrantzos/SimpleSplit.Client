@@ -6,7 +6,7 @@ import { ExpensesStore } from '@features/expenses/services/expenses-store';
 import { ExpensesApiClient } from '@features/expenses/services/expenses-api-client';
 import { SharedModule } from "@shared/shared.module";
 import { ExpensesTableComponent } from '@features/expenses/components/expenses-table/expenses-table.component';
-import { ExpensesEditorComponent } from './expenses-editor/expenses-editor.component';
+import { ExpensesEditorComponent } from "@features/expenses/components/expenses-editor/expenses-editor.component";
 
 @NgModule({
   declarations: [

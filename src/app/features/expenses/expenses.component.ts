@@ -6,9 +6,9 @@ import { SubSink } from "subsink";
 import { PagedResult } from "@shared/models/paged-result";
 import { PaginatorEvent } from "@shared/components/paginator/paginator.component";
 import { QueryParameters, SortInfo } from "@shared/models/query-parameters";
-import { ExpensesEditorComponent } from "@features/expenses/expenses-editor/expenses-editor.component";
 import * as moment from 'moment';
 import { FormControl, FormGroup } from "@angular/forms";
+import { ExpensesEditorComponent } from "@features/expenses/components/expenses-editor/expenses-editor.component";
 
 @Component({
   selector: 'smp-expenses',
