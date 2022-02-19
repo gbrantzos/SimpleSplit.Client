@@ -1,0 +1,24 @@
+<p id="top-gradient"></p>
+<img [src]="userAvatar" class="avatar" alt="User avatar"/>
+
+<div class="full-width">
+  <mat-divider></mat-divider>
+  <h2 id="name" class="text">{{currentUser.displayName}}</h2>
+  <p class=" text">{{currentUser.email}}</p>
+</div>
+<div class="filler"></div>
+
+<div class="full-width">
+  <mat-divider></mat-divider>
+  <div class="actions" fxLayout="row" fxFlexAlign="center center" fxLayoutGap="4px">
+
+    <button class="full-width action" mat-button (click)="onEdit()">
+      <i class="far fa-edit fa-fw"></i> Επεξεργασία
+    </button>
+
+    <button class="full-width" mat-button (click)="onExit()">
+      <i class="fas fa-sign-out-alt fa-fw"></i> Εξοδος
+    </button>
+
+  </div>
+</div>

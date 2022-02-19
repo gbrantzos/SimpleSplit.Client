@@ -4,18 +4,12 @@
   <span><b>{{this.title}}</b></span>
   <span class="filler"></span>
   <span>{{userDisplayName}}</span>
-  <img [src]="userAvatar" class="avatar" alt="User avatar"/>
+  <img #userImage [src]="userAvatar" class="avatar" alt="User avatar" (click)="onUserClick()"/>
 
-  <button mat-icon-button [matMenuTriggerFor]="userMenu">
+  <button mat-icon-button (click)="onUserClick()">
     <mat-icon fontSet="fas" fontIcon="fa-caret-down"></mat-icon>
   </button>
 
-  <mat-menu #userMenu="matMenu">
-    <button mat-menu-item (click)="logout()">
-      <mat-icon fontSet="fas" fontIcon="fa-sign-out-alt"></mat-icon>
-      Εξοδος
-    </button>
-  </mat-menu>
 </mat-toolbar>
 
 

@@ -14,6 +14,7 @@ import { ErrorInterceptor } from "@core/interceptors/error.interceptor";
 import { AuthenticationService } from "@core/services/authentication.service";
 import { authInitializer } from "@core/initializers/authInitializer";
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
+import { UserProfileComponent } from './core/components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { NotFoundComponent } from './core/components/not-found/not-found.compone
     SideMenuComponent,
     HeaderComponent,
     MainLayoutComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

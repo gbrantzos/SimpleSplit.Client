@@ -1,9 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AuthenticationService } from '@core/services/authentication.service';
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { filter, map, mergeMap } from "rxjs";
+import { filter, map, mergeMap, take, takeWhile } from "rxjs";
 import { SubSink } from "subsink";
 import { AvatarService } from "@core/services/avatar.service";
+import { ConnectionPositionPair, Overlay } from "@angular/cdk/overlay";
+import { ComponentPortal } from "@angular/cdk/portal";
+import { UserProfileComponent } from "@core/components/user-profile/user-profile.component";
 
 @Component({
   selector: 'smp-header',
@@ -11,12 +14,14 @@ import { AvatarService } from "@core/services/avatar.service";
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  @ViewChild('userImage') label: ElementRef;
   private subs = new SubSink();
   public title: string;
   public userDisplayName: string;
   public userAvatar: string;
 
   constructor(private authenticationService: AuthenticationService,
+              private overlay: Overlay,
               avatarService: AvatarService,
               activatedRoute: ActivatedRoute,
               router: Router) {
@@ -53,5 +58,49 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+  }
+
+  onUserClick = () => {
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo(this.label)
+      .withPositions([
+        new ConnectionPositionPair(
+          {originX: 'end', originY: 'bottom'},
+          {overlayX: 'end', overlayY: 'top'},
+          30,
+          20
+        ),
+        new ConnectionPositionPair(
+          {originX: 'start', originY: 'top'},
+          {overlayX: 'start', overlayY: 'bottom'},
+        ),
+      ])
+      .withPush(false);
+    const scrollStrategy = this.overlay.scrollStrategies.reposition();
+
+    const overlayRef = this.overlay.create({
+      width: '280px',
+      height: '340px',
+      disposeOnNavigation: true,
+      hasBackdrop: true,
+      panelClass: 'mat-elevation-z8',
+      positionStrategy,
+      scrollStrategy
+    });
+
+    const userProfilePortal = new ComponentPortal(UserProfileComponent);
+    const ref = overlayRef.attach(userProfilePortal);
+    overlayRef.backdropClick()
+      .pipe(take(1))
+      .subscribe(_ => overlayRef.detach());
+    ref.instance.exitClicked.subscribe(_ => {
+      overlayRef.detach();
+      this.authenticationService.logout();
+    })
+    ref.instance.editClicked.subscribe((_ => {
+      overlayRef.detach();
+      alert('Edit current user!'); // TODO Wire up
+    }))
   }
 }
