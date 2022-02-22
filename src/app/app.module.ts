@@ -15,6 +15,8 @@ import { AuthenticationService } from "@core/services/authentication.service";
 import { authInitializer } from "@core/initializers/authInitializer";
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
 import { UserProfileComponent } from './core/components/user-profile/user-profile.component';
+import { UserProfileEditorComponent } from './core/components/user-profile-editor/user-profile-editor.component';
+import { ConfirmPasswordComponent } from './core/components/confirm-password/confirm-password.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { UserProfileComponent } from './core/components/user-profile/user-profil
     HeaderComponent,
     MainLayoutComponent,
     NotFoundComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    UserProfileEditorComponent,
+    ConfirmPasswordComponent
   ],
   imports: [
     BrowserModule,

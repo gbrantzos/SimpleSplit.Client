@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://expenses-api.gbworks.lan'
+  //apiUrl: 'http://localhost:4100'
 };
 
 /*

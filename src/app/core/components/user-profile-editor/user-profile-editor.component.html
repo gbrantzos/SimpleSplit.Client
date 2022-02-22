@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>Προφιλ Χρήστη</h2>
+<mat-divider></mat-divider>
+
+<mat-dialog-content class="mat-typography" fxLayout="row">
+  <form class="full-width" [formGroup]="userForm" (keydown.enter)="$event.preventDefault()">
+
+    <div class="avatar-form" fxFlex="35" fxLayout="column" fxLayoutAlign="center center">
+      <img [src]="avatarUrl" class="avatar" alt="User avatar"/>
+      <button mat-button mat-stroked-button class="avatar-control" (click)="fileInput.click()">
+        <i class="far fa-edit fa-fw button-icon"></i>
+        <span class="text">Επιλογή</span>
+      </button>
+      <button mat-button mat-stroked-button class="avatar-control" (click)="onAvatarClear()">
+        <i class="fas fa-eraser fa-fw button-icon"></i>
+        <span class="text">Καθαρισμός</span>
+      </button>
+
+      <input
+        style="display: none"
+        type="file" (change)="onFileChanged(fileInput.files)"
+        accept="image/*"
+        #fileInput>
+
+    </div>
+
+    <div class="details" fxFlex="65">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Ονομα χρήστη" [formControlName]="'displayName'" autofocus>
+        <mat-error *ngIf="formControl('displayName').errors?.['required'] && formControl('displayName').dirty">
+          Το όνομα χρήστη είναι υποχρεωτικό
+        </mat-error>
+        <mat-error *ngIf="formControl('displayName').errors?.['minlength'] && formControl('displayName').dirty">
+          Το όνομα χρήστη πρέπει να είναι παραπάνω από 5 χαρακτήρες
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Email" [formControlName]="'email'" autofocus>
+        <mat-error *ngIf="formControl('email').errors?.['required'] && formControl('email').dirty">
+          Το email χρήστη είναι υποχρεωτικό
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Κωδικός" [formControlName]="'password'">
+        <div matSuffix>
+          <i *ngIf="hide" class="far fa-eye fa-fw" (click)="hide = !hide"></i>
+          <i *ngIf="!hide" class="far fa-eye-slash fa-fw" (click)="hide = !hide"></i>
+        </div>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="useGravatar">Χρήση
+        <a href="https://en.gravatar.com/" target="_blank">Gravatar</a>
+      </mat-checkbox>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button smp-base-button cdkFocusInitial (click)="onSave()">Ενημέρωση</button>
+  <button mat-button mat-stroked-button mat-dialog-close>Κλείσιμο</button>
+</mat-dialog-actions>

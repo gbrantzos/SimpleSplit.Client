@@ -1,0 +1,40 @@
+.avatar {
+  margin: 20px 0;
+  border-radius: 50%;
+  width: 134px;
+  height: 134px;
+  border: 2px solid darkgray;
+  z-index: 4;
+}
+
+i.button-icon {
+  padding-right: 10px;
+  margin-right: 2px;
+  border-right: 1px solid darkgray;
+}
+
+.avatar-control {
+  margin-top: 6px;
+}
+
+.text {
+  width: 90px;
+  display: inline-block;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.details {
+  padding: 24px 12px;
+}
+
+.avatar-form {
+  // border-right: 1px solid darkgray;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}

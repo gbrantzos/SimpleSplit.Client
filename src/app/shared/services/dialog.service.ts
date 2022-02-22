@@ -33,7 +33,7 @@ export class DialogService {
     return this.snackBar.open(message, action, config);
   }
 
-  public snackInfo(message: string, action: string = 'Close', config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
+  public snackInfo(message: string, action: string = 'Κλείσιμο', config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
     const cnf = {
       ...config,
       panelClass: ['snack-panel', 'snack-panel-info']
@@ -41,7 +41,7 @@ export class DialogService {
     return this.snackBar.open(message, action, cnf);
   }
 
-  public snackSuccess(message: string, action: string = 'Close', config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
+  public snackSuccess(message: string, action: string = 'Κλείσιμο', config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
     const cnf = {
       ...config,
       panelClass: ['snack-panel', 'snack-panel-success']
@@ -49,7 +49,7 @@ export class DialogService {
     return this.snackBar.open(message, action, cnf);
   }
 
-  public snackWarning(message: string, action: string = 'Close', config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
+  public snackWarning(message: string, action: string = 'Κλείσιμο', config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
     const cnf = {
       ...config,
       panelClass: ['snack-panel', 'snack-panel-warning']
@@ -57,7 +57,7 @@ export class DialogService {
     return this.snackBar.open(message, action, cnf);
   }
 
-  public snackError(message: string, action: string = 'Close', config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
+  public snackError(message: string, action: string = 'Κλείσιμο', config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
     const cnf = {
       ...config,
       panelClass: ['snack-panel', 'snack-panel-error']

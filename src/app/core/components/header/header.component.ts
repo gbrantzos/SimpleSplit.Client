@@ -7,6 +7,8 @@ import { AvatarService } from "@core/services/avatar.service";
 import { ConnectionPositionPair, Overlay } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
 import { UserProfileComponent } from "@core/components/user-profile/user-profile.component";
+import { MatDialog } from "@angular/material/dialog";
+import { UserProfileEditorComponent } from "@core/components/user-profile-editor/user-profile-editor.component";
 
 @Component({
   selector: 'smp-header',
@@ -22,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(private authenticationService: AuthenticationService,
               private overlay: Overlay,
+              private matDialog: MatDialog,
               avatarService: AvatarService,
               activatedRoute: ActivatedRoute,
               router: Router) {
@@ -100,7 +103,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     })
     ref.instance.editClicked.subscribe((_ => {
       overlayRef.detach();
-      alert('Edit current user!'); // TODO Wire up
+      this.matDialog
+        .open(UserProfileEditorComponent, {
+          width: '650px',
+          hasBackdrop: true,
+          disableClose: true,
+          //data: { names },
+        })
+        .afterClosed()
+        .subscribe((r) => {
+          if (r) {
+            //this.store.addDefaultQuery(r);
+          }
+        });
+
     }))
   }
 }
