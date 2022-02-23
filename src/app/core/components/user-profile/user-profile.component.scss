@@ -17,16 +17,15 @@
   height: 72px;
   background-color: orange;
   border-radius: 6px 6px 0 0;
-
   background: -webkit-linear-gradient(to bottom, #454545, whitesmoke);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to bottom, #454545, whitesmoke); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
 }
 
 .avatar {
   margin: 24px 0;
   border-radius: 50%;
   width: 134px;
+  height: 134px;
   border: 2px solid darkgray;
   z-index: 4;
 }

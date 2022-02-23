@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "@environments/environment";
 
 @Injectable({
@@ -10,15 +10,19 @@ export class UserProfileService {
   private url: string;
 
   constructor(private httpClient: HttpClient) {
-    this.url = `${environment.apiUrl}/images`;
+    this.url = `${environment.apiUrl}/users/profile`;
   }
 
   public save(profile: UserProfile): Observable<string> {
     const formData = new FormData();
+    formData.append('userName', profile.userName);
     formData.append('displayName', profile.displayName);
     formData.append('email', profile.email);
+    formData.append('useGravatar', profile.useGravatar.toString());
     formData.append('fileName', profile.fileName);
-    formData.append('image', profile.image);
+    if (!!profile.fileName && !!profile.image) {
+      formData.append('image', profile.image, profile.fileName);
+    }
     if (profile.changePasswordInfo) {
       formData.append('passwordInfo.oldPassword', profile.changePasswordInfo.oldPassword);
       formData.append('passwordInfo.newPassword', profile.changePasswordInfo.newPassword);
@@ -40,11 +44,11 @@ export interface ChangeUserPassword {
 }
 
 export interface UserProfile {
-  userId: number;
+  userName: string;
   displayName: string;
   email: string;
   useGravatar: boolean;
   fileName: string;
-  image: Blob;
+  image: File;
   changePasswordInfo?: ChangeUserPassword;
 }

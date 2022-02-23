@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .user$
       .subscribe(user => {
         this.userDisplayName = user?.displayName;
-        this.userAvatar = avatarService.getAvatarUrl(user?.email);
+        this.userAvatar = avatarService.getAvatarUrl(user);
       })
     ;
   }

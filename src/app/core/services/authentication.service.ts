@@ -106,6 +106,17 @@ export class AuthenticationService {
       }));
   }
 
+  refreshCurrentUser(displayName: string, email: string, profileImagePath: string, useGravatar: boolean) {
+    this.userSubject.next({
+      ...this.currentUser,
+      displayName: displayName,
+      email: email,
+      profileImagePath: profileImagePath,
+      useGravatar: useGravatar,
+      hasProfileImage: !!profileImagePath
+    });
+  }
+
   private startRefreshTokenTimer() {
     const expires = AuthenticationService.getExpirationDate(this.currentUser.token);
     const timeout = expires.getTime() - Date.now() - (60 * 1000);
@@ -129,5 +140,8 @@ export interface User {
   userName: string;
   email: string;
   displayName: string;
+  profileImagePath: string;
+  hasProfileImage: boolean;
+  useGravatar: boolean;
   token: string;
 }

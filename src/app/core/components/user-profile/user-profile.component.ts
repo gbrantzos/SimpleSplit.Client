@@ -16,7 +16,7 @@ export class UserProfileComponent implements OnInit {
   constructor(authenticationService: AuthenticationService,
               avatarService: AvatarService) {
     this.currentUser = authenticationService.currentUser;
-    this.userAvatar = avatarService.getAvatarUrl(this.currentUser?.email);
+    this.userAvatar = avatarService.getAvatarUrl(this.currentUser);
   }
 
   ngOnInit(): void { }

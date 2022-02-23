@@ -19,7 +19,7 @@ export class UserProfileEditorComponent implements OnInit {
   public hide = true;
   public currentUser: User;
   public avatarUrl: string | ArrayBuffer;
-  private uploadedImage: string | ArrayBuffer;
+  private uploadedImage: File;
   private uploadedFileName: string;
 
   constructor(private formBuilder: FormBuilder,
@@ -31,7 +31,8 @@ export class UserProfileEditorComponent implements OnInit {
               private matDialog: MatDialog,
               private dialogRef: MatDialogRef<UserProfileEditorComponent>) {
     this.currentUser = authenticationService.currentUser;
-    this.avatarUrl = avatarService.getAvatarUrl(this.currentUser?.email);
+    this.uploadedFileName = this.currentUser.profileImagePath;
+    this.avatarUrl = avatarService.getAvatarUrl(this.currentUser);
   }
 
   ngOnInit(): void {
@@ -47,14 +48,15 @@ export class UserProfileEditorComponent implements OnInit {
 
   onSave = async () => {
     const profile: UserProfile = {
-      userId: this.authenticationService.currentUser.id,
+      userName: this.authenticationService.currentUser.userName,
       displayName: this.formControl('displayName')?.value,
       email: this.formControl('email')?.value,
       useGravatar: !!this.formControl('useGravatar').value,
       fileName: this.uploadedFileName ?? '',
-      image: new Blob([this.uploadedImage])
+      image: this.uploadedImage
     };
 
+    let shouldLogout = false;
     const newPassword = this.formControl('password').value;
     if (!!newPassword) {
       const confirmRef = this.matDialog
@@ -70,6 +72,7 @@ export class UserProfileEditorComponent implements OnInit {
         newPassword: newPassword,
         oldPassword: confirmResult.oldPassword
       };
+      shouldLogout = true;
     }
 
     this.profileService
@@ -83,6 +86,14 @@ export class UserProfileEditorComponent implements OnInit {
           }
           this.dialogRef.close(value);
           this.dialogService.snackInfo('Η ενημέρωση του προφίλ χρήστη ολοκληρώθηκε!');
+          if (shouldLogout) {
+            this.authenticationService.logout();
+          } else {
+            this.authenticationService.refreshCurrentUser(profile.displayName,
+              profile.email,
+              profile.fileName,
+              profile.useGravatar);
+          }
         },
         error: err => {
           console.error(err);
@@ -95,22 +106,33 @@ export class UserProfileEditorComponent implements OnInit {
     const useGravatar = !!this.formControl('useGravatar').value;
     this.uploadedImage = null;
     this.uploadedFileName = undefined;
-    this.avatarUrl = this.avatarService.getAvatarUrl(this.currentUser?.email, useGravatar);
+    this.avatarUrl = this.avatarService.getAvatarUrl({
+      ...this.currentUser,
+      useGravatar: useGravatar,
+      hasProfileImage: false,
+      profileImagePath: null
+    });
   }
 
   onFileChanged(files: FileList) {
+    this.formControl('useGravatar').setValue(false);
+    this.uploadedImage = null;
+    this.uploadedFileName = undefined;
     if ((files?.length ?? 0) === 0) {
       return;
     }
 
-    this.uploadedImage = null;
-    this.uploadedFileName = undefined;
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
       this.avatarUrl = reader.result;
-      this.uploadedImage = reader.result;
-      this.uploadedFileName = files[0].name;
     }
+    this.uploadedImage = files[0];
+    this.uploadedFileName = files[0].name;
+  }
+
+  triggerFileInput(fileInput) {
+    fileInput.value = null;
+    fileInput.click()
   }
 }
