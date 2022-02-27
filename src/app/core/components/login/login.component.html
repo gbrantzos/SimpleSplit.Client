@@ -9,7 +9,7 @@
     <form class="login-form" [formGroup]="loginForm" (ngSubmit)="logIn()" autocomplete="off" spellcheck="false">
       <mat-card-content>
 
-        <mat-form-field class="login-full-width">
+        <mat-form-field class="full-width">
           <input matInput placeholder="Ονομα χρήστη" [formControlName]="'userName'" autofocus>
           <mat-error *ngIf="userName.errors?.['required'] && userName.dirty">
             Το όνομα χρήστη είναι υποχρεωτικό
@@ -19,7 +19,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="login-full-width">
+        <mat-form-field class="full-width">
           <input matInput [type]="hide ? 'password' : 'text'" placeholder="Κωδικός" [formControlName]="'password'">
           <div matSuffix>
             <i *ngIf="hide" class="far fa-eye fa-fw" (click)="hide = !hide"></i>

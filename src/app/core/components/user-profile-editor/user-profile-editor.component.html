@@ -24,6 +24,7 @@
     </div>
 
     <div class="details" fxFlex="65">
+
       <mat-form-field class="full-width">
         <input matInput placeholder="Ονομα χρήστη" [formControlName]="'displayName'" autofocus>
         <mat-error *ngIf="formControl('displayName').errors?.['required'] && formControl('displayName').dirty">
@@ -35,11 +36,13 @@
       </mat-form-field>
 
       <mat-form-field class="full-width">
-        <input matInput placeholder="Email" [formControlName]="'email'" autofocus>
+        <input #email matInput placeholder="Email" [formControlName]="'email'" (keydown.enter)="email.blur()">
+        <mat-spinner id="pending" *ngIf="userForm.pending" color="warn" matSuffix diameter="16"></mat-spinner>
         <mat-error *ngIf="formControl('email').errors?.['required'] && formControl('email').dirty">
           Το email χρήστη είναι υποχρεωτικό
         </mat-error>
       </mat-form-field>
+      <p *ngIf="userForm.hasError('invalidAsync')" class="email-error">Το email χρησιμοποιείται ήδη!</p>
 
       <mat-form-field class="full-width">
         <input matInput [type]="hide ? 'password' : 'text'" placeholder="Κωδικός" [formControlName]="'password'">
@@ -57,6 +60,13 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button smp-base-button cdkFocusInitial (click)="onSave()">Ενημέρωση</button>
+  <button mat-flat-button
+          color="simple"
+          smp-base-button
+          cdkFocusInitial
+          (click)="onSave()"
+          [disabled]="!userForm.valid">
+    Ενημέρωση
+  </button>
   <button mat-button mat-stroked-button mat-dialog-close>Κλείσιμο</button>
 </mat-dialog-actions>

@@ -22,10 +22,6 @@ i.button-icon {
   display: inline-block;
 }
 
-.full-width {
-  width: 100%;
-}
-
 .details {
   padding: 24px 12px;
 }
@@ -37,4 +33,14 @@ i.button-icon {
 input::-ms-reveal,
 input::-ms-clear {
   display: none;
+}
+
+#pending {
+  padding-right: 2px;
+}
+
+.email-error {
+  color: #f44336;
+  font-size: 75%;
+  margin:-16px 0 2px;
 }

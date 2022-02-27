@@ -1,12 +1,13 @@
+import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { ConfirmPasswordComponent } from "@core/components/confirm-password/confirm-password.component";
+import { AsyncValidators } from "@core/services/async-validators.service";
 import { AuthenticationService, User } from "@core/services/authentication.service";
 import { AvatarService } from "@core/services/avatar.service";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
 import { UserProfile, UserProfileService } from "@core/services/user-profile.service";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { DialogService } from "@shared/services/dialog.service";
-import { ConfirmPasswordComponent } from "@core/components/confirm-password/confirm-password.component";
 import { firstValueFrom } from "rxjs";
 
 @Component({
@@ -27,6 +28,7 @@ export class UserProfileEditorComponent implements OnInit {
               private avatarService: AvatarService,
               private profileService: UserProfileService,
               private authenticationService: AuthenticationService,
+              private asyncValidators: AsyncValidators,
               private dialogService: DialogService,
               private matDialog: MatDialog,
               private dialogRef: MatDialogRef<UserProfileEditorComponent>) {
@@ -36,11 +38,17 @@ export class UserProfileEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.asyncValidators.setCurrentValue(this.currentUser.email);
     this.userForm = this.formBuilder.group({
-      displayName: [this.currentUser.displayName, [Validators.required, Validators.minLength(5)]],
+      displayName: [this.currentUser.displayName, [
+        Validators.required,
+        Validators.minLength(5)]],
       email: [this.currentUser.email, [Validators.required, Validators.email]],
       password: [''],
-      useGravatar: [true]
+      useGravatar: [this.currentUser.useGravatar]
+    }, {
+      asyncValidators: this.asyncValidators.emailExistsValidator,
+      updateOn: "blur"
     });
   }
 
@@ -86,6 +94,7 @@ export class UserProfileEditorComponent implements OnInit {
           }
           this.dialogRef.close(value);
           this.dialogService.snackInfo('Η ενημέρωση του προφίλ χρήστη ολοκληρώθηκε!');
+          this.asyncValidators.setCurrentValue(profile.email);
           if (shouldLogout) {
             this.authenticationService.logout();
           } else {

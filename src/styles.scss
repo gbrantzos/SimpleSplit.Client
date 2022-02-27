@@ -140,6 +140,7 @@ input:-webkit-autofill:active {
   background: #888;
   width: 10px;
 }
+
 // ----------------------------------------------------------------------------------------------------
 
 
@@ -174,7 +175,28 @@ input:-webkit-autofill:active {
   height: 100%;
 }
 
+.full-width {
+  width: 100%;
+}
+
 .auto-overflow-y {
   overflow-y: auto;
 }
+
+.mat-button.mat-simple,
+.mat-flat-button.mat-simple,
+.mat-stroked-button.mat-simple,
+.mat-raised-button.mat-simple {
+  background: rgba(218, 83, 16, 1) !important;
+  color: #FFFFFF;
+}
+
+.mat-button.mat-simple:disabled,
+.mat-flat-button.mat-simple:disabled,
+.mat-stroked-button.mat-simple:disabled,
+.mat-raised-button.mat-simple:disabled {
+  background: rgba(218, 83, 16, 0.65) !important;
+  color: #E5E5E5;
+}
+
 // ----------------------------------------------------------------------------------------------------

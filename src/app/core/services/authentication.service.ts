@@ -57,7 +57,8 @@ export class AuthenticationService {
           userName: resp.user.userName,
           email: resp.user.email,
           displayName: resp.user.displayName,
-          token: resp.token
+          token: resp.token,
+          hasProfileImage: resp.user.hasProfileImage
         } as User;
         const expirationDate = AuthenticationService.getExpirationDate(user.token);
         this.userSubject.next(user);
