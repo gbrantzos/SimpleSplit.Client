@@ -144,5 +144,4 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     const to = Math.min((data.currentPage) * data.pageSize, data.totalRows);
     return `Εμφάνιση ${from} - ${to} από σύνολο ${data.totalRows} εγγραφών`;
   }
-
 }

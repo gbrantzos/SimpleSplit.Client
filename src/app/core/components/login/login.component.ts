@@ -1,11 +1,9 @@
-import { finalize } from 'rxjs';
-
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '@core/services/authentication.service';
 import { DialogService } from '@shared/services/dialog.service';
+import { delay, finalize } from 'rxjs';
 
 @Component({
   selector: 'smp-login',
@@ -13,11 +11,11 @@ import { DialogService } from '@shared/services/dialog.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
-  isSubmitted = false;
-  returnUrl: string;
-  hide = true;
-  @ViewChild('connectBtn') connectBtn: MatButton;
+  public loginForm: FormGroup;
+  public isSubmitted = false;
+  public returnUrl: string;
+  public hide = true;
+  public loading: boolean = false;
 
   get userName() {
     return this.loginForm.get('userName');
@@ -33,6 +31,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private dialogService: DialogService,
     private authenticationService: AuthenticationService) {
+
     // Get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     if (this.authenticationService.userLoggedIn) {
@@ -48,11 +47,11 @@ export class LoginComponent implements OnInit {
   }
 
   logIn(): void {
-    this.connectBtn.disabled = true;
+    this.loading = true;
     const formValues = this.loginForm.getRawValue();
     this.authenticationService
       .login(formValues.userName, formValues.password)
-      .pipe(finalize(() => this.connectBtn.disabled = false))
+      .pipe(finalize(() => this.loading = false))
       .subscribe({
         next: user => {
           this.router.navigate([this.returnUrl]);

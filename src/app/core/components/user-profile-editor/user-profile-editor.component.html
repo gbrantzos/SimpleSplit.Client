@@ -43,6 +43,9 @@
         </mat-error>
       </mat-form-field>
       <p *ngIf="userForm.hasError('invalidAsync')" class="email-error">Το email χρησιμοποιείται ήδη!</p>
+      <p *ngIf="userForm.hasError('invalidAsyncFailure')" class="email-error">
+        Δεν μπόρεσε να γίνει έλεγχος email!
+      </p>
 
       <mat-form-field class="full-width">
         <input matInput [type]="hide ? 'password' : 'text'" placeholder="Κωδικός" [formControlName]="'password'">
@@ -62,7 +65,6 @@
 <mat-dialog-actions align="end">
   <button mat-flat-button
           color="simple"
-          smp-base-button
           cdkFocusInitial
           (click)="onSave()"
           [disabled]="!userForm.valid">
