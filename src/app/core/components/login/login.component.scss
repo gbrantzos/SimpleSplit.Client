@@ -1,10 +1,46 @@
 .login-wrapper {
   background-color: grey;
   height: 100%;
+}
 
-  background-image: url('/assets/images/login_background.jpg');
+.images {
+  background-image: url('/assets/images/split_cover.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+
+  height: 100%;
+}
+
+img {
+  width: 76px;
+  height: 76px;
+}
+
+.forms {
+  height: 100%;
+  background-color: white;
+  padding: 40px 12px 20px;
+}
+
+.title {
+  h1 {
+  }
+
+  p {
+    font-style: italic;
+  }
+
+  h1, p {
+    margin: 0;
+    padding-left: 24px;
+  }
+}
+
+.form-wrapper {
+  margin-top: 48px;
+  padding: 8px;
+}
+/*
 }
 
 .safe {
@@ -78,6 +114,7 @@
   border-radius: 6px;
 }
 
+*/
 
 input::-ms-reveal,
 input::-ms-clear {

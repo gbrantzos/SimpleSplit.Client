@@ -1,14 +1,18 @@
 <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+  <div class="images filler"></div>
 
-  <mat-card class="box">
-    <mat-card-header>
-      <div mat-card-avatar class="header-image"></div>
-      <mat-card-title>Simple Split</mat-card-title>
-    </mat-card-header>
+  <div class="forms" fxFlex="35">
 
-    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="logIn()" autocomplete="off" spellcheck="false">
-      <mat-card-content>
+    <div class="title" fxLayout="row" fxLayoutAlign="left center">
+      <img src="/assets/images/calculator.png" alt="logo"/>
+      <div>
+        <h1>Simple Split</h1>
+        <p>Εύκολη διαχείριση εξόδων...</p>
+      </div>
+    </div>
 
+    <div class="form-wrapper">
+      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="logIn()" autocomplete="off" spellcheck="false">
         <mat-form-field class="full-width">
           <input matInput placeholder="Ονομα χρήστη" [formControlName]="'userName'" autofocus>
           <mat-error *ngIf="userName.errors?.['required'] && userName.dirty">
@@ -18,7 +22,6 @@
             Το όνομα χρήστη πρέπει να είναι παραπάνω από 5 χαρακτήρες
           </mat-error>
         </mat-form-field>
-
         <mat-form-field class="full-width">
           <input matInput [type]="hide ? 'password' : 'text'" placeholder="Κωδικός" [formControlName]="'password'">
           <div matSuffix>
@@ -29,15 +32,20 @@
             Ο κωδικός χρήστη είναι υποχρεωτικός
           </mat-error>
         </mat-form-field>
-      </mat-card-content>
+        <div align="end">
+          <button mat-flat-button
+                  color="warn"
+                  class="mat-simple"
+                  [disabled]="!loginForm.valid"
+                  [loading]="loading">
+            <i class="button-icon fas fa-sign-in-alt"></i>
+            Σύνδεση
+          </button>
+        </div>
+      </form>
 
-      <mat-card-actions align="end">
-        <button mat-stroked-button color="accent" [disabled]="!loginForm.valid" [loading]="loading">
-          <i class="button-icon fas fa-sign-in-alt"></i>
-          Σύνδεση
-        </button>
-      </mat-card-actions>
-    </form>
-  </mat-card>
+    </div>
+
+  </div>
 
 </div>

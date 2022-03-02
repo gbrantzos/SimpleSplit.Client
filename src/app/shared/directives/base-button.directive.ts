@@ -1,6 +1,5 @@
 import { ComponentRef, Directive, Input, OnChanges, Renderer2, SimpleChanges, ViewContainerRef } from '@angular/core';
 import { MatButton } from "@angular/material/button";
-import { ThemePalette } from "@angular/material/core";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
 // Based on
@@ -18,7 +17,7 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
 export class BaseButtonDirective implements OnChanges{
   @Input() loading: boolean;
   @Input() disabled: boolean;
-  @Input() color: ThemePalette;
+  @Input() color: any;
 
   private spinner: ComponentRef<MatProgressSpinner>;
 
