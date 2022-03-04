@@ -11,4 +11,4 @@ export const GitVersion = {
   buildDate: '$buildDate'
 };
 "
-Write-Output $fileContent | Out-File 'src/environments/versions.ts' -Encoding ascii
+Write-Output $fileContent | Out-File 'src/environments/buildInfo.ts' -Encoding ascii

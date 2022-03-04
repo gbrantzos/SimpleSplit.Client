@@ -42,4 +42,4 @@ testem.log
 Thumbs.db
 
 # Buildinfo
-src/environments/versions.ts
+src/environments/buildInfo.ts

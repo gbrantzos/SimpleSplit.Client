@@ -16,10 +16,10 @@ img {
   height: 76px;
 }
 
-.forms {
+.forms-area {
   height: 100%;
   background-color: whitesmoke;
-  padding: 40px 12px 20px;
+  padding: 40px 22px 6px;
 }
 
 .title {
@@ -37,86 +37,24 @@ img {
 }
 
 .form-wrapper {
-  margin-top: 48px;
+  margin-top: 128px;
   padding: 8px;
 }
-/*
+
+.buttons {
+  padding-top: 24px;
+  float: right;
 }
-
-.safe {
-  background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
-
-  background: #7d7e7d;
-  background: -moz-linear-gradient(left, #7d7e7d 0%, #0e0e0e 100%);
-  background: -webkit-linear-gradient(left, #7d7e7d 0%, #0e0e0e 100%);
-  background: linear-gradient(to right, #7d7e7d 0%, #0e0e0e 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d7e7d', endColorstr='#0e0e0e', GradientType=1);
-}
-
-.login-wrapper .login-form {
-  min-width: 100%;
-  max-width: 300px;
-  width: 100%;
-}
-
-.login-wrapper mat-card-header {
-  margin-bottom: 32px;
-  align-items: center;
-}
-
-.login-wrapper mat-card-header mat-card-title {
-  font-weight: 700 !important;
-  font-size: 30px;
-  margin: 0;
-}
-
-.login-wrapper .mat-card {
-  padding: 30px 40px;
-}
-
-.login-wrapper .mat-stroked-button {
-  border: 1px solid currentColor;
-  background: #FFF7FA;
-}
-
-.login-wrapper .mat-form-field-appearance-legacy .mat-form-field-infix {
-  padding: 0.8375em 0;
-}
-
-.box {
-  position: relative;
-  top: 0;
-  opacity: 1;
-  float: left;
-  padding: 60px 50px 40px 50px;
-  width: 100%;
-  background: #fff;
-  border-radius: 14px;
-  transform: scale(1);
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  z-index: 5;
-  max-width: 300px;
-}
-
-.box.back {
-  transform: scale(.95);
-  -webkit-transform: scale(.95);
-  -ms-transform: scale(.95);
-  top: -20px;
-  opacity: .8;
-  z-index: -1;
-}
-
-.header-image {
-  background-image: url('/assets/images/calculator.png');
-  background-size: cover;
-  border-radius: 6px;
-}
-
-*/
 
 input::-ms-reveal,
 input::-ms-clear {
   display: none;
+}
+
+#copyright {
+  font-size: 0.86em;
+  font-weight: bold;
+  margin: 0;
+  color: #454545;
+  text-align: center;
 }

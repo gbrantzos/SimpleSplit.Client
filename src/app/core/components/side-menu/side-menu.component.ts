@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import { GitVersion } from "@environments/versions";
+import { GitVersion } from "@environments/buildInfo";
+
 
 export interface MenuItem {
   name: string;
@@ -23,10 +24,10 @@ export class SideMenuComponent implements OnInit {
     route: '/expenses',
     icon: 'fa-file-invoice-dollar'
   }]
-  public gitVersion: any;
+  public buildInfo: string;
 
   constructor() {
-    this.gitVersion = GitVersion;
+    this.buildInfo = `v0.0.1 - #${GitVersion.revision}, ${GitVersion.buildDate}`;
   }
 
   ngOnInit(): void { }
