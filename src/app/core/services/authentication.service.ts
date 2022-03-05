@@ -30,7 +30,6 @@ export class AuthenticationService {
     const {user, expiration} = tmp;
     const expirationDate = new Date(expiration);
     const now = new Date();
-    console.log(`Token expires at ${expirationDate}`);
     if (expirationDate > now && !!user) {
       this.userSubject.next(user);
     }
@@ -62,6 +61,7 @@ export class AuthenticationService {
         } as User;
         const expirationDate = AuthenticationService.getExpirationDate(user.token);
         this.userSubject.next(user);
+        console.log(`Token expires at ${expirationDate}`);
         localStorage.setItem(this.STORAGE_ITEM, JSON.stringify({
           user,
           expiration: expirationDate.getTime()
