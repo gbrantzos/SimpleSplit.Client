@@ -22,14 +22,16 @@ const routes: Routes = [
         path: 'home',
         loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),
         data: {
-          description: 'Αρχική'
+          description: 'Αρχική',
+          module: 'home'
         }
       },
       {
         path: 'expenses',
         loadChildren: () => import('./features/expenses/expenses.module').then(m => m.ExpensesModule),
         data: {
-          description: 'Εξοδα'
+          description: 'Εξοδα',
+          module: 'expenses'
         }
       }
     ]

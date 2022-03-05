@@ -1,28 +1,36 @@
 <div class="wrapper" fxLayout="column">
 
   <h1>Simple Split</h1>
+  <mat-divider></mat-divider>
+
   <ul>
-    <mat-divider></mat-divider>
-    <div class="menu-title"> Μενού</div>
 
-    <li *ngFor="let menuItem of menuItems"
-        routerLinkActive="active-menu"
-        [routerLink]="menuItem.route">
-      <div class="menu-item" fxLayout="row" fxFlexAlign="center center" fxLayoutGap="18px">
-        <div>
-          <i class="fas fa-2x fa-fw" [class]="menuItem.icon"></i>
+    <li *ngFor="let node of menuNodes" [routerLink]="node.route">
+      <div class="menu-node" fxLayout="row" fxFlexAlign="center center" fxLayoutGap="12px"
+           [ngClass]="{'active-node': node.module == selectedNode}">
+        <div><i class="fa-2x fa-fw" [class]="classes2Array(node.icon)"></i></div>
+        <div class="menu-label"> {{node.name}} </div>
+        <div class="filler"></div>
+        <div class="node-status">
+          <i class="fas fa-fw"
+             [ngClass]="{'fa-chevron-down':node.module == selectedNode, 'fa-chevron-up':node.module != selectedNode}">
+          </i>
         </div>
-
-        <div class="menu-label">
-          {{menuItem.name}}
-        </div>
-
       </div>
+      <ul class="menu-wrapper" *ngIf="node.module == selectedNode">
+        <li *ngFor="let ch of node.children" class="menu-item"
+            routerLinkActive="active-menu"
+            (click)="stop($event)"
+            [routerLink]="ch.route">
+          {{ch.name}}
+        </li>
+      </ul>
     </li>
   </ul>
+
   <div class="filler"></div>
   <div class="build-info">
-    <img src="assets/images/calculator.png" alt="Logo" width="48px" />
+    <img src="assets/images/calculator.png" alt="Logo" width="48px"/>
     <p id="copyright">Copyright © 2022 GbWorks</p>
     <p id="version">{{buildInfo}}</p>
   </div>
