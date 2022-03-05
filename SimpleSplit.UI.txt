@@ -1,0 +1,102 @@
+SimpleSplit - UI App
+======================================================================
+
+
+[ ]  Advanced search
+        https://stackoverflow.com/questions/47469844/angular-cdk-how-to-set-inputs-in-a-componentportal
+
+[ ]  Translation
+        https://stackoverflow.com/questions/38915977/make-sure-translations-json-file-has-loaded-before-continuing-to-load-angular-ap
+
+[x]  Build Info, show on menu
+[x]  Async validator is user profile editor (for email) 
+[x]  Button directive, loading ico
+[x]  Consistent buttons with icon
+
+
+New commands:
+- CreateUser
+- ResetPassword
+
+
+User Management
+- Register user
+- Verify new user (using token)
+- Password reset/forgot (using_token)
+- Activate/deactivate user
+- User management menu for admins
+
+================================================================================
+
+--> Revisit authentication steps...
+
+================================================================================
+
+https://mdmoin07.medium.com/image-fallback-for-broken-images-angular-aa3d5538ea0
+https://devblogs.microsoft.com/dotnet/net-core-image-processing/
+
+
+
+Angular - Error handling in HTTP calls
+================================================================================
+
+- Interceptor
+    -> extract message from error object, message to be displayed (log error as well)
+
+
+- Store service
+    -> BehaviourSubject for data, empty or with data received
+    -> BehaviourSubject with error message
+
+- Component
+    -> Wrap data observable from store service to provide loading indicator (pipe, finalize)
+    -> Subscribe to error observable to have access to HTTP errors (optional)
+
+
+
+Loading state:
+    - waiting for data
+    - no data found - loaded data
+    - finished with errors
+
+
+
+
+
+
+
+https://dba.stackexchange.com/a/66022
+
+
+
+
+public class Metadata
+{
+    public Dictionary<string, Expression<Func<Expense, object>>> Props { get;}
+
+    public Metadata()
+    {
+        Props = new Dictionary<string, Expression<Func<Expense, object>>>();
+
+        Props.Add("ts", e => e.Description);
+        var d = Props["ts"].Body;
+
+        var nn = (d as MemberExpression).Member.Name;
+        var c = PropertyInfo(e => e.Category).Name;
+    }
+
+    public virtual PropertyInfo PropertyInfo<U>(Expression<Func<Expense, U>> expression)
+    {
+        var member = expression.Body as MemberExpression;
+        if (member != null && member.Member is PropertyInfo)
+            return member.Member as PropertyInfo;
+
+        throw new ArgumentException("Expression is not a Property", "expression");
+    }
+
+}
+
+
+GLX.ENT.CO.BARCODETYPE.DLL;GLX.ENT.CO.BARCODETYPE.GXBARCODETYPE
+
+[CallerArgumentExpression]

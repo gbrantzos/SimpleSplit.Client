@@ -1,15 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MatSidenav } from "@angular/material/sidenav";
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatSidenav } from "@angular/material/sidenav";
 import { ExpensesComponent } from "@features/expenses/components/expenses/expenses.component";
+import { CategoriesStore } from "@features/expenses/services/categories-store";
 import { Expense, ExpensesStore } from "@features/expenses/services/expenses-store";
-import * as moment from 'moment';
 import { DialogService } from "@shared/services/dialog.service";
+import * as moment from 'moment';
+import { map, Observable } from "rxjs";
 
 @Component({
   selector: 'smp-expenses-editor',
   templateUrl: './expenses-editor.component.html',
-  styleUrls: ['./expenses-editor.component.scss']
+  styleUrls: ['./expenses-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExpensesEditorComponent implements OnInit {
   @Input() public sidenavHost: MatSidenav;
@@ -25,16 +28,27 @@ export class ExpensesEditorComponent implements OnInit {
 
   public expenseEditor!: FormGroup;
   public allowDelete: boolean = false;
+  public categories$: Observable<string[]>;
+  public working: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private store: ExpensesStore,
-              private dialog: DialogService) { }
+              private categoryStore: CategoriesStore,
+              private dialog: DialogService) {
+    this.categories$ = categoryStore
+      .categories
+      .pipe(
+        map(categories => [...new Set(categories.map(c => c.description))])
+      );
+    categoryStore.load();
+  }
 
   ngOnInit(): void {
     this.expenseEditor = this.formBuilder.group({
       id: [0],
       rowVersion: [0],
       description: ['', Validators.required],
+      category: [''],
       enteredAt: ['', Validators.required],
       isOwnerCharge: [false],
       amount: [0, [Validators.required, Validators.min(0.01)]]
@@ -52,8 +66,10 @@ export class ExpensesEditorComponent implements OnInit {
   onExit = () => this.sidenavHost.close()
 
   onSave = async (): Promise<void> => {
+    this.working = true;
     const expense = this.getExpenseFromEditor();
     const message = await this.store.save(expense);
+    this.working = false;
 
     if (message !== '') {
       console.warn(`Η αποθήκευση απέτυχε: ${message}`, expense);
@@ -84,6 +100,11 @@ export class ExpensesEditorComponent implements OnInit {
     this.host.loadData();
   }
 
+  onClearCategory = (event) => {
+    event.stopPropagation();
+    this.expenseEditor.controls["category"].setValue(null);
+  }
+
   private getExpenseFromEditor(): Expense {
     const form = this.expenseEditor.getRawValue();
 
@@ -91,6 +112,7 @@ export class ExpensesEditorComponent implements OnInit {
       id: form.id,
       rowVersion: form.rowVersion,
       description: form.description,
+      category: form.category,
       enteredAt: moment(form.enteredAt).utcOffset(0, true).toDate(),
       isOwnerCharge: !!form.isOwnerCharge,
       amount: parseFloat(form.amount)

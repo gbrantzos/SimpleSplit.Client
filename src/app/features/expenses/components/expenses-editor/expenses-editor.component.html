@@ -19,6 +19,14 @@
       </mat-error>
     </mat-form-field>
 
+    <mat-form-field fxFlex class="full-width">
+      <mat-label>Κατηγορία</mat-label>
+      <mat-select formControlName="category">
+        <mat-option *ngFor="let ctg of categories$ | async" [value]="ctg">{{ctg}}</mat-option>
+      </mat-select>
+      <i matSuffix class="fas fa-times-circle fa-fw icon-button" (click)="onClearCategory($event)"></i>
+    </mat-form-field>
+
     <div fxLayout="row" fxLayoutGap="8px">
       <mat-form-field fxFlex class="full-width">
         <mat-label>Καταχώρηση</mat-label>
@@ -59,7 +67,13 @@
     <div class="actions" fxLayout="row" fxLayoutGap="12px">
       <button *ngIf="allowDelete" mat-stroked-button color="warn" (click)="onDelete()">Διαγραφή</button>
       <div class="filler"></div>
-      <button mat-flat-button color="simple" smp-base-button (click)="onSave()" [disabled]="!f.valid">
+      <button mat-flat-button
+              color="accent"
+              class="mat-simple"
+              smp-base-button
+              (click)="onSave()"
+              [disabled]="!f.valid"
+              [loading]="working">
         <i class="fas fa-check"></i>
         &nbsp;&nbsp;
         Αποθήκευση

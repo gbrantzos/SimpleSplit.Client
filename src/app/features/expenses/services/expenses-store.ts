@@ -4,6 +4,17 @@ import { BehaviorSubject, catchError, firstValueFrom, map, of, Subscription } fr
 import { emptyPagedResult, PagedResult } from "@shared/models/paged-result";
 import { QueryParameters } from "@shared/models/query-parameters";
 
+export interface Expense {
+  id: number;
+  rowVersion: number;
+  description: string;
+  enteredAt: Date;
+  amount: number;
+  category?: string;
+  isOwnerCharge: boolean;
+  sharedAt?: string
+}
+
 @Injectable()
 export class ExpensesStore {
   private static readonly Empty = emptyPagedResult<Expense>();
@@ -68,13 +79,3 @@ export class ExpensesStore {
 
 }
 
-export interface Expense {
-  id: number;
-  rowVersion: number;
-  description: string;
-  enteredAt: Date;
-  amount: number;
-  category?: string;
-  isOwnerCharge: boolean;
-  sharedAt?: string
-}
