@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run buildinfo && ng serve",
-    "build": "ng build",
+    "build": "npm run buildinfo && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "buildinfo": "pwsh -NoProfile -ExecutionPolicy ByPass -File buildInfo.ps1"
