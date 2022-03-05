@@ -11,6 +11,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/materia
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { BaseButtonDirective } from './directives/base-button.directive';
+import { ServerErrorComponent } from './components/server-error/server-error.component';
 
 export const SIMPLE_SPLIT_FORMATS = {
   parse: {
@@ -31,7 +32,8 @@ export const SIMPLE_SPLIT_FORMATS = {
     NoDataComponent,
     PaginatorComponent,
     ConfirmDialogComponent,
-    BaseButtonDirective
+    BaseButtonDirective,
+    ServerErrorComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +46,8 @@ export const SIMPLE_SPLIT_FORMATS = {
         LoadingComponent,
         NoDataComponent,
         PaginatorComponent,
-        BaseButtonDirective
+        BaseButtonDirective,
+        ServerErrorComponent
     ]
 })
 export class SharedModule {

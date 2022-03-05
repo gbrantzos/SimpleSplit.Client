@@ -1,0 +1,35 @@
+.wrapper {
+  margin: 6px;
+  padding: 6px;
+  width: 480px;
+}
+
+.title {
+  i {
+    margin-bottom: 16px;
+    color: darkgray;
+    font-size: 1.4em;
+    cursor: pointer;
+  }
+}
+
+.category-editor {
+  width: 100%;
+  padding: 36px 8px 12px;
+
+  .full-width {
+    margin-top: 4px;
+  }
+
+  .align-right {
+    text-align: right;
+  }
+
+  .actions {
+    margin-top: 12px;
+  }
+
+  #actions {
+    margin-top: 32px;
+  }
+}

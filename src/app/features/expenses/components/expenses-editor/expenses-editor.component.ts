@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ExpensesComponent } from "@features/expenses/components/expenses/expenses.component";
 import { Expense, ExpensesStore } from "@features/expenses/services/expenses-store";
 import * as moment from 'moment';
-import { ExpensesComponent } from "@features/expenses/expenses.component";
 import { DialogService } from "@shared/services/dialog.service";
 
 @Component({
@@ -49,9 +49,7 @@ export class ExpensesEditorComponent implements OnInit {
     return control && control.invalid && control.touched;
   }
 
-  onExit = () => {
-    this.sidenavHost.close();
-  }
+  onExit = () => this.sidenavHost.close()
 
   onSave = async (): Promise<void> => {
     const expense = this.getExpenseFromEditor();
