@@ -50,14 +50,15 @@ export class AuthenticationService {
         userName,
         password
       })
-      .pipe(map((resp: any) => {
+      .pipe(map((resp: any) => {console.log(resp)
         const user = {
           id: resp.user.id,
           userName: resp.user.userName,
           email: resp.user.email,
           displayName: resp.user.displayName,
           token: resp.token,
-          hasProfileImage: resp.user.hasProfileImage
+          hasProfileImage: resp.user.hasProfileImage,
+          profileImagePath: resp.user.profileImagePath
         } as User;
         const expirationDate = AuthenticationService.getExpirationDate(user.token);
         this.userSubject.next(user);
