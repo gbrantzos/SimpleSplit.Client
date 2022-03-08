@@ -1,10 +1,10 @@
-﻿#Generic Store
+﻿# Generic Store
 
 `Generic store` and the accompanying `Generic API Client` try to hide the 
 complexity of handling of API calls and exposing store to components, using 
 `BehaviourSubject` observables.
 
-##Loading Status
+## Loading Status
 
 Call state enum has 5 values:
 ```
