@@ -6,10 +6,10 @@
   totalRows: number;
 }
 
-export function emptyPagedResult<T>() {
+export function createEmptyPagedResult<T>() {
   return {
     currentPage: 1,
-    pageSize: 0,
+    pageSize: -1,
     totalPages: 1,
     totalRows: 0,
     rows: []

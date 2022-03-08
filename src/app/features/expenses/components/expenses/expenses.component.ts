@@ -1,14 +1,15 @@
 import { Component, HostBinding, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { FormControl, FormGroup } from "@angular/forms";
 import { MatSidenav } from "@angular/material/sidenav";
+import { ExpensesEditorComponent } from "@features/expenses/components/expenses-editor/expenses-editor.component";
 import { Expense, ExpensesStore } from '@features/expenses/services/expenses-store';
+import { PaginatorEvent } from "@shared/components/paginator/paginator.component";
+import { PagedResult } from "@shared/models/paged-result";
+import { QueryParameters, SortInfo } from "@shared/models/query-parameters";
+import { CallState, StoreState } from "@shared/services/generic-store.service";
+import * as moment from 'moment';
 import { debounceTime, distinctUntilChanged, Observable, startWith } from 'rxjs';
 import { SubSink } from "subsink";
-import { PagedResult } from "@shared/models/paged-result";
-import { PaginatorEvent } from "@shared/components/paginator/paginator.component";
-import { QueryParameters, SortInfo } from "@shared/models/query-parameters";
-import * as moment from 'moment';
-import { FormControl, FormGroup } from "@angular/forms";
-import { ExpensesEditorComponent } from "@features/expenses/components/expenses-editor/expenses-editor.component";
 
 @Component({
   selector: 'smp-expenses',
@@ -24,17 +25,14 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   private searchDelay: number = 400;
 
-  public loading: boolean = true;
-  public errorMessage: string;
-  public expenses$: Observable<PagedResult<Expense>>;
-  public pageSize: number = 10;
+  public CallStates = CallState;
+  public state$: Observable<StoreState<Expense>>;
   public currentParams: QueryParameters;
+  public pageSize: number = 10;
   public searchForm: FormGroup;
 
   constructor(private expensesStore: ExpensesStore) {
-    this.expenses$ = expensesStore.expenses;
-    this.subs.sink = this.expensesStore.errors.subscribe(msg => this.errorMessage = msg);
-    this.subs.sink = this.expensesStore.loading.subscribe(loading => this.loading = loading);
+    this.state$ = this.expensesStore.expenses;
   }
 
   public loadData() {
