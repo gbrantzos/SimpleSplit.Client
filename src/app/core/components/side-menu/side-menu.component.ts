@@ -44,10 +44,7 @@ export class SideMenuComponent implements OnInit, OnDestroy {
     }, {
       name: 'Κατηγορίες',
       route: '/expenses/categories',
-    }, {
-      name: 'Λίστα V2 (Generic)',
-      route: '/expenses/list_v2',
-    },]
+    }]
   }]
 
   public buildInfo: string;

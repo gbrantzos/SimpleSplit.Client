@@ -27,18 +27,7 @@ https://mdmoin07.medium.com/image-fallback-for-broken-images-angular-aa3d5538ea0
 https://devblogs.microsoft.com/dotnet/net-core-image-processing/
 
 ================================================================================
-Generic List - Thoughts
 
-- Create a combo-component to provide a generic list
-- Options
-    * name
-    * pageSize
-    * defaultSort (could this be optional??)
-    * pageSizes (number array)
-    * availableFields
-    * displayFields
-
-- Also add a generic store and a generic api-client to support list
 
 
 ==> Consider using doc comments

@@ -25,6 +25,8 @@ export class ExpensesListComponent implements OnInit {
     name: 'ExpensesList',
     header: 'Λίστα Εξόδων',
     storageKey: 'ExpensesList_QueryParameters',
+    defaultPageSize: 10,
+    pageSizes: [5, 10, 20],
     tableDefinition: {
       availableColumns: [{
         name: 'id',

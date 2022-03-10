@@ -26,7 +26,6 @@ export class GenericListComponent implements OnInit, OnDestroy {
   public CallStates = CallState;
   public searchForm: FormGroup;
   public currentParams: QueryParameters;
-  public pageSize: number = 10;
 
   private subs = new SubSink();
   private searchDelay: number = 400;
@@ -62,7 +61,7 @@ export class GenericListComponent implements OnInit, OnDestroy {
     // Read params and trigger params changed
     this.currentParams = GenericListComponent.getStoredParameters(this.definition.storageKey) || {
       pageNumber: 1,
-      pageSize: this.pageSize,
+      pageSize: this.definition.defaultPageSize,
       sort: {...this.definition.tableDefinition.defaultSort}
     };
   }
@@ -119,6 +118,8 @@ export interface GenericListDefinition {
   name: string;
   header: string;
   storageKey: string;
+  defaultPageSize: number;
+  pageSizes: number[];
   tableDefinition: GenericTableDefinition
 }
 
@@ -126,6 +127,8 @@ const defaultDefinition: GenericListDefinition = {
   name: '_Generic_List_',
   header: 'Generic List',
   storageKey: '__GenericList_Params__',
+  defaultPageSize: 10,
+  pageSizes: [5, 10, 20],
   tableDefinition: {
     availableColumns: [],
     displayedColumns: [],

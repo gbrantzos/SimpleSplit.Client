@@ -32,7 +32,7 @@
     </smp-generic-table>
 
     <smp-paginator *ngIf="state.callState === CallStates.Finished"
-                   [sizes]="[5, 10, 20]"
+                   [sizes]="definition.pageSizes"
                    [pageSize]="state.result.pageSize"
                    [currentPage]="state.result.currentPage"
                    [totalPages]="state.result.totalPages"
