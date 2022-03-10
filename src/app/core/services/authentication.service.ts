@@ -50,7 +50,7 @@ export class AuthenticationService {
         userName,
         password
       })
-      .pipe(map((resp: any) => {console.log(resp)
+      .pipe(map((resp: any) => {
         const user = {
           id: resp.user.id,
           userName: resp.user.userName,

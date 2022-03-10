@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { PagedResult } from "@shared/models/paged-result";
 
 export interface PaginatorEvent {
   pageNumber: number;
@@ -16,6 +17,7 @@ export class PaginatorComponent implements OnInit {
   @Input() pageSize: number = 10;
   @Input() totalPages: number;
   @Input() currentPage: number;
+  @Input() totalRows: number;
   @Output() changes: EventEmitter<PaginatorEvent> = new EventEmitter<PaginatorEvent>();
 
   private maxPages = 9;
@@ -50,6 +52,16 @@ export class PaginatorComponent implements OnInit {
   }
 
   isNumber = (link: any) => !isNaN(link)
+
+  dataInfo(): string {
+    if (this.totalRows === 0) {
+      return '';
+    }
+
+    const from = (this.currentPage - 1) * this.pageSize + 1;
+    const to = Math.min((this.currentPage) * this.pageSize, this.totalRows);
+    return `Εμφάνιση ${from} - ${to} από σύνολο ${this.totalRows} εγγραφών`;
+  }
 
   private prepareLinks() {
     if (this.totalPages <= this.maxPages) {

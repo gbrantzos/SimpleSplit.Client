@@ -1,0 +1,35 @@
+// ---------------------------------------------------------------------------------------
+// Search bar
+
+.search-bar {
+  padding: 0 12px 12px;
+}
+
+#search-box {
+  border-bottom: 1px solid lightgray;
+}
+
+#search {
+  font-family: "Fira Sans", "Helvetica Neue", sans-serif;
+  border: none;
+  padding: 6px;
+  outline: none;
+  background-color: transparent;
+  width: 250px;
+}
+
+.search-icon {
+  padding-right: 6px;
+}
+
+.advanced {
+  color: lightgray;
+  padding-left: 6px;
+  border-left: 1px solid lightgray;
+}
+
+.clear {
+  padding-right: 6px;
+  color: rgba(218, 83, 16, 1);
+}
+// ---------------------------------------------------------------------------------------

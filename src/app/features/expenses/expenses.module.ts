@@ -12,6 +12,7 @@ import { ExpensesStore } from '@features/expenses/services/expenses-store';
 import { SharedModule } from "@shared/shared.module";
 import { CategoriesEditorComponent } from './components/categories-editor/categories-editor.component';
 import { CategoriesTableComponent } from './components/categories-table/categories-table.component';
+import { ExpensesListComponent } from './components/expenses-list/expenses-list.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { CategoriesTableComponent } from './components/categories-table/categori
     ExpensesEditorComponent,
     CategoriesComponent,
     CategoriesTableComponent,
-    CategoriesEditorComponent
+    CategoriesEditorComponent,
+    ExpensesListComponent
   ],
   imports: [
     CommonModule,

@@ -127,7 +127,10 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     const componentRef = this.vrf.createComponent(ExpensesEditorComponent);
     componentRef.instance.sidenavHost = this.sidenav;
     componentRef.instance.expense = expense;
-    componentRef.instance.host = this;
+    componentRef.instance.onSuccess = (result) => {
+      // console.log(result);
+      this.loadData();
+    }
     this.sidenav.open()
   }
 

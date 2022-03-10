@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSidenav } from "@angular/material/sidenav";
-import { ExpensesComponent } from "@features/expenses/components/expenses/expenses.component";
 import { CategoriesStore } from "@features/expenses/services/categories-store";
 import { Expense, ExpensesStore } from "@features/expenses/services/expenses-store";
 import { DialogService } from "@shared/services/dialog.service";
@@ -16,7 +15,7 @@ import { map, Observable } from "rxjs";
 })
 export class ExpensesEditorComponent implements OnInit {
   @Input() public sidenavHost: MatSidenav;
-  @Input() public host: ExpensesComponent;
+  @Input() public onSuccess: (args: any) => void;
 
   public _expense: Expense;
   get expense(): Expense { return this._expense; }
@@ -79,7 +78,7 @@ export class ExpensesEditorComponent implements OnInit {
 
     this.dialog.snackSuccess('Η εγγραφή αποθηκεύτηκε!', 'Κλείσιμο')
     this.sidenavHost.close();
-    this.host.loadData();
+    this.onSuccess('SAVED');
   }
 
   onDelete = async (): Promise<void> => {
@@ -97,7 +96,7 @@ export class ExpensesEditorComponent implements OnInit {
 
     this.dialog.snackSuccess('Η εγγραφή διαγράφηκε!', 'Κλείσιμο')
     this.sidenavHost.close();
-    this.host.loadData();
+    this.onSuccess('DELETED');
   }
 
   onClearCategory = (event) => {

@@ -12,6 +12,8 @@ import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { BaseButtonDirective } from './directives/base-button.directive';
 import { ServerErrorComponent } from './components/server-error/server-error.component';
+import { GenericListComponent } from './components/generic-list/generic-list.component';
+import { GenericTableComponent } from './components/generic-table/generic-table.component';
 
 export const SIMPLE_SPLIT_FORMATS = {
   parse: {
@@ -33,22 +35,26 @@ export const SIMPLE_SPLIT_FORMATS = {
     PaginatorComponent,
     ConfirmDialogComponent,
     BaseButtonDirective,
-    ServerErrorComponent
+    ServerErrorComponent,
+    GenericListComponent,
+    GenericTableComponent
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     ...materialModules
   ],
-    exports: [
-        ReactiveFormsModule,
-        ...materialModules,
-        ListHeaderComponent,
-        LoadingComponent,
-        NoDataComponent,
-        PaginatorComponent,
-        BaseButtonDirective,
-        ServerErrorComponent
-    ]
+  exports: [
+    ReactiveFormsModule,
+    ...materialModules,
+    ListHeaderComponent,
+    LoadingComponent,
+    NoDataComponent,
+    PaginatorComponent,
+    BaseButtonDirective,
+    ServerErrorComponent,
+    GenericListComponent
+  ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {
@@ -63,9 +69,9 @@ export class SharedModule {
             horizontalPosition: 'right',
           },
         },
-        { provide: MAT_DATE_LOCALE, useValue: 'el-GR' },
-        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-        { provide: MAT_DATE_FORMATS, useValue: SIMPLE_SPLIT_FORMATS }
+        {provide: MAT_DATE_LOCALE, useValue: 'el-GR'},
+        {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+        {provide: MAT_DATE_FORMATS, useValue: SIMPLE_SPLIT_FORMATS}
         // {
         //   provide: MAT_DIALOG_DEFAULT_OPTIONS,
         //   useValue: {

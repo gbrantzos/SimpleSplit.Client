@@ -1,0 +1,29 @@
+<table mat-table [dataSource]="rows"
+       [hidden]="!rows.length"
+       matSort
+       matSortDisableClear
+       (matSortChange)="onSortChanged($event)">
+
+  <ng-container *ngFor="let c of definition.availableColumns" [matColumnDef]="c.name">
+    <th [arrowPosition]="c.arrowPosition"
+        mat-header-cell *matHeaderCellDef
+        mat-sort-header="{{c.sortProperty ?? c.name}}"
+        [ngClass]="c.labelClass">
+      {{c.label ?? c.name}}
+    </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="c.class" (click)="onCellClicked(element, c)">
+      {{prepareDisplay(element, c)}}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="definition.displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: definition.displayedColumns;"
+      [ngClass]="{'selected': selection.isSelected(row)}"
+      (click)="selection.select(row)">
+  </tr>
+
+</table>
+
+
+<!--       [matSortActive]="definition.defaultSort.column"-->
+<!--       [matSortStart]="definition.defaultSort.direction"-->

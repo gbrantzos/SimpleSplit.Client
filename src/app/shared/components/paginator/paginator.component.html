@@ -1,5 +1,9 @@
 <div class="wrapper" fxLayout="row" fxLayoutAlign="center center">
 
+  <!-- Details info -->
+  <div> {{dataInfo()}}</div>
+  <div class="filler"></div>
+
   <!-- Page size selection -->
   <div id="page-size">
     <span>Μέγεθος σελίδας &nbsp;{{pageSize}}</span>
@@ -10,7 +14,6 @@
               (click)="onSizeSelected(size)">{{size}}</button>
     </mat-menu>
   </div>
-  <div class="filler"></div>
 
   <!-- Navigation links -->
   <div class="links">
