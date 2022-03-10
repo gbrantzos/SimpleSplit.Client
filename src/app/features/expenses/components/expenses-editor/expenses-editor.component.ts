@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSidenav } from "@angular/material/sidenav";
 import { CategoriesStore } from "@features/expenses/services/categories-store";
 import { Expense, ExpensesStore } from "@features/expenses/services/expenses-store";
+import { DefaultQueryParameters } from "@shared/models/query-parameters";
 import { DialogService } from "@shared/services/dialog.service";
 import * as moment from 'moment';
 import { map, Observable } from "rxjs";
@@ -35,11 +36,11 @@ export class ExpensesEditorComponent implements OnInit {
               private categoryStore: CategoriesStore,
               private dialog: DialogService) {
     this.categories$ = categoryStore
-      .categories
+      .items
       .pipe(
-        map(categories => [...new Set(categories.map(c => c.description))])
+        map(state => [...new Set(state.result.rows.map(c => c.description))])
       );
-    categoryStore.load();
+    categoryStore.load(DefaultQueryParameters);
   }
 
   ngOnInit(): void {

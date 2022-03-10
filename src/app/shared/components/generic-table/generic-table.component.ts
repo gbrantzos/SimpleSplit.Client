@@ -90,6 +90,9 @@ export class GenericTableComponent implements OnInit {
     if (columnDef.numericFormat) {
       rawValue = formatNumber(rawValue, this.locale, columnDef.numericFormat);
     }
+    if (columnDef.lookupValues) {
+      rawValue = columnDef.lookupValues[rawValue];
+    }
 
     return `${rawValue}${columnDef.suffix ?? ''}`;
   }
@@ -112,4 +115,7 @@ export interface ColumnDefinition {
   dateFormat?: string;
   numericFormat?: string;
   suffix?: string;
+  lookupValues?: {
+    [key: string]: string
+  }
 }

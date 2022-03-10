@@ -1,0 +1,20 @@
+<mat-sidenav-container hasBackdrop="true" class="component-container">
+
+  <mat-sidenav-content>
+    <ng-container *ngIf="state$ | async as state">
+      <smp-generic-list [definition]="listDefinition"
+                        [state]="state"
+                        (newClicked)="onNew()"
+                        (refreshClicked)="onRefresh()"
+                        (paramsChanged)="onParamsChanged($event)"
+                        (tableClicked)="onTableClicked($event)"
+      >
+      </smp-generic-list>
+    </ng-container>
+  </mat-sidenav-content>
+
+  <mat-sidenav #sidenav mode="over" position="end" fixedInViewport disableClose>
+    <div class="sidenav-view" #sidenavView></div>
+  </mat-sidenav>
+
+</mat-sidenav-container>

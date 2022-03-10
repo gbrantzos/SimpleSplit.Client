@@ -1,6 +1,7 @@
 import { Component, HostBinding, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { ExpensesEditorComponent } from "@features/expenses/components/expenses-editor/expenses-editor.component";
+import { CategoriesStore } from "@features/expenses/services/categories-store";
 import { Expense, ExpensesStore } from "@features/expenses/services/expenses-store";
 import { GenericListDefinition } from "@shared/components/generic-list/generic-list.component";
 import { QueryParameters } from "@shared/models/query-parameters";
@@ -59,9 +60,7 @@ export class ExpensesListComponent implements OnInit {
     }
   }
 
-  constructor(private expensesStore: ExpensesStore) {
-    this.state$ = this.expensesStore.expenses;
-  }
+  constructor(private expensesStore: ExpensesStore) { this.state$ = this.expensesStore.items; }
 
   ngOnInit(): void { }
 

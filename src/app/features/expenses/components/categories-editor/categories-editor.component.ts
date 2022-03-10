@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSidenav } from "@angular/material/sidenav";
-import { CategoriesComponent } from "@features/expenses/components/categories/categories.component";
 import { CategoriesStore, Category } from "@features/expenses/services/categories-store";
 import { DialogService } from "@shared/services/dialog.service";
 
@@ -12,7 +11,7 @@ import { DialogService } from "@shared/services/dialog.service";
 })
 export class CategoriesEditorComponent implements OnInit {
   @Input() public sidenavHost: MatSidenav;
-  @Input() public host: CategoriesComponent;
+  @Input() public onSuccess: (args: any) => void;
 
   public _category: Category;
   get category(): Category { return this._category; }
@@ -58,7 +57,7 @@ export class CategoriesEditorComponent implements OnInit {
 
     this.dialog.snackSuccess('Η εγγραφή διαγράφηκε!', 'Κλείσιμο')
     this.sidenavHost.close();
-    this.host.loadData();
+    this.onSuccess('DELETED');
   }
 
   isInvalid(controlName: string): boolean {
@@ -78,7 +77,7 @@ export class CategoriesEditorComponent implements OnInit {
 
     this.dialog.snackSuccess('Η εγγραφή αποθηκεύτηκε!', 'Κλείσιμο')
     this.sidenavHost.close();
-    this.host.loadData();
+    this.onSuccess('SAVED');
   }
 
   private getCategoryFromEditor(): Category {

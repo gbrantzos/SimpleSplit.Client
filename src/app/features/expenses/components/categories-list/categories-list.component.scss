@@ -1,0 +1,6 @@
+// The following is deprecated, but currently there is no alternative :(
+// https://angular.io/guide/component-styles#deprecated-deep--and-ng-deep
+:host ::ng-deep .kind {
+  width:260px;
+  max-width: 260px;
+}

@@ -1,25 +1,23 @@
 SimpleSplit - UI App
 ======================================================================
 
-
 [ ]  Advanced search
         https://stackoverflow.com/questions/47469844/angular-cdk-how-to-set-inputs-in-a-componentportal
 
 [ ]  Translation
         https://stackoverflow.com/questions/38915977/make-sure-translations-json-file-has-loaded-before-continuing-to-load-angular-ap
 
-
-
 User Management
-- Register user
 - Verify new user (using token)
 - Password reset/forgot (using_token)
 - Activate/deactivate user
 - User management menu for admins
+    * Get all users
+    * Register user
+    * Reset password
 - New commands:
     * CreateUser
     * ResetPassword
-
 
 ================================================================================
 
@@ -27,7 +25,6 @@ https://mdmoin07.medium.com/image-fallback-for-broken-images-angular-aa3d5538ea0
 https://devblogs.microsoft.com/dotnet/net-core-image-processing/
 
 ================================================================================
-
 
 
 ==> Consider using doc comments

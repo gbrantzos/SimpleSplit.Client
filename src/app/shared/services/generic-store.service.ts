@@ -20,7 +20,7 @@ export interface StoreState<T> {
 export abstract class GenericStoreService<T> {
   private apiCall$: Subscription;
   protected readonly state$ = new BehaviorSubject<StoreState<T>>(this.emptyState());
-  public readonly expenses = this.state$.asObservable();
+  public readonly items = this.state$.asObservable();
 
   protected constructor(private apiClient: GenericApiClient<T>) { }
 
