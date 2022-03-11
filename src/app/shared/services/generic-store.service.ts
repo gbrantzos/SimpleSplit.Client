@@ -79,6 +79,14 @@ export abstract class GenericStoreService<T> {
     return firstValueFrom(apiCall$);
   }
 
+  public unload() {
+    this.state$.next({
+      result: createEmptyPagedResult<T>(),
+      callState: CallState.Pending,
+      errorMessage: null
+    })
+  }
+
   protected emptyState(): StoreState<T> {
     return {
       result: createEmptyPagedResult<T>(),

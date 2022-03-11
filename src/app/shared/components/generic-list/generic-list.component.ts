@@ -4,7 +4,7 @@ import { GenericTableDefinition } from "@shared/components/generic-table/generic
 import { PaginatorEvent } from "@shared/components/paginator/paginator.component";
 import { QueryParameters, SortInfo } from "@shared/models/query-parameters";
 import { CallState, StoreState } from "@shared/services/generic-store.service";
-import { debounceTime, distinctUntilChanged, startWith } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs";
 import { SubSink } from "subsink";
 
 @Component({
@@ -18,7 +18,7 @@ export class GenericListComponent implements OnInit, OnDestroy {
   @Input() state: StoreState<any>;
 
   @Output() newClicked: EventEmitter<any> = new EventEmitter();
-  @Output() refreshClicked: EventEmitter<any> = new EventEmitter();
+  @Output() refreshClicked: EventEmitter<QueryParameters> = new EventEmitter<QueryParameters>();
   @Output() paramsChanged: EventEmitter<QueryParameters> = new EventEmitter<QueryParameters>();
   @Output() tableClicked: EventEmitter<any> = new EventEmitter<any>();
 
@@ -42,7 +42,6 @@ export class GenericListComponent implements OnInit, OnDestroy {
     this.subs.sink = this.searchForm.get('searchValue')
       .valueChanges
       .pipe(
-        startWith(''),
         debounceTime(this.searchDelay),
         distinctUntilChanged()
       ).subscribe({
@@ -67,13 +66,18 @@ export class GenericListComponent implements OnInit, OnDestroy {
       sort: {...this.definition.tableDefinition.defaultSort},
       criteria: {[this.definition.searchProperty]: ''}
     };
+
+    // Check if we should trigger a load on storage
+    if (this.state.callState == CallState.Initial) {
+      this.searchForm.get('searchValue').setValue('');
+    }
   }
 
   ngOnDestroy(): void { this.subs.unsubscribe(); }
 
   onClearSearch = () => this.searchForm.reset();
   onNewClicked = () => this.newClicked.emit();
-  onRefreshClicked = () => this.refreshClicked.emit();
+  onRefreshClicked = () => this.refreshClicked.emit(this.currentParams);
   onCellClicked = (event) => this.tableClicked.emit(event);
 
   onPaginatorChanges = (changes: PaginatorEvent) => {

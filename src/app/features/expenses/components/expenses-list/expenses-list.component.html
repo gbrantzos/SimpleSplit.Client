@@ -5,7 +5,7 @@
       <smp-generic-list [definition]="listDefinition"
                         [state]="state"
                         (newClicked)="onNew()"
-                        (refreshClicked)="onRefresh()"
+                        (refreshClicked)="onRefresh($event)"
                         (paramsChanged)="onParamsChanged($event)"
                         (tableClicked)="onTableClicked($event)"
       >

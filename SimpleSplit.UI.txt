@@ -27,9 +27,3 @@ https://mdmoin07.medium.com/image-fallback-for-broken-images-angular-aa3d5538ea0
 https://devblogs.microsoft.com/dotnet/net-core-image-processing/
 
 ================================================================================
-
-
-==> Consider using doc comments
-https://typedoc.org/guides/doccomments/
-
-

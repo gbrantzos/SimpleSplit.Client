@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { CategoriesEditorComponent } from "@features/expenses/components/categories-editor/categories-editor.component";
-import { CategoriesApiClient } from "@features/expenses/services/categories-api-client";
 import { CategoriesStore, Category } from "@features/expenses/services/categories-store";
 import { GenericListDefinition } from "@shared/components/generic-list/generic-list.component";
 import { QueryParameters } from "@shared/models/query-parameters";
@@ -66,7 +65,10 @@ export class CategoriesListComponent implements OnInit {
 
   loadData() { this.categoriesStore.load(this.currentParams); }
 
-  onRefresh() { this.loadData(); }
+  onRefresh(params: QueryParameters) {
+    this.currentParams = {...params};
+    this.loadData();
+  }
 
   onNew = () => {
     this.displayEditor({
