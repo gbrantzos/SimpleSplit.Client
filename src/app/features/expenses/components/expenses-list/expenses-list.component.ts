@@ -28,6 +28,7 @@ export class ExpensesListComponent implements OnInit {
     storageKey: 'ExpensesList_QueryParameters',
     defaultPageSize: 10,
     pageSizes: [5, 10, 20],
+    searchProperty: 'description',
     tableDefinition: {
       availableColumns: [{
         name: 'id',

@@ -82,7 +82,7 @@ export abstract class GenericStoreService<T> {
   protected emptyState(): StoreState<T> {
     return {
       result: createEmptyPagedResult<T>(),
-      callState: CallState.Pending,
+      callState: CallState.Initial,
       errorMessage: null
     };
   }

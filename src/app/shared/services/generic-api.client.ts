@@ -15,9 +15,13 @@ export abstract class GenericApiClient<T> {
       .set('pageNumber', params.pageNumber)
       .set('pageSize', params.pageSize)
       .set('sorting', params.sort.direction == 'asc' ? params.sort.column : `-${params.sort.column}`);
-    if (!!params.criteria) {
-      httpParams = httpParams.append('conditions', `description|like|${params.criteria}`)
+    for (let key in params.criteria) {
+      const value = params.criteria[key];
+      if (!!value) {
+        httpParams = httpParams.append('conditions', `${key}|like|${value}`);
+      }
     }
+
     return this
       .httpClient
       .get<PagedResult<T>>(this.apiUrl, {

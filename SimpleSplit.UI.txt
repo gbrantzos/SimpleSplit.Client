@@ -1,11 +1,13 @@
 SimpleSplit - UI App
 ======================================================================
 
-[ ]  Advanced search
+[ ]  Advanced search (generic component)
         https://stackoverflow.com/questions/47469844/angular-cdk-how-to-set-inputs-in-a-componentportal
 
 [ ]  Translation
         https://stackoverflow.com/questions/38915977/make-sure-translations-json-file-has-loaded-before-continuing-to-load-angular-ap
+[ ]  Multi select on generic table
+[ ]  Alternative paginator style
 
 User Management
 - Verify new user (using token)
@@ -29,3 +31,5 @@ https://devblogs.microsoft.com/dotnet/net-core-image-processing/
 
 ==> Consider using doc comments
 https://typedoc.org/guides/doccomments/
+
+

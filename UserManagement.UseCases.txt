@@ -1,0 +1,40 @@
+Use case :: Create user (user initiated flow)
+================================================================================
+- Provide basic info
+    name/userID
+    displayname
+    email
+    password
+- A verfication code is created (user_status == pending_verification)
+- After a call to /user/verify/{verificationHash} --> user_status = active/normal
+
+
+Use case :: Create user (administrator flow)
+================================================================================
+- Provides full info
+    name/userID
+    displayname
+    email
+    image
+    use_gravator
+    user_status = password_reset
+- After a call to /user/password_reset/{reset_hash} --> user_status = change_password
+
+
+================================================================================
+Operations:
+    Reset password
+    Set pending verification
+    Set inactive
+    Update details (email, displayname, image, use_gravatar)
+
+================================================================================
+
+user_status enum
+    pending_verification    (combined with verification_hash)
+    active_normal
+    reset_password          (combined with reset_hash)
+    password_expired        (combined with temporary_password)
+    inactive
+
+Note: if status is reset_password and user successfully logs in status returns to normal

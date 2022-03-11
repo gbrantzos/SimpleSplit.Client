@@ -2,7 +2,9 @@
   pageNumber: number;
   pageSize: number;
   sort: SortInfo;
-  criteria?: string;
+  criteria?: {
+    [property: string]: string
+  };
 }
 
 export const DefaultQueryParameters: QueryParameters = {

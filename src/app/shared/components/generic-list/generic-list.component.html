@@ -22,23 +22,24 @@
 
   <!-- Table -->
   <div class="auto-overflow-y" fxFlex>
-    <smp-generic-table [definition]="definition.tableDefinition"
-                       [data]="{
-                         rows: state.result.rows,
-                         sort: currentParams.sort
-                       }"
-                       (cellClicked)="onCellClicked($event)"
-                       (sortChanged)="onSortChanged($event)">
-    </smp-generic-table>
-
-    <smp-paginator *ngIf="state.callState === CallStates.Finished"
-                   [sizes]="definition.pageSizes"
-                   [pageSize]="state.result.pageSize"
-                   [currentPage]="state.result.currentPage"
-                   [totalPages]="state.result.totalPages"
-                   [totalRows]="state.result.totalRows"
-                   (changes)="onPaginatorChanges($event)"></smp-paginator>
-
+    <div class="table-wrapper full-height" fxLayout="column" *ngIf="state.callState === CallStates.Finished">
+      <smp-generic-table [definition]="definition.tableDefinition"
+                         [data]="{
+                           rows: state.result.rows,
+                           sort: currentParams.sort
+                         }"
+                         (cellClicked)="onCellClicked($event)"
+                         (sortChanged)="onSortChanged($event)">
+      </smp-generic-table>
+      <div class="filler"></div>
+      <smp-paginator *ngIf="state.callState === CallStates.Finished"
+                     [sizes]="definition.pageSizes"
+                     [pageSize]="state.result.pageSize"
+                     [currentPage]="state.result.currentPage"
+                     [totalPages]="state.result.totalPages"
+                     [totalRows]="state.result.totalRows"
+                     (changes)="onPaginatorChanges($event)"></smp-paginator>
+    </div>
     <smp-loading *ngIf="state.callState === CallStates.Pending"></smp-loading>
     <smp-no-data *ngIf="state.callState === CallStates.NoData"></smp-no-data>
     <smp-server-error *ngIf="state.callState === CallStates.Failed"

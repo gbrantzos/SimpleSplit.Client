@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSidenav } from "@angular/material/sidenav";
 import { CategoriesStore, Category } from "@features/expenses/services/categories-store";
@@ -7,7 +7,8 @@ import { DialogService } from "@shared/services/dialog.service";
 @Component({
   selector: 'smp-categories-editor',
   templateUrl: './categories-editor.component.html',
-  styleUrls: ['./categories-editor.component.scss']
+  styleUrls: ['./categories-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriesEditorComponent implements OnInit {
   @Input() public sidenavHost: MatSidenav;

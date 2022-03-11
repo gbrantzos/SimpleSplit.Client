@@ -46,11 +46,13 @@ export class GenericListComponent implements OnInit, OnDestroy {
         debounceTime(this.searchDelay),
         distinctUntilChanged()
       ).subscribe({
-          next: search => {
-            if (search !== this.currentParams.criteria) { this.currentParams.pageNumber = 1 }
+          next: (search: string) => {
+            if (search !== this.currentParams.criteria[this.definition.searchProperty]) {
+              this.currentParams.pageNumber = 1
+            }
             this.currentParams = {
               ...this.currentParams,
-              criteria: search
+              criteria: {[this.definition.searchProperty]: search}
             };
             this.onParamsChanged(this.currentParams);
           },
@@ -62,7 +64,8 @@ export class GenericListComponent implements OnInit, OnDestroy {
     this.currentParams = GenericListComponent.getStoredParameters(this.definition.storageKey) || {
       pageNumber: 1,
       pageSize: this.definition.defaultPageSize,
-      sort: {...this.definition.tableDefinition.defaultSort}
+      sort: {...this.definition.tableDefinition.defaultSort},
+      criteria: {[this.definition.searchProperty]: ''}
     };
   }
 
@@ -100,7 +103,7 @@ export class GenericListComponent implements OnInit, OnDestroy {
   }
 
   onParamsChanged(params: QueryParameters) {
-    localStorage.setItem('ExpensesList_QueryParameters', JSON.stringify(params));
+    localStorage.setItem(this.definition.storageKey, JSON.stringify(params));
     this.paramsChanged.emit(params);
   }
 
@@ -109,6 +112,7 @@ export class GenericListComponent implements OnInit, OnDestroy {
       const values = localStorage.getItem(key);
       return JSON.parse(values);
     } catch {
+      console.log(1)
       return null
     }
   }
@@ -120,6 +124,7 @@ export interface GenericListDefinition {
   storageKey: string;
   defaultPageSize: number;
   pageSizes: number[];
+  searchProperty: string;
   tableDefinition: GenericTableDefinition
 }
 
@@ -129,6 +134,7 @@ const defaultDefinition: GenericListDefinition = {
   storageKey: '__GenericList_Params__',
   defaultPageSize: 10,
   pageSizes: [5, 10, 20],
+  searchProperty: '__',
   tableDefinition: {
     availableColumns: [],
     displayedColumns: [],

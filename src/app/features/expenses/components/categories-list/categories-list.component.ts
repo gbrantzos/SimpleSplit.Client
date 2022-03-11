@@ -1,6 +1,7 @@
-import { Component, HostBinding, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { CategoriesEditorComponent } from "@features/expenses/components/categories-editor/categories-editor.component";
+import { CategoriesApiClient } from "@features/expenses/services/categories-api-client";
 import { CategoriesStore, Category } from "@features/expenses/services/categories-store";
 import { GenericListDefinition } from "@shared/components/generic-list/generic-list.component";
 import { QueryParameters } from "@shared/models/query-parameters";
@@ -10,7 +11,8 @@ import { Observable } from "rxjs";
 @Component({
   selector: 'smp-categories-list',
   templateUrl: './categories-list.component.html',
-  styleUrls: ['./categories-list.component.scss']
+  styleUrls: ['./categories-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriesListComponent implements OnInit {
   @HostBinding('class') class = 'base-component';
@@ -26,6 +28,7 @@ export class CategoriesListComponent implements OnInit {
     storageKey: 'CategoriesList_QueryParameters',
     defaultPageSize: 10,
     pageSizes: [5, 10, 20],
+    searchProperty: 'description',
     tableDefinition: {
       availableColumns: [{
         name: 'id',
@@ -44,7 +47,7 @@ export class CategoriesListComponent implements OnInit {
         lookupValues: {
           '1': 'Θερμανση',
           '2': 'Ανελκυστήρας',
-          '3':'Λοιπά'
+          '3': 'Λοιπά'
         }
       }],
       displayedColumns: ['description', 'kind'],
