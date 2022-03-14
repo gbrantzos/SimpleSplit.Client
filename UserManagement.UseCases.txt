@@ -2,10 +2,10 @@ Use case :: Create user (user initiated flow)
 ================================================================================
 - Provide basic info
     name/userID
-    displayname
+    display_name
     email
     password
-- A verfication code is created (user_status == pending_verification)
+- A verification code is created (user_status == pending_verification)
 - After a call to /user/verify/{verificationHash} --> user_status = active/normal
 
 
@@ -13,10 +13,10 @@ Use case :: Create user (administrator flow)
 ================================================================================
 - Provides full info
     name/userID
-    displayname
+    display_name
     email
     image
-    use_gravator
+    use_gravatar
     user_status = password_reset
 - After a call to /user/password_reset/{reset_hash} --> user_status = change_password
 
@@ -26,7 +26,7 @@ Operations:
     Reset password
     Set pending verification
     Set inactive
-    Update details (email, displayname, image, use_gravatar)
+    Update details (email, display_name, image, use_gravatar)
 
 ================================================================================
 

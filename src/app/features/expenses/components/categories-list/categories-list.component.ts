@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { CategoriesEditorComponent } from "@features/expenses/components/categories-editor/categories-editor.component";
-import { CategoriesStore, Category } from "@features/expenses/services/categories-store";
+import { CategoriesStore, Category, CategoryKinds } from "@features/expenses/services/categories-store";
 import { GenericListDefinition } from "@shared/components/generic-list/generic-list.component";
 import { QueryParameters } from "@shared/models/query-parameters";
 import { StoreState } from "@shared/services/generic-store.service";
@@ -28,6 +28,7 @@ export class CategoriesListComponent implements OnInit {
     defaultPageSize: 10,
     pageSizes: [5, 10, 20],
     searchProperty: 'description',
+    enableAdvancedSearch: false,
     tableDefinition: {
       availableColumns: [{
         name: 'id',
@@ -43,11 +44,7 @@ export class CategoriesListComponent implements OnInit {
         name: 'kind',
         label: 'Ομάδα Εξόδων',
         class: 'kind',
-        lookupValues: {
-          '1': 'Θερμανση',
-          '2': 'Ανελκυστήρας',
-          '3': 'Λοιπά'
-        }
+        lookupValues: CategoryKinds
       }],
       displayedColumns: ['description', 'kind'],
       defaultSort: {

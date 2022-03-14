@@ -1,0 +1,171 @@
+<!--suppress TypeScriptValidateTypes -->
+<div class="wrapper">
+
+  <div class="title" fxLayout="row" fxLayoutAlign="center center">
+    <h2>Σύνθετη Αναζήτηση</h2>
+    <div class="filler"></div>
+    <i class="far fa-times-circle fa-fw" (click)="onExit()"></i>
+  </div>
+  <mat-divider></mat-divider>
+
+  <form [formGroup]="form">
+    <ng-container *ngIf="lookups$ | async as lookups">
+      <ng-container formArrayName="criteria">
+        <div *ngFor="let criteriaForm of criteriaRow.controls; let i = index"
+             class="criteria-row full-width"
+             fxLayout="column"
+             [formGroupName]="i">
+          <div class="grouping" *ngIf="i===0" fxLayout="row" fxLayoutAlign="center center">
+            <i class="fas fa-filter fa=fw"></i>
+            <p>{{groupingMethod == 1 ? 'Να εφαρμόζονται' : 'Να εφαρμόζετε'}}
+              <span class="selector" [matMenuTriggerFor]="grouping">
+                &nbsp;{{groupingMethod == 1 ? 'όλα' : 'τουλάχιστον ένα'}}&nbsp;
+              </span>
+              {{groupingMethod == 1 ? 'τα κριτήρια' : 'κριτήριο'}}
+            </p>
+            <div class="filler"></div>
+
+            <mat-menu #grouping="matMenu">
+              <button mat-menu-item (click)="groupingMethod = 1">όλα</button>
+              <button mat-menu-item (click)="groupingMethod = 2">τουλάχιστον ένα</button>
+            </mat-menu>
+
+          </div>
+          <div class="form-controls full-width"
+               fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px"
+               *ngIf="activeEditorIndex === i">
+            <ng-container *ngIf="{
+                          property: criteriaForm.get('property').value ?? '',
+                          definition: definitionForProperty(criteriaForm.get('property').value)
+                        } as data">
+
+              <div class="full-width" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="8px">
+                <!-- Property selector -->
+                <mat-form-field fxFlex="50">
+                  <mat-label>Πεδίο</mat-label>
+                  <mat-select formControlName="property">
+                    <mat-option #property *ngFor="let prop of properties" [value]="prop.key">{{prop.label}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <!-- Operator -->
+                <mat-form-field fxFlex="50">
+                  <mat-label>Σύγκριση</mat-label>
+                  <mat-select formControlName="operator">
+                    <mat-option *ngFor="let op of operatorsForProperty(data.property)"
+                                [value]="op.key">
+                      {{op.label}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="full-width values" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="8px">
+                <!-- ============= -->
+                <!-- value editors -->
+                <!-- Date -->
+                <mat-form-field fxFlex="100" *ngIf="data.definition?.input === 'date'">
+                  <mat-label>Τιμή</mat-label>
+
+                  <input matInput [matDatepicker]="picker" formControlName="value" autocomplete="off">
+                  <mat-datepicker-toggle matSuffix [for]="picker">
+                    <mat-icon matDatepickerToggleIcon
+                              fontSet="far"
+                              fontIcon="fa-calendar"
+                              class="fa-fw"></mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <!-- Select -->
+                <mat-form-field fxFlex="100" *ngIf="data.definition?.input === 'select'">
+                  <mat-label>Τιμή</mat-label>
+
+                  <mat-select formControlName="value" [multiple]="data.definition.multi">
+                    <mat-option *ngFor="let op of lookups[data.property]"
+                                [value]="op.key">
+                      {{op.value}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <!-- Text -->
+                <mat-form-field fxFlex="100" *ngIf="data.definition?.input === 'text'">
+                  <mat-label>Τιμή</mat-label>
+                  <input matInput formControlName="value">
+                </mat-form-field>
+
+                <!-- Checkbox -->
+                <mat-form-field fxFlex="100" *ngIf="data.definition?.input === 'checkbox'">
+                  <mat-label>Τιμή</mat-label>
+
+                  <mat-select formControlName="value">
+                    <mat-option [value]="true"> Ναι </mat-option>
+                    <mat-option [value]="false"> Οχι </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <!-- value editors - END -->
+
+                <!-- Placeholder -->
+                <div *ngIf="!data.property" class="placeholder">Επιλέξτε πεδίο</div>
+                <div class="filler"></div>
+
+                <!-- Actions -->
+                <i class="far fa-check-circle fa-fw action-icon" (click)="acceptCriterion(criteriaForm)"></i>
+                <i class="far fa-trash-alt fa-fw action-icon" (click)="removeCriterion(i)"></i>
+              </div>
+
+            </ng-container>
+          </div>
+
+          <!-- Display human readable description of criterion -->
+          <div *ngIf="activeEditorIndex !== i"
+               class="criteria-summary"
+               fxLayout="row"
+               fxLayoutAlign="center center"
+               fxLayoutGap="8px">
+            <div fxFlex="18px"><i class="far fa-square fa-fw"></i></div>
+            <div fxFlex><p class="human-readable" [innerHTML]="humanReadable(criteriaForm)"></p></div>
+            <div fxFlex="42px">
+              <i class="far fa-edit fa-fw action-icon" (click)="activeEditorIndex = i"></i>
+              <i class="far fa-trash-alt fa-fw action-icon" (click)="removeCriterion(i)" style="margin-left: 4px"></i>
+            </div>
+          </div>
+
+        </div>
+      </ng-container>
+
+      <div *ngIf="!criteriaRow.controls.length"
+           id="no-criteria"
+           class="full-width">
+        <i class="fas fa-tasks fa-4x"></i>
+      </div>
+    </ng-container>
+
+    <div *ngIf="activeEditorIndex === -1"
+         class="add-criterion"
+         fxLayout="row"
+         fxLayoutAlign="center center"
+         fxLayoutGap="8px">
+      <i class="far fa-folder-open fa-fw"></i>
+      <p>Διαχείριση</p>
+      <div class="filler"></div>
+      <p class="link" (click)="addCriterion()">Προσθήκη κριτηρίου</p>
+
+    </div>
+
+    <div class="actions" fxLayout="row">
+      <button [disabled]="activeEditorIndex != -1 || criteriaValue().length == 0"
+              fxFill
+              mat-flat-button
+              (click)="onApply()"
+              color="accent"
+              class="mat-simple">
+        <i class="fas fa-search"></i>
+        &nbsp;&nbsp;
+        Εφαρμογή
+      </button>
+    </div>
+  </form>
+</div>

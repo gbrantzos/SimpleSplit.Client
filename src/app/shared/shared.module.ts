@@ -14,6 +14,7 @@ import { BaseButtonDirective } from './directives/base-button.directive';
 import { ServerErrorComponent } from './components/server-error/server-error.component';
 import { GenericListComponent } from './components/generic-list/generic-list.component';
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
+import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
 
 export const SIMPLE_SPLIT_FORMATS = {
   parse: {
@@ -37,7 +38,8 @@ export const SIMPLE_SPLIT_FORMATS = {
     BaseButtonDirective,
     ServerErrorComponent,
     GenericListComponent,
-    GenericTableComponent
+    GenericTableComponent,
+    AdvancedSearchComponent
   ],
   imports: [
     CommonModule,

@@ -1,7 +1,12 @@
 import { Component, HostBinding, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { ExpensesEditorComponent } from "@features/expenses/components/expenses-editor/expenses-editor.component";
+import { CategoriesStore, CategoryKinds } from "@features/expenses/services/categories-store";
 import { Expense, ExpensesStore } from "@features/expenses/services/expenses-store";
+import {
+  AdvancedSearchComponent,
+  CriteriaDefinition
+} from '@shared/components/advanced-search/advanced-search.component';
 import { GenericListDefinition } from "@shared/components/generic-list/generic-list.component";
 import { QueryParameters } from "@shared/models/query-parameters";
 import { StoreState } from "@shared/services/generic-store.service";
@@ -28,6 +33,7 @@ export class ExpensesListComponent implements OnInit {
     defaultPageSize: 10,
     pageSizes: [5, 10, 20],
     searchProperty: 'description',
+    enableAdvancedSearch: true,
     tableDefinition: {
       availableColumns: [{
         name: 'id',
@@ -60,7 +66,25 @@ export class ExpensesListComponent implements OnInit {
     }
   }
 
-  constructor(private expensesStore: ExpensesStore) { this.state$ = this.expensesStore.items; }
+  public searchDefinition: CriteriaDefinition[] = [
+    {property: 'description', label: 'Περιγραφή', 'input': 'text'},
+    {property: 'enteredAt', label: 'Ημερομηνία', 'input': 'date'},
+    {
+      property: 'kind', label: 'Ομάδα Εξόδων', 'input': 'select', multi: true, lookupValues: CategoryKinds
+    },
+    {
+      property: 'category',
+      label: 'Κατηγορία Εξόδων',
+      input: 'select',
+      multi: true,
+      lookupValuesAsync: this.categoriesStore.categories
+    },
+    {property: 'forOwner', label: 'Επιβάρυνση ιδιοκτήτη', input: 'checkbox'}
+  ]
+
+  constructor(private expensesStore: ExpensesStore, private categoriesStore: CategoriesStore) {
+    this.state$ = this.expensesStore.items;
+  }
 
   ngOnInit(): void { }
 
@@ -90,12 +114,24 @@ export class ExpensesListComponent implements OnInit {
 
   onTableClicked(expense: Expense) { this.displayEditor({...expense}); }
 
+  onAdvancedSearch() {
+    this.displayAdvancedSearch();
+  }
+
   displayEditor(expense: Expense) {
     this.vrf.clear();
     const componentRef = this.vrf.createComponent(ExpensesEditorComponent);
     componentRef.instance.sidenavHost = this.sidenav;
     componentRef.instance.expense = expense;
     componentRef.instance.onSuccess = (_) => { this.loadData(); }
+    this.sidenav.open()
+  }
+
+  displayAdvancedSearch() {
+    this.vrf.clear();
+    const componentRef = this.vrf.createComponent(AdvancedSearchComponent);
+    componentRef.instance.sidenavHost = this.sidenav;
+    componentRef.instance.definitions = this.searchDefinition;
     this.sidenav.open()
   }
 }

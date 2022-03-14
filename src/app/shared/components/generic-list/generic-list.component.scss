@@ -22,10 +22,20 @@
   padding-right: 6px;
 }
 
-.advanced {
+.advanced-disabled {
   color: lightgray;
   padding-left: 6px;
   border-left: 1px solid lightgray;
+}
+
+.advanced {
+  padding-left: 6px;
+  border-left: 1px solid lightgray;
+  cursor: pointer;
+}
+
+.advanced:hover {
+  color: blue;
 }
 
 .clear {

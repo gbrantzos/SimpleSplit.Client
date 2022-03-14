@@ -21,6 +21,7 @@ export class GenericListComponent implements OnInit, OnDestroy {
   @Output() refreshClicked: EventEmitter<QueryParameters> = new EventEmitter<QueryParameters>();
   @Output() paramsChanged: EventEmitter<QueryParameters> = new EventEmitter<QueryParameters>();
   @Output() tableClicked: EventEmitter<any> = new EventEmitter<any>();
+  @Output() advancedSearch: EventEmitter<any> = new EventEmitter();
 
 
   public CallStates = CallState;
@@ -45,26 +46,26 @@ export class GenericListComponent implements OnInit, OnDestroy {
         debounceTime(this.searchDelay),
         distinctUntilChanged()
       ).subscribe({
-          next: (search: string) => {
-            if (search !== this.currentParams.criteria[this.definition.searchProperty]) {
-              this.currentParams.pageNumber = 1
-            }
-            this.currentParams = {
-              ...this.currentParams,
-              criteria: {[this.definition.searchProperty]: search}
-            };
-            this.onParamsChanged(this.currentParams);
-          },
-          error: err => console.error(err)
-        }
+        next: (search: string) => {
+          if (search !== this.currentParams.criteria[this.definition.searchProperty]) {
+            this.currentParams.pageNumber = 1
+          }
+          this.currentParams = {
+            ...this.currentParams,
+            criteria: { [this.definition.searchProperty]: search }
+          };
+          this.onParamsChanged(this.currentParams);
+        },
+        error: err => console.error(err)
+      }
       );
 
     // Read params and trigger params changed
     this.currentParams = GenericListComponent.getStoredParameters(this.definition.storageKey) || {
       pageNumber: 1,
       pageSize: this.definition.defaultPageSize,
-      sort: {...this.definition.tableDefinition.defaultSort},
-      criteria: {[this.definition.searchProperty]: ''}
+      sort: { ...this.definition.tableDefinition.defaultSort },
+      criteria: { [this.definition.searchProperty]: '' }
     };
 
     // Check if we should trigger a load on storage
@@ -78,7 +79,7 @@ export class GenericListComponent implements OnInit, OnDestroy {
   onClearSearch = () => this.searchForm.reset();
   onNewClicked = () => this.newClicked.emit();
   onRefreshClicked = () => this.refreshClicked.emit(this.currentParams);
-  onCellClicked = (event) => this.tableClicked.emit(event);
+  onCellClicked = (event: any) => this.tableClicked.emit(event);
 
   onPaginatorChanges = (changes: PaginatorEvent) => {
     if (changes.pageNumber == this.currentParams.pageNumber &&
@@ -111,6 +112,11 @@ export class GenericListComponent implements OnInit, OnDestroy {
     this.paramsChanged.emit(params);
   }
 
+  onAdvancedSearch = () => {
+    if (!this.definition.enableAdvancedSearch) { return; }
+    this.advancedSearch.emit();
+  }
+
   private static getStoredParameters(key: string) {
     try {
       const values = localStorage.getItem(key);
@@ -129,6 +135,7 @@ export interface GenericListDefinition {
   defaultPageSize: number;
   pageSizes: number[];
   searchProperty: string;
+  enableAdvancedSearch: boolean;
   tableDefinition: GenericTableDefinition
 }
 
@@ -139,6 +146,7 @@ const defaultDefinition: GenericListDefinition = {
   defaultPageSize: 10,
   pageSizes: [5, 10, 20],
   searchProperty: '__',
+  enableAdvancedSearch: false,
   tableDefinition: {
     availableColumns: [],
     displayedColumns: [],
