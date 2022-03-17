@@ -22,6 +22,7 @@ export class GenericListComponent implements OnInit, OnDestroy {
   @Output() paramsChanged: EventEmitter<QueryParameters> = new EventEmitter<QueryParameters>();
   @Output() tableClicked: EventEmitter<any> = new EventEmitter<any>();
   @Output() advancedSearch: EventEmitter<any> = new EventEmitter();
+  @Output() paramsInitialised: EventEmitter<QueryParameters> = new EventEmitter<QueryParameters>();
 
 
   public CallStates = CallState;
@@ -67,6 +68,7 @@ export class GenericListComponent implements OnInit, OnDestroy {
       sort: { ...this.definition.tableDefinition.defaultSort },
       criteria: { [this.definition.searchProperty]: '' }
     };
+    this.paramsInitialised.emit(this.currentParams);
 
     // Check if we should trigger a load on storage
     if (this.state.callState == CallState.Initial) {

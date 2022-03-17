@@ -1,12 +1,14 @@
-import { Component, HostBinding, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, HostBinding, Injector, OnInit, SkipSelf, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { ExpensesEditorComponent } from "@features/expenses/components/expenses-editor/expenses-editor.component";
 import { CategoriesStore, CategoryKinds } from "@features/expenses/services/categories-store";
 import { Expense, ExpensesStore } from "@features/expenses/services/expenses-store";
+import { AdvancedSearchComponent } from '@shared/components/advanced-search/advanced-search.component';
 import {
-  AdvancedSearchComponent,
+  ADVANCED_SEARCH_SETUP,
+  AdvancedSearchSetup, ConditionGroup,
   CriteriaDefinition
-} from '@shared/components/advanced-search/advanced-search.component';
+} from "@shared/components/advanced-search/advanced-search.models";
 import { GenericListDefinition } from "@shared/components/generic-list/generic-list.component";
 import { QueryParameters } from "@shared/models/query-parameters";
 import { StoreState } from "@shared/services/generic-store.service";
@@ -65,7 +67,6 @@ export class ExpensesListComponent implements OnInit {
       },
     }
   }
-
   public searchDefinition: CriteriaDefinition[] = [
     {property: 'description', label: 'Περιγραφή', 'input': 'text'},
     {property: 'enteredAt', label: 'Ημερομηνία', 'input': 'date'},
@@ -82,7 +83,11 @@ export class ExpensesListComponent implements OnInit {
     {property: 'forOwner', label: 'Επιβάρυνση ιδιοκτήτη', input: 'checkbox'}
   ]
 
-  constructor(private expensesStore: ExpensesStore, private categoriesStore: CategoriesStore) {
+  private conditions: ConditionGroup;
+
+  constructor(private expensesStore: ExpensesStore,
+              private categoriesStore: CategoriesStore,
+              @SkipSelf() private injector: Injector) {
     this.state$ = this.expensesStore.items;
   }
 
@@ -94,6 +99,8 @@ export class ExpensesListComponent implements OnInit {
     this.currentParams = {...params};
     this.loadData();
   }
+
+  onParamsInitialised = (params: QueryParameters) => { this.currentParams = {...params}; }
 
   onParamsChanged(params: QueryParameters) {
     this.currentParams = {...params};
@@ -128,10 +135,26 @@ export class ExpensesListComponent implements OnInit {
   }
 
   displayAdvancedSearch() {
+    const setup: AdvancedSearchSetup = {
+      sidenavHost: this.sidenav,
+      definitions: this.searchDefinition,
+      applySearch: args => {
+        console.log('Perform advanced search', args);
+        this.conditions=args;
+        this.sidenav.close();
+      },
+      clearSearch: () => this.conditions = null,
+      conditionGroup: this.conditions
+    };
+    const injector = Injector.create({
+      parent: this.injector,
+      providers: [
+        {provide: ADVANCED_SEARCH_SETUP, useValue: setup}
+      ]
+    })
+
     this.vrf.clear();
-    const componentRef = this.vrf.createComponent(AdvancedSearchComponent);
-    componentRef.instance.sidenavHost = this.sidenav;
-    componentRef.instance.definitions = this.searchDefinition;
+    this.vrf.createComponent(AdvancedSearchComponent, {injector: injector});
     this.sidenav.open()
   }
 }

@@ -1,6 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { MatSidenav } from '@angular/material/sidenav';
+import {
+  ADVANCED_SEARCH_SETUP,
+  AdvancedSearchSetup, Condition,
+  ConditionGroup,
+  CriteriaDefinition, isConditionGroup
+} from "@shared/components/advanced-search/advanced-search.models";
 import * as moment from "moment";
 import { forkJoin, map, Observable, of } from "rxjs";
 
@@ -11,9 +17,10 @@ import { forkJoin, map, Observable, of } from "rxjs";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdvancedSearchComponent implements OnInit {
-  @Input() sidenavHost: MatSidenav;
-  @Input() onSuccess: (args: any) => void;
-  @Input() definitions: CriteriaDefinition[] = [];
+  public sidenavHost: MatSidenav;
+  public applySearch: (args: any) => void;
+  public clearSearch: () => void;
+  public definitions: CriteriaDefinition[] = [];
 
   public properties: { key: string, label: string }[] = [];
   public operators: { key: string, label: string }[] = [];
@@ -23,9 +30,21 @@ export class AdvancedSearchComponent implements OnInit {
   public activeEditorIndex = -1;
   public groupingMethod = 1;
 
+  private rootGroup: ConditionGroup;
+
   get criteriaRow(): FormArray { return this.form.get('criteria') as FormArray; }
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+              @Inject(ADVANCED_SEARCH_SETUP) setup: AdvancedSearchSetup) {
+    this.sidenavHost = setup.sidenavHost;
+    this.definitions = setup.definitions;
+    this.applySearch = setup.applySearch;
+    this.clearSearch = setup.clearSearch;
+    this.rootGroup = setup.conditionGroup ?? {
+      grouping: "and",
+      conditions: []
+    };
+  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -44,6 +63,8 @@ export class AdvancedSearchComponent implements OnInit {
       {key: 'gte', label: 'είναι μεγαλύτερο ή ίσο από'},
       {key: 'lt', label: 'είναι μικρότερο από'},
       {key: 'lte', label: 'είναι μικρότερο ή ίσο από'},
+      {key: 'in', label: 'περιλαμβάνεται σε'},
+      {key: 'nin', label: 'δεν περιλαμβάνεται σε'},
     ];
 
     const sources: { [key: string]: any } = {};
@@ -67,21 +88,41 @@ export class AdvancedSearchComponent implements OnInit {
           this.lookupValues[key] = result[key];
         })
         return result;
-      }))
+      }));
+
+    this.groupingMethod = this.rootGroup.grouping == "and" ? 1 : 2;
+    this.rootGroup.conditions.filter(c => !isConditionGroup(c)).forEach((c: Condition) => {
+      const grp = this.formBuilder.group({
+        property: c.property,
+        operator: c.operator,
+        value: [c.value]
+      });
+      this.criteriaRow.push(grp);
+    });
   }
 
   onExit = () => this.sidenavHost.close()
 
   onApply = () => {
-    console.log(this.criteriaValue());
+    this.rootGroup.grouping = this.groupingMethod == 1 ? "and" : "or";
+    this.applySearch(this.rootGroup);
+  }
+
+  onClear = () => {
+    this.rootGroup = {
+      grouping: "and",
+      conditions: []
+    };
+    this.clearSearch();
+    this.sidenavHost.close();
   }
 
   addCriterion() {
     if (this.activeEditorIndex >= 0) { return; }
     const grp = this.formBuilder.group({
-      property: ['', Validators.required],
-      operator: ['', Validators.required],
-      value: ['', Validators.required]
+      property: '',
+      operator: '',
+      value: ''
     });
     this.criteriaRow.push(grp);
     this.activeEditorIndex = this.criteriaRow.length - 1;
@@ -89,11 +130,21 @@ export class AdvancedSearchComponent implements OnInit {
 
   removeCriterion(index: number) {
     this.criteriaRow.removeAt(index);
+    this.rootGroup.conditions.splice(index, 1);
     this.activeEditorIndex = -1;
   }
 
   acceptCriterion(criterionForm) {
-    if (!criterionForm.valid) { return; }
+    const property = criterionForm.get('property').value;
+    const operator = criterionForm.get('operator').value;
+    const value = criterionForm.get('value').value;
+
+    if (!property || !operator || !value) { return; }
+    this.rootGroup.conditions.push({
+      property,
+      operator,
+      value
+    })
     this.activeEditorIndex = -1;
   }
 
@@ -136,7 +187,9 @@ export class AdvancedSearchComponent implements OnInit {
         keys = ['eq', 'neq'];
         break;
       case "select":
-        keys = ['eq', 'neq'];
+        keys = definition.multi
+          ? ['in', 'nin']
+          : ['eq', 'neq'];
         break;
       default:
         keys = this.operators.map(op => op.key);
@@ -171,17 +224,6 @@ export class AdvancedSearchComponent implements OnInit {
 
     return values.map(v => this.lookupValues[property].find(p => p.key === v).value).join(', ');
   }
-}
-
-export interface CriteriaDefinition {
-  property: string;
-  label: string;
-  input: 'text' | 'select' | 'date' | 'checkbox';
-  multi?: boolean;
-  lookupValues?: {
-    [key: string]: string
-  },
-  lookupValuesAsync?: Observable<{ key: string, label: string }>
 }
 
 /*

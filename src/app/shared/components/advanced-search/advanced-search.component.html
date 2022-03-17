@@ -15,6 +15,8 @@
              class="criteria-row full-width"
              fxLayout="column"
              [formGroupName]="i">
+
+          <!-- Header - grouping -->
           <div class="grouping" *ngIf="i===0" fxLayout="row" fxLayoutAlign="center center">
             <i class="fas fa-filter fa=fw"></i>
             <p>{{groupingMethod == 1 ? 'Να εφαρμόζονται' : 'Να εφαρμόζετε'}}
@@ -24,6 +26,7 @@
               {{groupingMethod == 1 ? 'τα κριτήρια' : 'κριτήριο'}}
             </p>
             <div class="filler"></div>
+            <i class="fas fa-trash-alt fa=fw" (click)="onClear()"></i>
 
             <mat-menu #grouping="matMenu">
               <button mat-menu-item (click)="groupingMethod = 1">όλα</button>
@@ -31,6 +34,8 @@
             </mat-menu>
 
           </div>
+
+          <!-- Conditions -->
           <div class="form-controls full-width"
                fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px"
                *ngIf="activeEditorIndex === i">

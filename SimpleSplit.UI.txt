@@ -1,13 +1,11 @@
 SimpleSplit - UI App
 ======================================================================
 
-[ ]  Advanced search (generic component)
-        https://stackoverflow.com/questions/47469844/angular-cdk-how-to-set-inputs-in-a-componentportal
-
 [ ]  Translation
         https://stackoverflow.com/questions/38915977/make-sure-translations-json-file-has-loaded-before-continuing-to-load-angular-ap
 [ ]  Multi select on generic table
 [ ]  Alternative paginator style
+[x]  Advanced search (generic component)
 
 User Management
 - Verify new user (using token)
@@ -24,6 +22,5 @@ User Management
 ================================================================================
 
 https://mdmoin07.medium.com/image-fallback-for-broken-images-angular-aa3d5538ea0
-https://devblogs.microsoft.com/dotnet/net-core-image-processing/
 
 ================================================================================

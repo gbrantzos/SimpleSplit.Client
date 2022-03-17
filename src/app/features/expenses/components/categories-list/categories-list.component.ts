@@ -62,6 +62,8 @@ export class CategoriesListComponent implements OnInit {
 
   loadData() { this.categoriesStore.load(this.currentParams); }
 
+  onParamsInitialised = (params: QueryParameters) => { this.currentParams = {...params}; }
+
   onRefresh(params: QueryParameters) {
     this.currentParams = {...params};
     this.loadData();
