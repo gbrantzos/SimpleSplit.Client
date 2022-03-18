@@ -8,6 +8,7 @@ import { GenericDialogComponent } from "@shared/components/generic-dialog/generi
 import { ListHeaderComponent } from '@shared/components/list-header/list-header.component';
 import { LoadingComponent } from '@shared/components/loading/loading.component';
 import { NoDataComponent } from '@shared/components/no-data/no-data.component';
+import { ImageFallbackDirective } from "@shared/directives/image-fallback.directive";
 import { materialModules } from "@shared/materialModules";
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
 import { GenericListComponent } from './components/generic-list/generic-list.component';
@@ -35,11 +36,12 @@ export const SIMPLE_SPLIT_FORMATS = {
     NoDataComponent,
     PaginatorComponent,
     GenericDialogComponent,
-    BaseButtonDirective,
     ServerErrorComponent,
     GenericListComponent,
     GenericTableComponent,
-    AdvancedSearchComponent
+    AdvancedSearchComponent,
+    BaseButtonDirective,
+    ImageFallbackDirective
   ],
   imports: [
     CommonModule,
@@ -53,9 +55,10 @@ export const SIMPLE_SPLIT_FORMATS = {
     LoadingComponent,
     NoDataComponent,
     PaginatorComponent,
-    BaseButtonDirective,
     ServerErrorComponent,
-    GenericListComponent
+    GenericListComponent,
+    BaseButtonDirective,
+    ImageFallbackDirective
   ]
 })
 export class SharedModule {

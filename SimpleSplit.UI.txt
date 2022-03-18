@@ -7,7 +7,9 @@ SimpleSplit - UI App
 [ ]  Alternative paginator style
 [x]  Advanced search (generic component)
 
+
 User Management
+================================================================================
 - Verify new user (using token)
 - Password reset/forgot (using_token)
 - Activate/deactivate user
@@ -19,8 +21,3 @@ User Management
     * CreateUser
     * ResetPassword
 
-================================================================================
-
-https://mdmoin07.medium.com/image-fallback-for-broken-images-angular-aa3d5538ea0
-
-================================================================================
