@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { materialModules } from "@shared/materialModules";
+import { MomentDateAdapter } from "@angular/material-moment-adapter";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
+import { GenericDialogComponent } from "@shared/components/generic-dialog/generic-dialog.component";
 import { ListHeaderComponent } from '@shared/components/list-header/list-header.component';
 import { LoadingComponent } from '@shared/components/loading/loading.component';
 import { NoDataComponent } from '@shared/components/no-data/no-data.component';
-import { PaginatorComponent } from './components/paginator/paginator.component';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
-import { MomentDateAdapter } from "@angular/material-moment-adapter";
-import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-import { BaseButtonDirective } from './directives/base-button.directive';
-import { ServerErrorComponent } from './components/server-error/server-error.component';
+import { materialModules } from "@shared/materialModules";
+import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
 import { GenericListComponent } from './components/generic-list/generic-list.component';
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
-import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
+import { ServerErrorComponent } from './components/server-error/server-error.component';
+import { BaseButtonDirective } from './directives/base-button.directive';
 
 export const SIMPLE_SPLIT_FORMATS = {
   parse: {
@@ -34,7 +34,7 @@ export const SIMPLE_SPLIT_FORMATS = {
     LoadingComponent,
     NoDataComponent,
     PaginatorComponent,
-    ConfirmDialogComponent,
+    GenericDialogComponent,
     BaseButtonDirective,
     ServerErrorComponent,
     GenericListComponent,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from "@angular/material/dialog";
-import { ConfirmDialogComponent } from "@shared/components/confirm-dialog/confirm-dialog.component";
+import { GenericDialogComponent } from "@shared/components/generic-dialog/generic-dialog.component";
 import { firstValueFrom, map } from "rxjs";
 
 @Injectable({
@@ -12,14 +12,15 @@ export class DialogService {
   constructor(private snackBar: MatSnackBar, private dialog: MatDialog) { }
 
   public confirm(message: string, title: string = 'Προσοχή'): Promise<boolean> {
-    const data = {
+    const data:  GenericDialogModel = {
+      type: "warning",
       title: title,
       message: message
-    } as CommonDialogModel;
+    };
 
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '460px',
-      panelClass: 'confirm-dialog-container',
+    const dialogRef = this.dialog.open(GenericDialogComponent, {
+      width: '560px',
+      panelClass: ['generic-dialog-container', `generic-dialog-container-${data.type}`],
       data: data
     });
 
@@ -67,7 +68,8 @@ export class DialogService {
 }
 
 
-export interface CommonDialogModel {
+export interface GenericDialogModel {
+  type: 'alert' | 'warning' | 'information';
   title: string;
   message: string;
 }

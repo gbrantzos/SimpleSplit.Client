@@ -1,0 +1,22 @@
+<mat-dialog-content class="confirm-dialog-content">
+  <div id="main-content" fxLayout="row" fxLayoutAlign="center center">
+
+    <div id="icon" fxFlex="112px">
+      <i *ngIf="data.type==='information'" class="fas fa-exclamation-circle fa-fw fa-4x" [ngClass]="data.type"></i>
+      <i *ngIf="data.type!=='information'" class="fas fa-exclamation-triangle fa-fw fa-4x" [ngClass]="data.type"></i>
+    </div>
+
+    <div id="message" fxFlex>
+      <h2>{{title}} </h2>
+      <p class="body" [innerHTML]="message"></p>
+    </div>
+
+  </div>
+  <mat-divider></mat-divider>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="onCancel()">Ακύρωση</button>
+  <button mat-flat-button color="primary" class="mat-simple" (click)="onYes()">&nbsp;&nbsp; Εντάξει &nbsp;&nbsp;</button>
+</mat-dialog-actions>
