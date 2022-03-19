@@ -1,3 +1,4 @@
+import { ConditionGroup, EmptyConditionGroup } from "@shared/components/advanced-search/advanced-search.models";
 import { createEmptyPagedResult, PagedResult } from "@shared/models/paged-result";
 import { QueryParameters } from "@shared/models/query-parameters";
 import { GenericApiClient } from "@shared/services/generic-api.client";
@@ -24,7 +25,7 @@ export abstract class GenericStoreService<T> {
 
   protected constructor(private apiClient: GenericApiClient<T>) { }
 
-  public load(params: QueryParameters) {
+  public load(params: QueryParameters, advancedConditions: ConditionGroup) {
     if (this.apiCall$ && !this.apiCall$.closed) {
       this.apiCall$.unsubscribe();
     }
@@ -35,7 +36,7 @@ export abstract class GenericStoreService<T> {
       errorMessage: null
     })
 
-    this.apiCall$ = this.apiClient.get(params)
+    this.apiCall$ = this.apiClient.get(params, advancedConditions ?? EmptyConditionGroup)
       .subscribe({
         next: response => {
           this.state$.next({

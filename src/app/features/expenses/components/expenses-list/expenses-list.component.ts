@@ -6,10 +6,12 @@ import { Expense, ExpensesStore } from "@features/expenses/services/expenses-sto
 import { AdvancedSearchComponent } from '@shared/components/advanced-search/advanced-search.component';
 import {
   ADVANCED_SEARCH_SETUP,
-  AdvancedSearchSetup, ConditionGroup,
-  CriteriaDefinition
+  AdvancedSearchSetup,
+  ConditionGroup,
+  CriteriaDefinition,
+  EmptyConditionGroup
 } from "@shared/components/advanced-search/advanced-search.models";
-import { GenericListDefinition } from "@shared/components/generic-list/generic-list.component";
+import { GenericListComponent, GenericListDefinition } from "@shared/components/generic-list/generic-list.component";
 import { QueryParameters } from "@shared/models/query-parameters";
 import { StoreState } from "@shared/services/generic-store.service";
 import * as moment from "moment";
@@ -23,6 +25,7 @@ import { Observable } from "rxjs";
 export class ExpensesListComponent implements OnInit {
   @HostBinding('class') class = 'base-component';
   @ViewChild("sidenav") public sidenav: MatSidenav;
+  @ViewChild("list") public list: GenericListComponent;
   @ViewChild('sidenavView', {read: ViewContainerRef}) vrf: ViewContainerRef;
 
   public state$: Observable<StoreState<Expense>>;
@@ -83,7 +86,7 @@ export class ExpensesListComponent implements OnInit {
     {property: 'forOwner', label: 'Επιβάρυνση ιδιοκτήτη', input: 'checkbox'}
   ]
 
-  private conditions: ConditionGroup;
+  private advancedSearch: ConditionGroup = EmptyConditionGroup;
 
   constructor(private expensesStore: ExpensesStore,
               private categoriesStore: CategoriesStore,
@@ -93,7 +96,7 @@ export class ExpensesListComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  loadData() { this.expensesStore.load(this.currentParams); }
+  loadData() { this.expensesStore.load(this.currentParams, this.advancedSearch); }
 
   onRefresh(params: QueryParameters) {
     this.currentParams = {...params};
@@ -121,9 +124,7 @@ export class ExpensesListComponent implements OnInit {
 
   onTableClicked(expense: Expense) { this.displayEditor({...expense}); }
 
-  onAdvancedSearch() {
-    this.displayAdvancedSearch();
-  }
+  onAdvancedSearch() { this.displayAdvancedSearch(); }
 
   displayEditor(expense: Expense) {
     this.vrf.clear();
@@ -135,26 +136,46 @@ export class ExpensesListComponent implements OnInit {
   }
 
   displayAdvancedSearch() {
+    if (!!this.currentParams.criteria && (!this.advancedSearch || this.advancedSearch.conditions.length == 0)) {
+      this.advancedSearch = EmptyConditionGroup;
+      Object.keys(this.currentParams.criteria).forEach(key => {
+        const value = this.currentParams.criteria[key];
+        if (!!value) {
+          this.advancedSearch.grouping = "or";
+          this.advancedSearch.conditions.push({
+            property: key,
+            operator: 'starts',
+            value: value
+          });
+        }
+      });
+      this.currentParams.criteria = null;
+    }
+
     const setup: AdvancedSearchSetup = {
       sidenavHost: this.sidenav,
       definitions: this.searchDefinition,
       applySearch: args => {
         console.log('Perform advanced search', args);
-        this.conditions=args;
+        this.list.onClearSearch(true);
+        this.advancedSearch = args;
+        this.loadData();
         this.sidenav.close();
       },
-      clearSearch: () => this.conditions = null,
-      conditionGroup: this.conditions
+      clearSearch: () => {
+        this.advancedSearch = EmptyConditionGroup;
+        this.loadData();
+      },
+      conditionGroup: this.advancedSearch
     };
+
     const injector = Injector.create({
       parent: this.injector,
-      providers: [
-        {provide: ADVANCED_SEARCH_SETUP, useValue: setup}
-      ]
+      providers: [{provide: ADVANCED_SEARCH_SETUP, useValue: setup}]
     })
 
     this.vrf.clear();
-    this.vrf.createComponent(AdvancedSearchComponent, {injector: injector});
+    this.vrf.createComponent(AdvancedSearchComponent, {injector});
     this.sidenav.open()
   }
 }

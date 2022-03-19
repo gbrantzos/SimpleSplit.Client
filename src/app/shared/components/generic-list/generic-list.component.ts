@@ -47,26 +47,26 @@ export class GenericListComponent implements OnInit, OnDestroy {
         debounceTime(this.searchDelay),
         distinctUntilChanged()
       ).subscribe({
-        next: (search: string) => {
-          if (search !== this.currentParams.criteria[this.definition.searchProperty]) {
-            this.currentParams.pageNumber = 1
-          }
-          this.currentParams = {
-            ...this.currentParams,
-            criteria: { [this.definition.searchProperty]: search }
-          };
-          this.onParamsChanged(this.currentParams);
-        },
-        error: err => console.error(err)
-      }
+          next: (search: string) => {
+            if (search !== this.currentParams.criteria[this.definition.searchProperty]) {
+              this.currentParams.pageNumber = 1
+            }
+            this.currentParams = {
+              ...this.currentParams,
+              criteria: {[this.definition.searchProperty]: search}
+            };
+            this.onParamsChanged(this.currentParams);
+          },
+          error: err => console.error(err)
+        }
       );
 
     // Read params and trigger params changed
     this.currentParams = GenericListComponent.getStoredParameters(this.definition.storageKey) || {
       pageNumber: 1,
       pageSize: this.definition.defaultPageSize,
-      sort: { ...this.definition.tableDefinition.defaultSort },
-      criteria: { [this.definition.searchProperty]: '' }
+      sort: {...this.definition.tableDefinition.defaultSort},
+      criteria: {[this.definition.searchProperty]: ''}
     };
     this.paramsInitialised.emit(this.currentParams);
 
@@ -78,7 +78,9 @@ export class GenericListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void { this.subs.unsubscribe(); }
 
-  onClearSearch = () => this.searchForm.reset();
+  onClearSearch = (suppressEvent: boolean = false) => {
+    this.searchForm.reset('', {emitEvent: !suppressEvent});
+  }
   onNewClicked = () => this.newClicked.emit();
   onRefreshClicked = () => this.refreshClicked.emit(this.currentParams);
   onCellClicked = (event: any) => this.tableClicked.emit(event);

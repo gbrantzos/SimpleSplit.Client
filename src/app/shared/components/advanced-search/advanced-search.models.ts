@@ -34,6 +34,11 @@ export interface ConditionGroup {
   conditions: (Condition | ConditionGroup)[];
 }
 
+export const EmptyConditionGroup: ConditionGroup = {
+  grouping: "and",
+  conditions: []
+}
+
 export function isConditionGroup(condition: ConditionGroup | Condition): condition is ConditionGroup {
   return (condition as ConditionGroup).grouping !== undefined;
 }

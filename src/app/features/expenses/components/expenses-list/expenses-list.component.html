@@ -2,7 +2,7 @@
 
   <mat-sidenav-content>
     <ng-container *ngIf="state$ | async as state">
-      <smp-generic-list [definition]="listDefinition"
+      <smp-generic-list #list [definition]="listDefinition"
                         [state]="state"
                         (newClicked)="onNew()"
                         (refreshClicked)="onRefresh($event)"
