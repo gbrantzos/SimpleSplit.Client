@@ -92,6 +92,7 @@
                       {{op.value}}
                     </mat-option>
                   </mat-select>
+                  <i matSuffix class="fas fa-sync refresh" (click)="refreshLookups()"></i>
                 </mat-form-field>
 
                 <!-- Text -->
@@ -105,8 +106,8 @@
                   <mat-label>Τιμή</mat-label>
 
                   <mat-select formControlName="value">
-                    <mat-option [value]="true"> Ναι </mat-option>
-                    <mat-option [value]="false"> Οχι </mat-option>
+                    <mat-option [value]="true"> Ναι</mat-option>
+                    <mat-option [value]="false"> Οχι</mat-option>
                   </mat-select>
                 </mat-form-field>
 

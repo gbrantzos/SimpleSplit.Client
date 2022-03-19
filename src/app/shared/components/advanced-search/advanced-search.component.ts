@@ -31,6 +31,7 @@ export class AdvancedSearchComponent implements OnInit {
   public groupingMethod = 1;
 
   private rootGroup: ConditionGroup;
+  private lookupSources: { [key: string]: any } = {};
 
   get criteriaRow(): FormArray { return this.form.get('criteria') as FormArray; }
 
@@ -67,7 +68,6 @@ export class AdvancedSearchComponent implements OnInit {
       {key: 'nin', label: 'δεν περιλαμβάνεται σε'},
     ];
 
-    const sources: { [key: string]: any } = {};
     this.definitions.forEach(def => {
       if (def.lookupValues) {
         const values = Object.keys(def.lookupValues).map(key => {
@@ -76,13 +76,13 @@ export class AdvancedSearchComponent implements OnInit {
             value: def.lookupValues[key]
           };
         })
-        sources[def.property] = of(values);
+        this.lookupSources[def.property] = of(values);
       }
       if (def.lookupValuesAsync) {
-        sources[def.property] = def.lookupValuesAsync;
+        this.lookupSources[def.property] = def.lookupValuesAsync;
       }
     });
-    this.lookups$ = forkJoin(sources)
+    this.lookups$ = forkJoin(this.lookupSources)
       .pipe(map(result => {
         Object.keys(result).forEach(key => {
           this.lookupValues[key] = result[key];
@@ -188,6 +188,16 @@ export class AdvancedSearchComponent implements OnInit {
       })
     });
     return rawValues;
+  }
+
+  refreshLookups() {
+    this.lookups$ = forkJoin(this.lookupSources)
+      .pipe(map(result => {
+        Object.keys(result).forEach(key => {
+          this.lookupValues[key] = result[key];
+        })
+        return result;
+      }));
   }
 
   operatorsForProperty(property: string) {

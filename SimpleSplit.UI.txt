@@ -3,9 +3,10 @@ SimpleSplit - UI App
 
 [ ]  Translation
         https://stackoverflow.com/questions/38915977/make-sure-translations-json-file-has-loaded-before-continuing-to-load-angular-ap
-[ ]  Multi select on generic table
+[ ]  Actions on generic table
+     - Multi select
+     - Clear filters and parameters
 [ ]  Alternative paginator style
-[x]  Advanced search (generic component)
 
 
 User Management
