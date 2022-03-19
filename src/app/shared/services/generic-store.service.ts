@@ -1,4 +1,7 @@
-import { ConditionGroup, EmptyConditionGroup } from "@shared/components/advanced-search/advanced-search.models";
+import {
+  ConditionGroup,
+  emptyConditionGroup
+} from "@shared/components/advanced-search/advanced-search.models";
 import { createEmptyPagedResult, PagedResult } from "@shared/models/paged-result";
 import { QueryParameters } from "@shared/models/query-parameters";
 import { GenericApiClient } from "@shared/services/generic-api.client";
@@ -36,7 +39,7 @@ export abstract class GenericStoreService<T> {
       errorMessage: null
     })
 
-    this.apiCall$ = this.apiClient.get(params, advancedConditions ?? EmptyConditionGroup)
+    this.apiCall$ = this.apiClient.get(params, advancedConditions ?? emptyConditionGroup())
       .subscribe({
         next: response => {
           this.state$.next({

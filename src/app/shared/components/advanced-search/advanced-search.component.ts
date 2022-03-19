@@ -125,6 +125,11 @@ export class AdvancedSearchComponent implements OnInit {
       value: ''
     });
     this.criteriaRow.push(grp);
+    this.rootGroup.conditions.push({
+      property: '',
+      operator: '',
+      value: undefined
+    })
     this.activeEditorIndex = this.criteriaRow.length - 1;
   }
 
@@ -134,17 +139,28 @@ export class AdvancedSearchComponent implements OnInit {
     this.activeEditorIndex = -1;
   }
 
+  setActiveEditor(index: number) {
+    if (this.activeEditorIndex >= 0) { return; }
+    this.activeEditorIndex = index
+  }
+
   acceptCriterion(criterionForm) {
     const property = criterionForm.get('property').value;
     const operator = criterionForm.get('operator').value;
-    const value = criterionForm.get('value').value;
+    const rawValue = criterionForm.get('value').value;
+    if (!property || !operator || !rawValue) { return; }
 
-    if (!property || !operator || !value) { return; }
-    this.rootGroup.conditions.push({
+    const definition = this.definitionForProperty(property);
+    if (!definition) { return; }
+    const value = definition.input == "date"
+      ? moment(rawValue).utcOffset(0, true).toDate()
+      : rawValue;
+
+    this.rootGroup.conditions[this.activeEditorIndex] = {
       property,
       operator,
       value
-    })
+    };
     this.activeEditorIndex = -1;
   }
 

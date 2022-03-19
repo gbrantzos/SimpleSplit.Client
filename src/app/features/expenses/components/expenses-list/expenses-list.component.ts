@@ -9,7 +9,7 @@ import {
   AdvancedSearchSetup,
   ConditionGroup,
   CriteriaDefinition,
-  EmptyConditionGroup
+  emptyConditionGroup
 } from "@shared/components/advanced-search/advanced-search.models";
 import { GenericListComponent, GenericListDefinition } from "@shared/components/generic-list/generic-list.component";
 import { QueryParameters } from "@shared/models/query-parameters";
@@ -74,10 +74,10 @@ export class ExpensesListComponent implements OnInit {
     {property: 'description', label: 'Περιγραφή', 'input': 'text'},
     {property: 'enteredAt', label: 'Ημερομηνία', 'input': 'date'},
     {
-      property: 'kind', label: 'Ομάδα Εξόδων', 'input': 'select', multi: true, lookupValues: CategoryKinds
+      property: 'category.kind', label: 'Ομάδα Εξόδων', 'input': 'select', multi: true, lookupValues: CategoryKinds
     },
     {
-      property: 'category',
+      property: 'category.id',
       label: 'Κατηγορία Εξόδων',
       input: 'select',
       multi: true,
@@ -86,7 +86,7 @@ export class ExpensesListComponent implements OnInit {
     {property: 'forOwner', label: 'Επιβάρυνση ιδιοκτήτη', input: 'checkbox'}
   ]
 
-  private advancedSearch: ConditionGroup = EmptyConditionGroup;
+  private advancedSearch: ConditionGroup = emptyConditionGroup();
 
   constructor(private expensesStore: ExpensesStore,
               private categoriesStore: CategoriesStore,
@@ -137,7 +137,7 @@ export class ExpensesListComponent implements OnInit {
 
   displayAdvancedSearch() {
     if (!!this.currentParams.criteria && (!this.advancedSearch || this.advancedSearch.conditions.length == 0)) {
-      this.advancedSearch = EmptyConditionGroup;
+      this.advancedSearch = emptyConditionGroup();
       Object.keys(this.currentParams.criteria).forEach(key => {
         const value = this.currentParams.criteria[key];
         if (!!value) {
@@ -156,14 +156,13 @@ export class ExpensesListComponent implements OnInit {
       sidenavHost: this.sidenav,
       definitions: this.searchDefinition,
       applySearch: args => {
-        console.log('Perform advanced search', args);
         this.list.onClearSearch(true);
         this.advancedSearch = args;
         this.loadData();
         this.sidenav.close();
       },
       clearSearch: () => {
-        this.advancedSearch = EmptyConditionGroup;
+        this.advancedSearch = emptyConditionGroup();
         this.loadData();
       },
       conditionGroup: this.advancedSearch

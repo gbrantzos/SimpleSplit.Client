@@ -133,7 +133,7 @@
             <div fxFlex="18px"><i class="far fa-square fa-fw"></i></div>
             <div fxFlex><p class="human-readable" [innerHTML]="humanReadable(criteriaForm)"></p></div>
             <div fxFlex="42px">
-              <i class="far fa-edit fa-fw action-icon" (click)="activeEditorIndex = i"></i>
+              <i class="far fa-edit fa-fw action-icon" (click)="setActiveEditor(i)"></i>
               <i class="far fa-trash-alt fa-fw action-icon" (click)="removeCriterion(i)" style="margin-left: 4px"></i>
             </div>
           </div>

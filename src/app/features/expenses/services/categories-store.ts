@@ -1,7 +1,7 @@
 ﻿import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { CategoriesApiClient } from "@features/expenses/services/categories-api-client";
-import { EmptyConditionGroup } from "@shared/components/advanced-search/advanced-search.models";
+import { emptyConditionGroup } from "@shared/components/advanced-search/advanced-search.models";
 import { DefaultQueryParameters } from "@shared/models/query-parameters";
 import { GenericStoreService } from "@shared/services/generic-store.service";
 import { map, Observable } from "rxjs";
@@ -26,7 +26,7 @@ export class CategoriesStore extends GenericStoreService<Category> {
   get categories(): Observable<any> {
     return this
       .client
-      .get(DefaultQueryParameters, EmptyConditionGroup)
+      .get(DefaultQueryParameters, emptyConditionGroup())
       .pipe(
         map(result => result
           .rows
