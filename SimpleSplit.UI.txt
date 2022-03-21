@@ -6,7 +6,6 @@ SimpleSplit - UI App
 [ ]  Actions on generic table
      - Multi select
      - Clear filters and parameters
-[ ]  Alternative paginator style
 
 
 User Management
@@ -22,3 +21,22 @@ User Management
     * CreateUser
     * ResetPassword
 
+
+
+Schema based UI
+================================================================================
+- SqlQueryListComponent
+    * Name, unique
+    * Query, to provide data from backend
+    * List definition
+    * Conditions definition
+    * Menu entry (group, label, icon)
+- Lookups service
+- Menu service
+
+
+Lookups:
+    LookupItem: key, value, group, data
+    Lookup: name (unique), items, cacheable
+    LookupService
+    LookupProvider
