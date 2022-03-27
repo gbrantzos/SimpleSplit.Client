@@ -2,7 +2,7 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { LookupService } from "@core/services/lookup.service";
-import { Lookup, LookupItems, Schema } from "@core/services/schema.models";
+import { Lookup, Schema } from "@core/services/schema.models";
 import { forkJoin, map, mergeMap, Observable, of } from "rxjs";
 
 @Injectable({providedIn: "root"})
@@ -10,11 +10,8 @@ export class SchemaResolver implements Resolve<Observable<Schema>> {
   constructor(private httpClient: HttpClient, private lookupService: LookupService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Schema> {
-    const component = route.component['name'];
-    const fileName = component.endsWith('Component')
-      ? component.substring(0, component.length - 'Component'.length)
-      : component;
-    const schemaJson = `${this.kebabCase(fileName)}.json`;
+    const definition = route.data['definitionFile'];
+    const schemaJson = `${definition}.json`;
 
     return this
       .httpClient
@@ -49,9 +46,4 @@ export class SchemaResolver implements Resolve<Observable<Schema>> {
         })
       );
   }
-
-  private kebabCase = string => string
-    .replace(/\B([A-Z])(?=[a-z])/g, '-$1')
-    .replace(/\B([a-z0-9])([A-Z])/g, '$1-$2')
-    .toLowerCase();
 }

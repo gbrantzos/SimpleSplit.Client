@@ -9,16 +9,14 @@ const routes: Routes = [
   {
     path: 'list',
     component: ExpensesListComponent,
-    resolve: {
-      schema: SchemaResolver
-    }
+    resolve: {schema: SchemaResolver},
+    data: {definitionFile: 'expenses-list'}
   },
   {
     path: 'categories',
     component: CategoriesListComponent,
-    resolve: {
-      schema: SchemaResolver
-    }
+    resolve: {schema: SchemaResolver},
+    data: {definitionFile: 'categories-list'}
   }
 ];
 
