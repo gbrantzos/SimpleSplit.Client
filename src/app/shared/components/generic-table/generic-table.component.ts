@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import { MatSort, MatSortable } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { ColumnDefinition, GenericTableDefinition } from "@core/services/schema.models";
 import { SortInfo } from "@shared/models/query-parameters";
 
 @Component({
@@ -95,27 +96,5 @@ export class GenericTableComponent implements OnInit {
     }
 
     return `${rawValue}${columnDef.suffix ?? ''}`;
-  }
-}
-
-export interface GenericTableDefinition {
-  availableColumns: ColumnDefinition [];
-  displayedColumns: string[];
-  defaultSort: SortInfo;
-}
-
-export interface ColumnDefinition {
-  name: string;
-  label?: string;
-  class?: string;
-  labelClass?: string;
-  sortProperty?: string;
-  arrowPosition?: 'before' | 'after';
-  enableClickEvent?: boolean;
-  dateFormat?: string;
-  numericFormat?: string;
-  suffix?: string;
-  lookupValues?: {
-    [key: string]: string
   }
 }

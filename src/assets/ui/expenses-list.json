@@ -1,0 +1,85 @@
+﻿{
+  "listDefinition": {
+    "name": "ExpensesList",
+    "header": "Λίστα Εξόδων",
+    "storageKey": "ExpensesList_QueryParameters",
+    "defaultPageSize": 10,
+    "pageSizes": [
+      5,
+      10,
+      20
+    ],
+    "searchProperty": "description",
+    "enableAdvancedSearch": true,
+    "tableDefinition": {
+      "availableColumns": [
+        {
+          "name": "id",
+          "label": "Α/Α"
+        },
+        {
+          "name": "rowVersion"
+        },
+        {
+          "name": "description",
+          "label": "Περιγραφή",
+          "class": "hover-link",
+          "enableClickEvent": true
+        },
+        {
+          "name": "enteredAt",
+          "label": "Ημ/νια Καταχώρισης",
+          "dateFormat": "dd/MM/yyyy"
+        },
+        {
+          "name": "amount",
+          "label": "Αξια",
+          "class": "value",
+          "sortProperty": "amount.amount",
+          "arrowPosition": "before",
+          "numericFormat": "1.2-2",
+          "suffix": " €"
+        }
+      ],
+      "displayedColumns": [
+        "description",
+        "enteredAt",
+        "amount"
+      ],
+      "defaultSort": {
+        "column": "enteredAt",
+        "direction": "desc"
+      }
+    }
+  },
+  "searchDefinition": [
+    {
+      "property": "description",
+      "label": "Περιγραφή",
+      "input": "text"
+    },
+    {
+      "property": "enteredAt",
+      "label": "Ημερομηνία",
+      "input": "date"
+    },
+    {
+      "property": "category.kind",
+      "label": "Ομάδα Εξόδων",
+      "input": "select",
+      "multi": true,
+      "lookupName": "EXPENSES::CATEGORIES_KINDS"
+    },
+    {
+      "property": "category.id",
+      "label": "Κατηγορία Εξόδων",
+      "input": "select",
+      "multi": true,
+      "lookupName": "EXPENSES::CATEGORIES"
+    },
+    {
+      "property": "forOwner",
+      "label": "Επιβάρυνση ιδιοκτήτη", "input": "checkbox"
+    }
+  ]
+}

@@ -54,3 +54,20 @@ Note: if status is reset_password and user successfully logs in status returns t
 User fields: isActive, verification_hash, reset_hash
 --------------------------------------------------------------------------------
 
+
+
+
+User Management
+================================================================================
+- Verify new user (using token)
+- Password reset/forgot (using_token)
+- Activate/deactivate user
+- User management menu for admins
+    * Get all users
+    * Register user
+    * Reset password
+- New commands:
+    * CreateUser
+    * ResetPassword
+
+

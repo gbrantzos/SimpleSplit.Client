@@ -1,0 +1,46 @@
+﻿{
+  "listDefinition": {
+    "name": "CategoriesList",
+    "header": "Κατηγορίες Εξόδων",
+    "storageKey": "CategoriesList_QueryParameters",
+    "defaultPageSize": 10,
+    "pageSizes": [
+      5,
+      10,
+      20
+    ],
+    "searchProperty": "description",
+    "enableAdvancedSearch": false,
+    "tableDefinition": {
+      "availableColumns": [
+        {
+          "name": "id",
+          "label": "Α/Α"
+        },
+        {
+          "name": "rowVersion"
+        },
+        {
+          "name": "description",
+          "label": "Περιγραφή",
+          "class": "hover-link",
+          "enableClickEvent": true
+        },
+        {
+          "name": "kind",
+          "label": "Ομάδα Εξόδων",
+          "class": "kind",
+          "lookupName": "EXPENSES::CATEGORIES_KINDS"
+        }
+      ],
+      "displayedColumns": [
+        "description",
+        "kind"
+      ],
+      "defaultSort": {
+        "column": "description",
+        "direction": "asc"
+      }
+    }
+  }
+}

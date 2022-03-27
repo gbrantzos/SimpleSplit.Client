@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
+import { ActivatedRoute } from "@angular/router";
+import { GenericListDefinition, Schema } from "@core/services/schema.models";
 import { CategoriesEditorComponent } from "@features/expenses/components/categories-editor/categories-editor.component";
-import { CategoriesStore, Category, CategoryKinds } from "@features/expenses/services/categories-store";
+import { CategoriesStore, Category } from "@features/expenses/services/categories-store";
 import { emptyConditionGroup } from "@shared/components/advanced-search/advanced-search.models";
-import { GenericListDefinition } from "@shared/components/generic-list/generic-list.component";
 import { QueryParameters } from "@shared/models/query-parameters";
 import { StoreState } from "@shared/services/generic-store.service";
 import { Observable } from "rxjs";
@@ -22,41 +23,14 @@ export class CategoriesListComponent implements OnInit {
   public state$: Observable<StoreState<Category>>;
   public currentParams: QueryParameters;
 
-  public listDefinition: GenericListDefinition = {
-    name: 'CategoriesList',
-    header: 'Κατηγορίες Εξόδων',
-    storageKey: 'CategoriesList_QueryParameters',
-    defaultPageSize: 10,
-    pageSizes: [5, 10, 20],
-    searchProperty: 'description',
-    enableAdvancedSearch: false,
-    tableDefinition: {
-      availableColumns: [{
-        name: 'id',
-        label: 'Α/Α'
-      }, {
-        name: 'rowVersion'
-      }, {
-        name: 'description',
-        label: 'Περιγραφή',
-        class: 'hover-link',
-        enableClickEvent: true
-      }, {
-        name: 'kind',
-        label: 'Ομάδα Εξόδων',
-        class: 'kind',
-        lookupValues: CategoryKinds
-      }],
-      displayedColumns: ['description', 'kind'],
-      defaultSort: {
-        column: 'description',
-        direction: 'asc'
-      },
-    }
-  }
+  public listDefinition: GenericListDefinition;
 
-  constructor(private categoriesStore: CategoriesStore) {
+  constructor(private categoriesStore: CategoriesStore,
+              private route: ActivatedRoute) {
     this.state$ = this.categoriesStore.items;
+
+    const schema: Schema = this.route.snapshot.data.schema;
+    this.listDefinition = schema.listDefinition;
   }
 
   ngOnInit(): void { }

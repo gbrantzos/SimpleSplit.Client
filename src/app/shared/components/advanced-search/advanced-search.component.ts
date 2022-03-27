@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { MatSidenav } from '@angular/material/sidenav';
+import { CriteriaDefinition } from "@core/services/schema.models";
 import {
   ADVANCED_SEARCH_SETUP,
   AdvancedSearchSetup, Condition,
   ConditionGroup,
-  CriteriaDefinition, isConditionGroup
+  isConditionGroup
 } from "@shared/components/advanced-search/advanced-search.models";
 import * as moment from "moment";
 import { forkJoin, map, Observable, of } from "rxjs";
@@ -166,13 +167,6 @@ export class AdvancedSearchComponent implements OnInit {
 
   definitionForProperty = (property: string): CriteriaDefinition =>
     this.definitions.find(d => d.property === property)
-
-  lookupValuesForProperty(property: string) {
-    const definition = this.definitionForProperty(property);
-    if (!definition) { return []; }
-
-    return definition.lookupValues;
-  }
 
   criteriaValue() {
     const rawValues = [];

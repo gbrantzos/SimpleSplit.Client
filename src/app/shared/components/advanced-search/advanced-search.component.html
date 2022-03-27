@@ -40,9 +40,9 @@
                fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px"
                *ngIf="activeEditorIndex === i">
             <ng-container *ngIf="{
-                          property: criteriaForm.get('property').value ?? '',
-                          definition: definitionForProperty(criteriaForm.get('property').value)
-                        } as data">
+                            property: criteriaForm.get('property').value ?? '',
+                            definition: definitionForProperty(criteriaForm.get('property').value)
+                          } as data">
 
               <div class="full-width" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="8px">
                 <!-- Property selector -->

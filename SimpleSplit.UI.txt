@@ -8,21 +8,6 @@ SimpleSplit - UI App
      - Clear filters and parameters
 
 
-User Management
-================================================================================
-- Verify new user (using token)
-- Password reset/forgot (using_token)
-- Activate/deactivate user
-- User management menu for admins
-    * Get all users
-    * Register user
-    * Reset password
-- New commands:
-    * CreateUser
-    * ResetPassword
-
-
-
 Schema based UI
 ================================================================================
 - SqlQueryListComponent

@@ -1,6 +1,6 @@
 ﻿import { InjectionToken } from "@angular/core";
 import { MatSidenav } from "@angular/material/sidenav";
-import { Observable } from "rxjs";
+import { CriteriaDefinition } from "@core/services/schema.models";
 
 export const ADVANCED_SEARCH_SETUP = new InjectionToken<{}>('ADVANCED_SEARCH_SETUP');
 
@@ -10,17 +10,6 @@ export interface AdvancedSearchSetup {
   clearSearch: () => void;
   definitions: CriteriaDefinition[];
   conditionGroup?: ConditionGroup;
-}
-
-export interface CriteriaDefinition {
-  property: string;
-  label: string;
-  input: 'text' | 'select' | 'date' | 'checkbox';
-  multi?: boolean;
-  lookupValues?: {
-    [key: string]: string
-  },
-  lookupValuesAsync?: Observable<{ key: string, label: string }>
 }
 
 export interface Condition {

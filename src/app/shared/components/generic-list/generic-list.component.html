@@ -2,20 +2,20 @@
 
   <!-- Header -->
   <smp-list-header title="{{definition.header}}"
-    (newClicked)="onNewClicked()"
-    (refreshClicked)="onRefreshClicked()">
+                   (newClicked)="onNewClicked()"
+                   (refreshClicked)="onRefreshClicked()">
   </smp-list-header>
 
   <!-- Search bar -->
   <div *ngIf="state.callState === CallStates.Finished || state.callState === CallStates.NoData"
-    fxLayout="row"
-    class="search-bar">
+       fxLayout="row"
+       class="search-bar">
     <form id="search-box" [formGroup]="searchForm">
       <i class="fas fa-search fa-fw search-icon"></i>
       <input #search id="search" type="text" formControlName="searchValue" placeholder="Αναζήτηση με περιγραφή">
       <i *ngIf="!!search.value" class="fas fa-times fa-fw clear" (click)="onClearSearch()"></i>
       <i class="fas fa-sliders-h fa-fw" (click)="onAdvancedSearch()"
-        [ngClass]="{
+         [ngClass]="{
           'advanced-disabled': !definition.enableAdvancedSearch,
           'advanced': definition.enableAdvancedSearch
         }">
@@ -29,26 +29,26 @@
   <div class="auto-overflow-y" fxFlex>
     <div class="table-wrapper full-height" fxLayout="column" *ngIf="state.callState === CallStates.Finished">
       <smp-generic-table [definition]="definition.tableDefinition"
-        [data]="{
-        rows: state.result.rows,
-        sort: currentParams.sort
-        }"
-        (cellClicked)="onCellClicked($event)"
-        (sortChanged)="onSortChanged($event)">
+                         [data]="{
+                            rows: state.result.rows,
+                            sort: currentParams.sort
+                         }"
+                         (cellClicked)="onCellClicked($event)"
+                         (sortChanged)="onSortChanged($event)">
       </smp-generic-table>
       <div class="filler"></div>
       <smp-paginator *ngIf="state.callState === CallStates.Finished"
-        [sizes]="definition.pageSizes"
-        [pageSize]="state.result.pageSize"
-        [currentPage]="state.result.currentPage"
-        [totalPages]="state.result.totalPages"
-        [totalRows]="state.result.totalRows"
-        (changes)="onPaginatorChanges($event)"></smp-paginator>
+                     [sizes]="definition.pageSizes"
+                     [pageSize]="state.result.pageSize"
+                     [currentPage]="state.result.currentPage"
+                     [totalPages]="state.result.totalPages"
+                     [totalRows]="state.result.totalRows"
+                     (changes)="onPaginatorChanges($event)"></smp-paginator>
     </div>
     <smp-loading *ngIf="state.callState === CallStates.Pending"></smp-loading>
     <smp-no-data *ngIf="state.callState === CallStates.NoData"></smp-no-data>
     <smp-server-error *ngIf="state.callState === CallStates.Failed"
-      [errorMessage]="state.errorMessage">
+                      [errorMessage]="state.errorMessage">
     </smp-server-error>
 
   </div>

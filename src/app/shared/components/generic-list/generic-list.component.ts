@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from "@angular/forms";
-import { GenericTableDefinition } from "@shared/components/generic-table/generic-table.component";
+import { defaultDefinition, GenericListDefinition } from "@core/services/schema.models";
 import { PaginatorEvent } from "@shared/components/paginator/paginator.component";
 import { QueryParameters, SortInfo } from "@shared/models/query-parameters";
 import { CallState, StoreState } from "@shared/services/generic-store.service";
@@ -131,32 +131,3 @@ export class GenericListComponent implements OnInit, OnDestroy {
     }
   }
 }
-
-export interface GenericListDefinition {
-  name: string;
-  header: string;
-  storageKey: string;
-  defaultPageSize: number;
-  pageSizes: number[];
-  searchProperty: string;
-  enableAdvancedSearch: boolean;
-  tableDefinition: GenericTableDefinition
-}
-
-const defaultDefinition: GenericListDefinition = {
-  name: '_Generic_List_',
-  header: 'Generic List',
-  storageKey: '__GenericList_Params__',
-  defaultPageSize: 10,
-  pageSizes: [5, 10, 20],
-  searchProperty: '__',
-  enableAdvancedSearch: false,
-  tableDefinition: {
-    availableColumns: [],
-    displayedColumns: [],
-    defaultSort: {
-      column: '__',
-      direction: "asc"
-    }
-  }
-};
