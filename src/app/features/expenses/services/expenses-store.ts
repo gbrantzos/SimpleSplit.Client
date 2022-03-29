@@ -10,6 +10,7 @@ export interface Expense {
   enteredAt: Date;
   amount: number;
   category?: string;
+  categoryId?: number;
   isOwnerCharge: boolean;
   sharedAt?: string
 }

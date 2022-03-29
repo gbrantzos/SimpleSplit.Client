@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { MatSidenav } from '@angular/material/sidenav';
-import { CriteriaDefinition } from "@core/services/schema.models";
 import {
   ADVANCED_SEARCH_SETUP,
   AdvancedSearchSetup, Condition,
   ConditionGroup,
   isConditionGroup
 } from "@shared/components/advanced-search/advanced-search.models";
+import { CriteriaDefinition } from "@shared/services/schema.models";
 import * as moment from "moment";
 import { forkJoin, map, Observable, of } from "rxjs";
 

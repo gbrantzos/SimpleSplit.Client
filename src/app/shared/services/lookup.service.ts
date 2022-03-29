@@ -1,5 +1,5 @@
 ﻿import { Injectable } from "@angular/core";
-import { Lookup, LookupItems } from "@core/services/schema.models";
+import { Lookup, LookupItems } from "@shared/services/schema.models";
 import { map, Observable, of } from "rxjs";
 
 interface CacheFactory {

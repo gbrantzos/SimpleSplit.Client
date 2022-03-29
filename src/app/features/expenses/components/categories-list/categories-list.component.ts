@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { ActivatedRoute } from "@angular/router";
-import { GenericListDefinition, Schema } from "@core/services/schema.models";
 import { CategoriesEditorComponent } from "@features/expenses/components/categories-editor/categories-editor.component";
 import { CategoriesStore, Category } from "@features/expenses/services/categories-store";
 import { emptyConditionGroup } from "@shared/components/advanced-search/advanced-search.models";
 import { QueryParameters } from "@shared/models/query-parameters";
 import { StoreState } from "@shared/services/generic-store.service";
+import { GenericListDefinition, Schema } from "@shared/services/schema.models";
 import { Observable } from "rxjs";
 
 @Component({

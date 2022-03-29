@@ -13,8 +13,8 @@ import {
 } from '@angular/core';
 import { MatSort, MatSortable } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { ColumnDefinition, GenericTableDefinition } from "@core/services/schema.models";
 import { SortInfo } from "@shared/models/query-parameters";
+import { ColumnDefinition, GenericTableDefinition } from "@shared/services/schema.models";
 
 @Component({
   selector: 'smp-generic-table',

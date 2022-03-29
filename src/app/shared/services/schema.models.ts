@@ -62,7 +62,40 @@ export interface LookupItems {
   [key: string]: string | any
 }
 
+export interface FormDefinition {
+  name: string;
+  label: string;
+  class?: string | string [];
+  width?: string;
+  items: FormItem[];
+}
 
+export interface FormItem {
+  name: string;
+  label: string;
+  type: 'text' | 'textarea' | 'number' | 'select' | 'date' | 'checkbox';
+  isNumber?: boolean;
+  class?: string;
+  flex?: string;
+  lookupName?: string;
+  lookupValues?: {
+    [key: string]: string
+  };
+  multi?: boolean;
+  validators?: Validator[];
+  hint?: string;
+  textareaRows?: number;
+  textareaMaxRows?: number;
+  suffix?: string;
+  prefix?: string;
+  suffixIcon?: string;
+  prefixIcon?: string;
+}
+
+export interface Validator {
+  name: 'min' | 'max' | 'required' | 'requiredTrue' | 'email' | 'minLength' | 'maxLength' | 'pattern';
+  parameters?: any;
+}
 
 export const defaultDefinition: GenericListDefinition = {
   name: '_Generic_List_',

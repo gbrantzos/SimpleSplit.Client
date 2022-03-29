@@ -1,0 +1,25 @@
+<div class="wrapper" [style.width.px]="definition.width ?? 420">
+  <!-- Header -->
+  <div class="title" fxLayout="row" fxLayoutAlign="center center">
+    <h2>{{definition.label}}</h2>
+    <div class="filler"></div>
+    <i class="far fa-times-circle fa-fw" (click)="onClose()"></i>
+  </div>
+  <mat-divider></mat-divider>
+
+  <!-- Form body -->
+  <smp-generic-form #form [definition]="definition" [model]="model"></smp-generic-form>
+
+  <!-- Actions -->
+  <mat-divider id="actions"></mat-divider>
+  <div class="actions" fxLayout="row" fxLayoutGap="12px">
+    <button *ngIf="allowDelete" mat-stroked-button color="warn" (click)="onDelete()">Διαγραφή</button>
+    <div class="filler"></div>
+    <button mat-stroked-button (click)="onClose()">Ακύρωση</button>
+    <button mat-flat-button color="simple" smp-base-button (click)="onSubmit()" [disabled]="!form.valid">
+      <i class="fas fa-check"></i>
+      &nbsp;&nbsp;
+      Αποθήκευση
+    </button>
+  </div>
+</div>

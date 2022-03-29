@@ -1,6 +1,6 @@
 ﻿import { InjectionToken } from "@angular/core";
 import { MatSidenav } from "@angular/material/sidenav";
-import { CriteriaDefinition } from "@core/services/schema.models";
+import { CriteriaDefinition } from "@shared/services/schema.models";
 
 export const ADVANCED_SEARCH_SETUP = new InjectionToken<{}>('ADVANCED_SEARCH_SETUP');
 

@@ -5,12 +5,14 @@ import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
 import { GenericDialogComponent } from "@shared/components/generic-dialog/generic-dialog.component";
+import { GenericEditorComponent } from "@shared/components/generic-editor/generic-editor.component";
 import { ListHeaderComponent } from '@shared/components/list-header/list-header.component';
 import { LoadingComponent } from '@shared/components/loading/loading.component';
 import { NoDataComponent } from '@shared/components/no-data/no-data.component';
 import { ImageFallbackDirective } from "@shared/directives/image-fallback.directive";
 import { materialModules } from "@shared/materialModules";
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
+import { GenericFormComponent } from './components/generic-form/generic-form.component';
 import { GenericListComponent } from './components/generic-list/generic-list.component';
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
@@ -39,14 +41,16 @@ export const SIMPLE_SPLIT_FORMATS = {
     ServerErrorComponent,
     GenericListComponent,
     GenericTableComponent,
+    GenericEditorComponent,
     AdvancedSearchComponent,
     BaseButtonDirective,
-    ImageFallbackDirective
+    ImageFallbackDirective,
+    GenericFormComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ...materialModules
+    ...materialModules,
   ],
   exports: [
     ReactiveFormsModule,
@@ -57,8 +61,10 @@ export const SIMPLE_SPLIT_FORMATS = {
     PaginatorComponent,
     ServerErrorComponent,
     GenericListComponent,
+    GenericTableComponent,
+    GenericEditorComponent,
     BaseButtonDirective,
-    ImageFallbackDirective
+    ImageFallbackDirective,
   ]
 })
 export class SharedModule {
@@ -77,13 +83,6 @@ export class SharedModule {
         {provide: MAT_DATE_LOCALE, useValue: 'el-GR'},
         {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
         {provide: MAT_DATE_FORMATS, useValue: SIMPLE_SPLIT_FORMATS}
-        // {
-        //   provide: MAT_DIALOG_DEFAULT_OPTIONS,
-        //   useValue: {
-        //     hasBackdrop: true,
-        //     backdropClass: 'dialog-backdrop'
-        //   },
-        // },
       ]
     }
   }

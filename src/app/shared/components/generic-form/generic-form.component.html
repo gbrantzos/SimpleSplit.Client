@@ -1,0 +1,92 @@
+<!--suppress TypeScriptValidateTypes -->
+<form [formGroup]="form" fxLayout="row wrap">
+
+  <!-- Loop schema items -->
+  <ng-container *ngFor="let item of definition.items">
+    <ng-container [ngSwitch]="true">
+
+      <!-- Text or Number -->
+      <mat-form-field *ngSwitchCase="item.type === 'text' || item.type === 'number'" class="form-field"
+                      [fxFlex]="item.flex">
+        <span *ngIf="!!item.suffix" matSuffix>{{item.suffix}}</span>
+        <span *ngIf="!!item.prefix" matPrefix>{{item.prefix}}</span>
+        <i *ngIf="!!item.suffixIcon" matSuffix class="action-icon" [ngClass]="split(item.suffixIcon)"></i>
+        <i *ngIf="!!item.prefixIcon" matPrefix class="action-icon" [ngClass]="split(item.prefixIcon)"></i>
+        <input [type]="item.type" matInput
+               placeholder="{{ item.label }}"
+               [formControlName]="item.name"
+               [ngClass]="item.class"/>
+        <mat-error *ngIf="hasErrors(item.name)">
+          {{ getErrorMessage(item.name, item.label) }}
+        </mat-error>
+        <mat-hint *ngIf="item.hint" align="end">{{item.hint}}</mat-hint>
+      </mat-form-field>
+
+      <!-- Text area -->
+      <mat-form-field *ngSwitchCase="item.type === 'textarea'" class="form-field" [fxFlex]="item.flex">
+        <textarea #ta="cdkTextareaAutosize"
+                  matInput
+                  placeholder="{{ item.label }}"
+                  [formControlName]="item.name"
+                  [rows]="item.textareaRows || 8"
+                  [ngClass]="item.class"
+                  cdkTextareaAutosize
+                  [cdkAutosizeMaxRows]="item.textareaMaxRows || item.textareaRows || 8"></textarea>
+        <mat-error *ngIf="hasErrors(item.name)">
+          {{ getErrorMessage(item.name) }}
+        </mat-error>
+        <mat-hint *ngIf="item.hint" align="end">{{item.hint}}</mat-hint>
+      </mat-form-field>
+
+      <!-- Date -->
+      <mat-form-field *ngSwitchCase="item.type === 'date'" class="form-field" [fxFlex]="item.flex">
+        <span *ngIf="!!item.suffix" matSuffix>{{item.suffix}}</span>
+        <span *ngIf="!!item.prefix" matPrefix>{{item.prefix}}</span>
+        <input matInput
+               [matDatepicker]="picker"
+               placeholder="{{ item.label }}"
+               [formControlName]="item.name"
+               [ngClass]="item.class"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-hint *ngIf="item.hint" align="end">{{item.hint}}</mat-hint>
+        <mat-error *ngIf="hasErrors(item.name)">
+          {{ getErrorMessage(item.name, item.label) }}
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Checkbox -->
+      <div *ngSwitchCase="item.type === 'checkbox'" class="form-field checkbox" [fxFlex]="item.flex">
+        <mat-checkbox [formControlName]="item.name">
+          {{ item.label }}
+        </mat-checkbox>
+        <mat-error class="checkbox-error" *ngIf="hasErrors(item.name)">
+          {{ getErrorMessage(item.name, item.label) }}
+        </mat-error>
+      </div>
+
+      <!-- Select -->
+      <mat-form-field *ngSwitchCase="item.type === 'select'" class="form-field" [fxFlex]="item.flex">
+        <mat-select placeholder="{{ item.label }}"
+                    [formControlName]="item.name"
+                    [compareWith]="compareObjects"
+                    [multiple]="item.multi"
+                    [ngClass]="item.class">
+          <mat-option *ngFor="let op of item.lookupValues | keyvalue" [value]="op.key">
+            {{ op.value }}
+          </mat-option>
+        </mat-select>
+        <i matSuffix class="fas fa-times-circle fa-fw action-icon" (click)="onClearSelect($event, item)"></i>
+        <i matSuffix *ngIf="!!item.lookupName" class="fas fa-sync action-icon"
+           (click)="onRefreshSelect($event, item)"></i>
+        <mat-hint *ngIf="item.hint" align="end">{{item.hint}}</mat-hint>
+        <mat-error *ngIf="hasErrors(item.name)">
+          {{ getErrorMessage(item.name) }}
+        </mat-error>
+      </mat-form-field>
+
+    </ng-container>
+  </ng-container>
+
+</form>

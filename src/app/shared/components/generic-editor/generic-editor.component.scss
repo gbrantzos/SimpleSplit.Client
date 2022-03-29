@@ -1,0 +1,30 @@
+.wrapper {
+  width: 420px;
+}
+
+.title {
+  margin: 6px;
+  padding: 6px;
+
+  h2 {
+    margin: 0;
+  }
+
+  i {
+    color: darkgray;
+    font-size: 1.4em;
+    cursor: pointer;
+  }
+}
+
+.actions {
+  margin: 12px 8px 0;
+}
+
+#actions {
+  margin-top: 8px;
+}
+
+mat-divider {
+  margin: 0 8px;
+}
