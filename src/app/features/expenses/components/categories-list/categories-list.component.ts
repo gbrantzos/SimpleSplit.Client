@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { ActivatedRoute } from "@angular/router";
-import { CategoriesEditorComponent } from "@features/expenses/components/categories-editor/categories-editor.component";
 import { CategoriesStore, Category } from "@features/expenses/services/categories-store";
 import { emptyConditionGroup } from "@shared/components/advanced-search/advanced-search.models";
+import { GenericEditorComponent } from "@shared/components/generic-editor/generic-editor.component";
 import { QueryParameters } from "@shared/models/query-parameters";
+import { DialogService } from "@shared/services/dialog.service";
 import { StoreState } from "@shared/services/generic-store.service";
-import { GenericListDefinition, Schema } from "@shared/services/schema.models";
+import { LookupValuesResolver } from "@shared/services/lookup-values.resolver";
+import { FormDefinition, GenericListDefinition, Schema } from "@shared/services/schema.models";
 import { Observable } from "rxjs";
 
 @Component({
@@ -24,13 +26,33 @@ export class CategoriesListComponent implements OnInit {
   public currentParams: QueryParameters;
 
   public listDefinition: GenericListDefinition;
+  private readonly editorDefinition: FormDefinition;
 
   constructor(private categoriesStore: CategoriesStore,
+              private lookupResolver: LookupValuesResolver,
+              private dialog: DialogService,
               private route: ActivatedRoute) {
     this.state$ = this.categoriesStore.items;
 
     const schema: Schema = this.route.snapshot.data.schema;
     this.listDefinition = schema.listDefinition;
+    this.editorDefinition = {
+      name: 'category-editor',
+      label: 'Στοιχεία Κατηγορίας Εξόδων',
+      items: [
+        {name: 'description', label: 'Περιγραφή', type: "text", flex: '100', validators: [{name: "required"}]},
+        {
+          name: 'kind',
+          label: 'Ομάδα Εξόδων',
+          type: "select",
+          flex: '100',
+          lookupName: "EXPENSES::CATEGORIES_KINDS",
+          lookupDynamic: false,
+          isNumber: true,
+          validators: [{name: "required"}]
+        }
+      ]
+    };
   }
 
   ngOnInit(): void { }
@@ -60,12 +82,47 @@ export class CategoriesListComponent implements OnInit {
     this.loadData();
   }
 
-  displayEditor(category: Category) {
+  async displayEditor(category: Category) {
+    const editorDefinition = await this.lookupResolver.resolveForm(this.editorDefinition);
     this.vrf.clear();
-    const componentRef = this.vrf.createComponent(CategoriesEditorComponent);
-    componentRef.instance.sidenavHost = this.sidenav;
-    componentRef.instance.category = category;
-    componentRef.instance.onSuccess = (_) => { this.loadData(); }
+    const componentRef = this.vrf.createComponent(GenericEditorComponent);
+    componentRef.instance.definition = editorDefinition;
+    componentRef.instance.model = category;
+    componentRef.instance.allowDelete = !(category.id == 0 && category.rowVersion == 0);
+    componentRef.instance.closeEvent = () => { this.sidenav.close(); }
+    componentRef.instance.submitEvent = (model) => this.saveCategory(model);
+    componentRef.instance.deleteEvent = (model) => this.deleteCategory(model);
     this.sidenav.open()
+  }
+
+  saveCategory = async (category: Category) => {
+    const message = await this.categoriesStore.save(category);
+
+    if (message !== '') {
+      console.warn(`Η αποθήκευση απέτυχε: ${message}`, category);
+      this.dialog.snackError(`Η αποθήκευση απέτυχε!\n${message}`);
+      return;
+    }
+
+    this.dialog.snackSuccess('Η εγγραφή αποθηκεύτηκε!', 'Κλείσιμο');
+    this.sidenav.close();
+    this.loadData();
+  }
+
+  deleteCategory = async (category: Category) => {
+    if (await this.dialog.confirm('Πρόκειται να διαγράψετε την εγγραφή! Θέλετε να συνεχίσετε;') === false) {
+      return;
+    }
+
+    const message = await this.categoriesStore.delete(category.id, category.rowVersion);
+    if (message !== '') {
+      console.warn(`Η διαγραφή απέτυχε: ${message}`, category);
+      this.dialog.snackError(`Η διαγραφή απέτυχε!\n${message}`);
+      return;
+    }
+
+    this.dialog.snackSuccess('Η εγγραφή διαγράφηκε!', 'Κλείσιμο')
+    this.sidenav.close();
+    this.loadData();
   }
 }

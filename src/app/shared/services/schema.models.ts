@@ -82,6 +82,7 @@ export interface FormItem {
     [key: string]: string
   };
   multi?: boolean;
+  lookupDynamic?: boolean
   validators?: Validator[];
   hint?: string;
   textareaRows?: number;

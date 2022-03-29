@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CategoriesEditorComponent } from "@features/expenses/components/categories-editor/categories-editor.component";
 import { ExpensesListComponent } from "@features/expenses/components/expenses-list/expenses-list.component";
 import { ExpensesRoutingModule } from '@features/expenses/expenses-routing.module';
 import { CategoriesApiClient } from "@features/expenses/services/categories-api-client";
@@ -16,7 +15,6 @@ import { CategoriesListComponent } from './components/categories-list/categories
   declarations: [
     ExpensesListComponent,
     CategoriesListComponent,
-    CategoriesEditorComponent,
   ],
   imports: [
     CommonModule,

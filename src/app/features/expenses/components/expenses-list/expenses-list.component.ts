@@ -60,6 +60,7 @@ export class ExpensesListComponent implements OnInit {
           type: "select",
           flex: '100',
           lookupName: "EXPENSES::CATEGORIES",
+          lookupDynamic: true,
           isNumber: true
         },
         {name: 'enteredAt', label: 'Ημερομηνία', type: "date", flex: '50'},

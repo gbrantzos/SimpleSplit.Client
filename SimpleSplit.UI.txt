@@ -20,8 +20,8 @@ Schema based UI
 - Menu service
 
 
-Lookups:
-    LookupItem: key, value, group, data
-    Lookup: name (unique), items, cacheable
-    LookupService
-    LookupProvider
+Generic-form, todo's
+- modelChanged event
+- async validators
+- hidden items
+- value formatter (?????)

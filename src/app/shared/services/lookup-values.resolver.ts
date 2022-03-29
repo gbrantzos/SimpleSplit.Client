@@ -2,7 +2,7 @@
 import { Injectable } from "@angular/core";
 import { LookupService } from "@shared/services/lookup.service";
 import { FormDefinition, Lookup, Schema } from "@shared/services/schema.models";
-import { firstValueFrom, forkJoin, map, Observable, of } from "rxjs";
+import { catchError, firstValueFrom, forkJoin, map, Observable, of } from "rxjs";
 
 @Injectable({providedIn: "root"})
 export class LookupValuesResolver {
@@ -39,7 +39,11 @@ export class LookupValuesResolver {
   resolveLookups(lookupNames: string[], refreshCache = false): Promise<Lookup[]>{
     const forkSources = [];
     lookupNames.forEach(n => forkSources.push(this.lookupService.getLookup(n, refreshCache)));
-    return firstValueFrom(forkJoin(forkSources));
+    return firstValueFrom(forkJoin(forkSources).pipe(catchError(err => {
+      console.error("Could not resolve lookups");
+      console.table(lookupNames);
+      return of([]);
+    })));
   }
 
   async resolveForm(formDefinition: FormDefinition): Promise<FormDefinition> {

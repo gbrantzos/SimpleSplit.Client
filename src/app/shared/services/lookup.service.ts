@@ -30,6 +30,9 @@ export class LookupService {
     }
 
     const factory = this.lookupFactories[name];
+    if (!factory) {
+      throw new Error(`Unknown lookup ${name}!`);
+    }
     return factory.source()
       .pipe(map(lookupItems => {
         const result = {
