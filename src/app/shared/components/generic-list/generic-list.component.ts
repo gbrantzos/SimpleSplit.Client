@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from "@angular/forms";
 import { PaginatorEvent } from "@shared/components/paginator/paginator.component";
-import { QueryParameters, SortInfo } from "@shared/models/query-parameters";
+import { QueryParameters } from "@shared/models/query-parameters";
 import { CallState, StoreState } from "@shared/services/generic-store.service";
-import { defaultDefinition, GenericListDefinition } from "@shared/services/schema.models";
+import { defaultDefinition, ListDefinition, SortInfo } from "@shared/services/schema.models";
 import { debounceTime, distinctUntilChanged } from "rxjs";
 import { SubSink } from "subsink";
 
@@ -14,7 +14,7 @@ import { SubSink } from "subsink";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenericListComponent implements OnInit, OnDestroy {
-  @Input() definition: GenericListDefinition = defaultDefinition;
+  @Input() definition: ListDefinition = defaultDefinition;
   @Input() state: StoreState<any>;
 
   @Output() newClicked: EventEmitter<any> = new EventEmitter();

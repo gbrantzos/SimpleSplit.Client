@@ -28,7 +28,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NotFoundComponent,
     UserProfileComponent,
     UserProfileEditorComponent,
-    ConfirmPasswordComponent
+    ConfirmPasswordComponent,
   ],
   imports: [
     BrowserModule,

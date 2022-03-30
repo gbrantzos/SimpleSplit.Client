@@ -1,8 +1,24 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges, OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { LookupValuesResolver } from "@shared/services/lookup-values.resolver";
 import { FormDefinition, FormItem, Validator } from "@shared/services/schema.models";
 import * as moment from "moment";
+import { Subscription } from "rxjs";
+
+export interface ModelChangedEvent {
+  previous: any | undefined;
+  current: any | undefined;
+  rawValue: any;
+}
 
 @Component({
   selector: 'smp-generic-form',
@@ -10,9 +26,10 @@ import * as moment from "moment";
   styleUrls: ['./generic-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GenericFormComponent implements OnInit, OnChanges {
+export class GenericFormComponent implements OnInit, OnDestroy, OnChanges {
   @Input() definition: FormDefinition;
   @Input() model: any;
+  @Output() modelChanged: EventEmitter<any> = new EventEmitter<any>();
   public form: FormGroup;
 
   private _dirty = false;
@@ -23,16 +40,35 @@ export class GenericFormComponent implements OnInit, OnChanges {
 
   get valid() { return this.form.valid; }
 
+  get invalid() { return !this.form.valid; }
+
+  private previous: any;
+  private subscription: Subscription;
+
   constructor(private lookupResolver: LookupValuesResolver) { }
 
   ngOnInit(): void {
-    this.prepareForm();
-    this.setModel(this.model);
+    this.subscription = this.form
+      .valueChanges
+      .subscribe(value => {
+        const current = this.getModel();
+        this.modelChanged.emit({
+          previous: this.previous,
+          current: current,
+          rawValue: value
+        } as ModelChangedEvent);
+        this.previous = {...current};
+      });
   }
+
+  ngOnDestroy(): void { this.subscription.unsubscribe(); }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes['definition']) {
       this.prepareForm();
+      if (this.model) {
+        this.setModel(this.model);
+      }
     }
     if (!!changes['model']) {
       this.setModel(this.model);
@@ -51,7 +87,8 @@ export class GenericFormComponent implements OnInit, OnChanges {
   }
 
   setModel(model: any, leaveDirty = false) {
-    this.form?.patchValue(model);
+    this.previous = undefined;
+    this.form?.patchValue(model, {emitEvent: false});
     if (!leaveDirty) {
       this.markAsPristine();
       this._dirty = false;
@@ -135,34 +172,32 @@ export class GenericFormComponent implements OnInit, OnChanges {
   private static mapValidators(validators: Validator[]) {
     const formValidators = [];
 
-    if (validators) {
-      for (const validation of validators) {
-        switch (validation.name) {
-          case 'required':
-            formValidators.push(Validators.required);
-            break;
-          case 'requiredTrue':
-            formValidators.push(Validators.requiredTrue);
-            break;
-          case 'min':
-            formValidators.push(Validators.min(validation.parameters));
-            break;
-          case 'max':
-            formValidators.push(Validators.max(validation.parameters));
-            break;
-          case 'minLength':
-            formValidators.push(Validators.minLength(validation.parameters));
-            break;
-          case 'maxLength':
-            formValidators.push(Validators.maxLength(validation.parameters));
-            break;
-          case 'pattern':
-            formValidators.push(Validators.pattern(validation.parameters));
-            break;
-          case 'email':
-            formValidators.push(Validators.email);
-            break;
-        }
+    for (const validation of validators ?? []) {
+      switch (validation.name) {
+        case 'required':
+          formValidators.push(Validators.required);
+          break;
+        case 'requiredTrue':
+          formValidators.push(Validators.requiredTrue);
+          break;
+        case 'min':
+          formValidators.push(Validators.min(validation.parameters));
+          break;
+        case 'max':
+          formValidators.push(Validators.max(validation.parameters));
+          break;
+        case 'minLength':
+          formValidators.push(Validators.minLength(validation.parameters));
+          break;
+        case 'maxLength':
+          formValidators.push(Validators.maxLength(validation.parameters));
+          break;
+        case 'pattern':
+          formValidators.push(Validators.pattern(validation.parameters));
+          break;
+        case 'email':
+          formValidators.push(Validators.email);
+          break;
       }
     }
     return formValidators;
@@ -171,4 +206,6 @@ export class GenericFormComponent implements OnInit, OnChanges {
   private static toCapitalFirst(text: string): string {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
+
+
 }

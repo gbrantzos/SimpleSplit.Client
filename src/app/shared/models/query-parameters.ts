@@ -1,4 +1,6 @@
-﻿export interface QueryParameters {
+﻿import { SortInfo } from "@shared/services/schema.models";
+
+export interface QueryParameters {
   pageNumber: number;
   pageSize: number;
   sort: SortInfo;
@@ -14,10 +16,4 @@ export const DefaultQueryParameters: QueryParameters = {
     column: 'description',
     direction: "asc"
   }
-}
-
-
-export interface SortInfo {
-  column: string;
-  direction: 'asc' | 'desc'
 }

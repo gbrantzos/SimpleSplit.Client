@@ -33,4 +33,8 @@ export class GenericEditorComponent implements OnInit {
     this.submitEvent(model);
   }
 
+  onModelChanged(event) {
+    // console.log(event);
+  }
+
 }

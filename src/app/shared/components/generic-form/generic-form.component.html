@@ -71,14 +71,14 @@
         <mat-select placeholder="{{ item.label }}"
                     [formControlName]="item.name"
                     [compareWith]="compareObjects"
-                    [multiple]="item.multi"
+                    [multiple]="!!item.lookupOptions?.multi"
                     [ngClass]="item.class">
           <mat-option *ngFor="let op of item.lookupValues | keyvalue" [value]="op.key">
-            {{ op.value }}
+            {{ (op.value | typeof) === 'string' ? op.value : op.value[item.lookupOptions.displayProperty] }}
           </mat-option>
         </mat-select>
         <i matSuffix class="fas fa-times-circle fa-fw action-icon" (click)="onClearSelect($event, item)"></i>
-        <i matSuffix *ngIf="!!item.lookupDynamic" class="fas fa-sync action-icon"
+        <i matSuffix *ngIf="!!item?.lookupOptions.dynamic" class="fas fa-sync action-icon"
            (click)="onRefreshSelect($event, item)"></i>
         <mat-hint *ngIf="item.hint" align="end">{{item.hint}}</mat-hint>
         <mat-error *ngIf="hasErrors(item.name)">

@@ -79,7 +79,63 @@
     },
     {
       "property": "forOwner",
-      "label": "Επιβάρυνση ιδιοκτήτη", "input": "checkbox"
+      "label": "Επιβάρυνση ιδιοκτήτη",
+      "input": "checkbox"
     }
-  ]
+  ],
+  "editorDefinition": {
+    "name": "expense-editor",
+    "label": "Στοιχεία Εξόδου",
+    "items": [
+      {
+        "name": "description",
+        "label": "Περιγραφή",
+        "type": "text",
+        "flex": "100",
+        "validators": [
+          {
+            "name": "required"
+          }
+        ]
+      },
+      {
+        "name": "categoryId",
+        "label": "Κατηγορια",
+        "type": "select",
+        "flex": "100",
+        "lookupName": "EXPENSES::CATEGORIES",
+        "lookupOptions": {
+          "dynamic": true
+        },
+        "isNumber": true
+      },
+      {
+        "name": "enteredAt",
+        "label": "Ημερομηνία",
+        "type": "date",
+        "flex": "50"
+      },
+      {
+        "name": "amount",
+        "label": "Αξια",
+        "type": "number",
+        "flex": "50",
+        "class": "align-right",
+        "suffixIcon": "fas fa-euro-sign",
+        "validators": [
+          {
+            "name": "required"
+          },
+          {
+            "name": "min",
+            "parameters": 0
+          }
+        ]
+      },
+      {
+        "name": "isOwnerCharge",
+        "label": "Επιβάρυνση ιδιοκτήτη", "type": "checkbox", "flex": "100"
+      }
+    ]
+  }
 }

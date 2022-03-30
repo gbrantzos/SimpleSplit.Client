@@ -42,5 +42,38 @@
         "direction": "asc"
       }
     }
+  },
+  "editorDefinition": {
+    "name": "category-editor",
+    "label": "Στοιχεία Κατηγορίας Εξόδων",
+    "items": [
+      {
+        "name": "description",
+        "label": "Περιγραφή",
+        "type": "text",
+        "flex": "100",
+        "validators": [
+          {
+            "name": "required"
+          }
+        ]
+      },
+      {
+        "name": "kind",
+        "label": "Ομάδα Εξόδων",
+        "type": "select",
+        "flex": "100",
+        "lookupName": "EXPENSES::CATEGORIES_KINDS",
+        "lookupOptions": {
+          "dynamic": false
+        },
+        "isNumber": true,
+        "validators": [
+          {
+            "name": "required"
+          }
+        ]
+      }
+    ]
   }
 }

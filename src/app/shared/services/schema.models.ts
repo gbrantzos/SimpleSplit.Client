@@ -1,12 +1,12 @@
-﻿import { SortInfo } from "@shared/models/query-parameters";
-import { Observable } from "rxjs";
+﻿import { Observable } from "rxjs";
 
 export interface Schema {
-  listDefinition: GenericListDefinition,
-  searchDefinition: CriteriaDefinition[]
+  listDefinition: ListDefinition,
+  searchDefinition: CriteriaDefinition[],
+  editorDefinition?: FormDefinition
 }
 
-export interface GenericListDefinition {
+export interface ListDefinition {
   name: string;
   header: string;
   storageKey: string;
@@ -14,13 +14,18 @@ export interface GenericListDefinition {
   pageSizes: number[];
   searchProperty: string;
   enableAdvancedSearch: boolean;
-  tableDefinition: GenericTableDefinition
+  tableDefinition: TableDefinition
 }
 
-export interface GenericTableDefinition {
+export interface TableDefinition {
   availableColumns: ColumnDefinition [];
   displayedColumns: string[];
   defaultSort: SortInfo;
+}
+
+export interface SortInfo {
+  column: string;
+  direction: 'asc' | 'desc'
 }
 
 export interface ColumnDefinition {
@@ -81,8 +86,11 @@ export interface FormItem {
   lookupValues?: {
     [key: string]: string
   };
-  multi?: boolean;
-  lookupDynamic?: boolean
+  lookupOptions?: {
+    multi?: boolean;
+    dynamic?: boolean;
+    displayProperty?: string;
+  };
   validators?: Validator[];
   hint?: string;
   textareaRows?: number;
@@ -98,7 +106,7 @@ export interface Validator {
   parameters?: any;
 }
 
-export const defaultDefinition: GenericListDefinition = {
+export const defaultDefinition: ListDefinition = {
   name: '_Generic_List_',
   header: 'Generic List',
   storageKey: '__GenericList_Params__',

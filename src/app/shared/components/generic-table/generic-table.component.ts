@@ -13,8 +13,7 @@ import {
 } from '@angular/core';
 import { MatSort, MatSortable } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { SortInfo } from "@shared/models/query-parameters";
-import { ColumnDefinition, GenericTableDefinition } from "@shared/services/schema.models";
+import { ColumnDefinition, SortInfo, TableDefinition } from "@shared/services/schema.models";
 
 @Component({
   selector: 'smp-generic-table',
@@ -25,7 +24,7 @@ import { ColumnDefinition, GenericTableDefinition } from "@shared/services/schem
 export class GenericTableComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
 
-  @Input() definition: GenericTableDefinition;
+  @Input() definition: TableDefinition;
 
   @Input() set data(data: { rows: any[], sort: SortInfo }) {
     // Nothing to do, just reset

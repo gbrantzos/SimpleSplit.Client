@@ -8,7 +8,11 @@
   <mat-divider></mat-divider>
 
   <!-- Form body -->
-  <smp-generic-form #form [definition]="definition" [model]="model"></smp-generic-form>
+  <smp-generic-form #form
+                    [definition]="definition"
+                    [model]="model"
+                    (modelChanged)="onModelChanged($event)">
+  </smp-generic-form>
 
   <!-- Actions -->
   <mat-divider id="actions"></mat-divider>

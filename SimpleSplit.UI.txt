@@ -21,7 +21,6 @@ Schema based UI
 
 
 Generic-form, todo's
-- modelChanged event
 - async validators
 - hidden items
 - value formatter (?????)

@@ -15,7 +15,7 @@ import { QueryParameters } from "@shared/models/query-parameters";
 import { DialogService } from "@shared/services/dialog.service";
 import { StoreState } from "@shared/services/generic-store.service";
 import { LookupValuesResolver } from "@shared/services/lookup-values.resolver";
-import { CriteriaDefinition, FormDefinition, GenericListDefinition, Schema } from "@shared/services/schema.models";
+import { CriteriaDefinition, FormDefinition, ListDefinition, Schema } from "@shared/services/schema.models";
 import * as moment from "moment";
 import { Observable } from "rxjs";
 
@@ -33,7 +33,7 @@ export class ExpensesListComponent implements OnInit {
   public state$: Observable<StoreState<Expense>>;
   public currentParams: QueryParameters;
 
-  public listDefinition: GenericListDefinition;
+  public listDefinition: ListDefinition;
   public searchDefinition: CriteriaDefinition[];
 
   private readonly editorDefinition: FormDefinition;
@@ -49,33 +49,7 @@ export class ExpensesListComponent implements OnInit {
     const schema: Schema = this.route.snapshot.data.schema;
     this.listDefinition = schema.listDefinition;
     this.searchDefinition = schema.searchDefinition;
-    this.editorDefinition = {
-      name: 'expense-editor',
-      label: 'Στοιχεία Εξόδου',
-      items: [
-        {name: 'description', label: 'Περιγραφή', type: "text", flex: '100', validators: [{name: "required"}]},
-        {
-          name: 'categoryId',
-          label: 'Κατηγορια',
-          type: "select",
-          flex: '100',
-          lookupName: "EXPENSES::CATEGORIES",
-          lookupDynamic: true,
-          isNumber: true
-        },
-        {name: 'enteredAt', label: 'Ημερομηνία', type: "date", flex: '50'},
-        {
-          name: 'amount',
-          label: 'Αξια',
-          type: "number",
-          flex: '50',
-          class: 'align-right',
-          suffixIcon: 'fas fa-euro-sign',
-          validators: [{name: "required"}, {name: "min", parameters: 0}]
-        },
-        {name: 'isOwnerCharge', label: 'Επιβάρυνση ιδιοκτήτη', type: "checkbox", flex: '100'},
-      ]
-    };
+    this.editorDefinition = schema.editorDefinition;
   }
 
   ngOnInit(): void { }

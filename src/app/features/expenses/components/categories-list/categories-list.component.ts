@@ -8,7 +8,7 @@ import { QueryParameters } from "@shared/models/query-parameters";
 import { DialogService } from "@shared/services/dialog.service";
 import { StoreState } from "@shared/services/generic-store.service";
 import { LookupValuesResolver } from "@shared/services/lookup-values.resolver";
-import { FormDefinition, GenericListDefinition, Schema } from "@shared/services/schema.models";
+import { FormDefinition, ListDefinition, Schema } from "@shared/services/schema.models";
 import { Observable } from "rxjs";
 
 @Component({
@@ -25,7 +25,7 @@ export class CategoriesListComponent implements OnInit {
   public state$: Observable<StoreState<Category>>;
   public currentParams: QueryParameters;
 
-  public listDefinition: GenericListDefinition;
+  public listDefinition: ListDefinition;
   private readonly editorDefinition: FormDefinition;
 
   constructor(private categoriesStore: CategoriesStore,
@@ -36,23 +36,7 @@ export class CategoriesListComponent implements OnInit {
 
     const schema: Schema = this.route.snapshot.data.schema;
     this.listDefinition = schema.listDefinition;
-    this.editorDefinition = {
-      name: 'category-editor',
-      label: 'Στοιχεία Κατηγορίας Εξόδων',
-      items: [
-        {name: 'description', label: 'Περιγραφή', type: "text", flex: '100', validators: [{name: "required"}]},
-        {
-          name: 'kind',
-          label: 'Ομάδα Εξόδων',
-          type: "select",
-          flex: '100',
-          lookupName: "EXPENSES::CATEGORIES_KINDS",
-          lookupDynamic: false,
-          isNumber: true,
-          validators: [{name: "required"}]
-        }
-      ]
-    };
+    this.editorDefinition = schema.editorDefinition;
   }
 
   ngOnInit(): void { }
