@@ -16,7 +16,6 @@ Schema based UI
     * List definition
     * Conditions definition
     * Menu entry (group, label, icon)
-- Lookups service
 - Menu service
 
 

@@ -19,6 +19,7 @@ import { GenericTableComponent } from './components/generic-table/generic-table.
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { ServerErrorComponent } from './components/server-error/server-error.component';
 import { BaseButtonDirective } from './directives/base-button.directive';
+import { BaseListComponent } from './components/base-list/base-list.component';
 
 export const SIMPLE_SPLIT_FORMATS = {
   parse: {
@@ -47,6 +48,7 @@ export const SIMPLE_SPLIT_FORMATS = {
     BaseButtonDirective,
     ImageFallbackDirective,
     GenericFormComponent,
+    BaseListComponent,
     TypeofPipe
   ],
   imports: [

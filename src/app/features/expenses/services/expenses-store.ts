@@ -1,11 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { ExpensesApiClient } from '@features/expenses/services/expenses-api-client';
+import { BaseModel } from "@shared/components/base-list/base-list.component";
 import { GenericStoreService } from "@shared/services/generic-store.service";
 
-export interface Expense {
-  id: number;
-  rowVersion: number;
+export interface Expense extends BaseModel{
   description: string;
   enteredAt: Date;
   amount: number;
