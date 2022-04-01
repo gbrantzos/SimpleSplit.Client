@@ -71,21 +71,11 @@ export class BaseListComponent<TEntity extends BaseModel> implements OnInit {
     this.loadData();
   }
 
+  onNew() { this.displayEditor(this.newEntity()); }
+
   onTableClicked(entity: TEntity) { this.displayEditor({...entity}); }
 
   onAdvancedSearch() { this.displayAdvancedSearch(); }
-
-  async displayEditor(entity: TEntity) {
-    this.vrf.clear();
-    const componentRef = this.vrf.createComponent(GenericEditorComponent);
-    componentRef.instance.definition = await this.lookupResolver.resolveForm(this.editorDefinition);
-    componentRef.instance.model = entity;
-    componentRef.instance.allowDelete = !(entity.id == 0 && entity.rowVersion == 0);
-    componentRef.instance.closeEvent = () => { this.sidenav.close(); }
-    componentRef.instance.submitEvent = (model) => this.saveEntity(model);
-    componentRef.instance.deleteEvent = (model) => this.deleteEntity(model);
-    this.sidenav.open()
-  }
 
   saveEntity = async (entity: TEntity) => {
     const message = await this.store.save(entity);
@@ -116,6 +106,20 @@ export class BaseListComponent<TEntity extends BaseModel> implements OnInit {
     this.dialog.snackSuccess('Η εγγραφή διαγράφηκε!', 'Κλείσιμο')
     this.sidenav.close();
     this.loadData();
+  }
+
+  newEntity() { return {} as TEntity; }
+
+  async displayEditor(entity: TEntity) {
+    this.vrf.clear();
+    const componentRef = this.vrf.createComponent(GenericEditorComponent);
+    componentRef.instance.definition = await this.lookupResolver.resolveForm(this.editorDefinition);
+    componentRef.instance.model = entity;
+    componentRef.instance.allowDelete = !(entity.id == 0 && entity.rowVersion == 0);
+    componentRef.instance.closeEvent = () => { this.sidenav.close(); }
+    componentRef.instance.submitEvent = (model) => this.saveEntity(model);
+    componentRef.instance.deleteEvent = (model) => this.deleteEntity(model);
+    this.sidenav.open()
   }
 
   displayAdvancedSearch() {
@@ -159,11 +163,5 @@ export class BaseListComponent<TEntity extends BaseModel> implements OnInit {
     this.vrf.clear();
     this.vrf.createComponent(AdvancedSearchComponent, {injector});
     this.sidenav.open()
-  }
-
-  onNew() {
-    throw new Error('You must provide implementation for \'onNew\' method!')
-    // Create new entity and display editor
-    // this.displayEditor();
   }
 }

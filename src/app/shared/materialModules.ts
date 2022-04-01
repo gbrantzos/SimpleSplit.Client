@@ -16,6 +16,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export const materialModules = [
   FlexLayoutModule,
@@ -36,4 +37,5 @@ export const materialModules = [
   MatSnackBarModule,
   MatTableModule,
   MatToolbarModule,
+  MatTooltipModule
 ]

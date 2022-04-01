@@ -3,9 +3,6 @@ SimpleSplit - UI App
 
 [ ]  Translation
         https://stackoverflow.com/questions/38915977/make-sure-translations-json-file-has-loaded-before-continuing-to-load-angular-ap
-[ ]  Actions on generic table
-     - Multi select
-     - Clear filters and parameters
 
 
 Schema based UI
@@ -15,6 +12,7 @@ Schema based UI
     * Query, to provide data from backend
     * List definition
     * Conditions definition
+    * Editor definition
     * Menu entry (group, label, icon)
 - Menu service
 
@@ -23,3 +21,4 @@ Generic-form, todo's
 - async validators
 - hidden items
 - value formatter (?????)
+- master/detail sections

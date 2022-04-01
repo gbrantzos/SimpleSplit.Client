@@ -8,6 +8,7 @@ import {Expense} from "@features/expenses/services/expenses-store";
 })
 export class ListHeaderComponent implements OnInit {
   @Input() title: string;
+  @Input() showRefresh: boolean = false;
   @Output() newClicked: EventEmitter<Expense> = new EventEmitter();
   @Output() refreshClicked: EventEmitter<Expense> = new EventEmitter();
 

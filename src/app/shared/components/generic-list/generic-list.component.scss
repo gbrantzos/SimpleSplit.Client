@@ -43,3 +43,11 @@
   color: rgba(218, 83, 16, 1);
 }
 // ---------------------------------------------------------------------------------------
+
+.small {
+  transform: scale(0.91);
+  background-color: whitesmoke;
+  margin-right: -2px;
+  margin-left: 2px;
+  line-height: 0.8em;
+}

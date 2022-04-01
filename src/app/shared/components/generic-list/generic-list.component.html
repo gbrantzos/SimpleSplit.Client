@@ -22,7 +22,15 @@
       </i>
     </form>
     <div class="filler"></div>
-
+    <button class="small" mat-stroked-button matTooltip="Ανανέωση" (click)="onRefreshClicked()">
+      <i class="fas fa-sync-alt"></i>
+    </button>
+    <button class="small" mat-stroked-button matTooltip="Καθαρισμός φίλτρων" (click)="onClearFilters()">
+      <i class="far fa-trash-alt"></i>
+    </button>
+    <button class="small" mat-stroked-button matTooltip="Επιλογή εγγραφών" (click)="enableSelect = !enableSelect">
+      <i class="far fa-check-square"></i>
+    </button>
   </div>
 
   <!-- Table -->
@@ -33,6 +41,7 @@
                             rows: state.result.rows,
                             sort: currentParams.sort
                          }"
+                         [enableSelect]="enableSelect"
                          (cellClicked)="onCellClicked($event)"
                          (sortChanged)="onSortChanged($event)">
       </smp-generic-table>

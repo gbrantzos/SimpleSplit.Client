@@ -24,7 +24,23 @@ import { ColumnDefinition, SortInfo, TableDefinition } from "@shared/services/sc
 export class GenericTableComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
 
-  @Input() definition: TableDefinition;
+  public availableColumns = [];
+  public displayedColumns = []
+  public tableDefinition: TableDefinition;
+
+  @Input() set definition(value: TableDefinition) {
+    this.tableDefinition = value;
+    this.availableColumns = ['select', ...value.availableColumns];
+    this.displayedColumns = this.enableSelect
+      ? ['select', ...value.displayedColumns]
+      : value.displayedColumns
+  }
+
+  @Input() set enableSelect(value: boolean) {
+    this.displayedColumns = value
+       ? ['select', ...this.tableDefinition.displayedColumns]
+       : this.tableDefinition.displayedColumns
+  }
 
   @Input() set data(data: { rows: any[], sort: SortInfo }) {
     // Nothing to do, just reset
@@ -37,6 +53,7 @@ export class GenericTableComponent implements OnInit {
     this.rows = data.rows;
     this.dataSource = new MatTableDataSource(data.rows);
     this.dataSource.sort = this.sort;
+    this.selection = new SelectionModel<any>(true, []);
 
     // Set sorting
     if (!this.currentSort
@@ -96,4 +113,30 @@ export class GenericTableComponent implements OnInit {
 
     return `${rawValue}${columnDef.suffix ?? ''}`;
   }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: any): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  }
+
 }

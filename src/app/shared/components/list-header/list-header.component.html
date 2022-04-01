@@ -2,7 +2,7 @@
   <div class="title">{{title}}</div>
   <div class="filler"></div>
 
-  <button mat-stroked-button color="primary" (click)="onRefreshClicked()">
+  <button mat-stroked-button color="primary" (click)="onRefreshClicked()" *ngIf="showRefresh">
     <i class="fas fa-sync-alt"></i>
     &nbsp;&nbsp;
     Ανανέωση

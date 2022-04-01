@@ -24,7 +24,7 @@ export class GenericListComponent implements OnInit, OnDestroy {
   @Output() advancedSearch: EventEmitter<any> = new EventEmitter();
   @Output() paramsInitialised: EventEmitter<QueryParameters> = new EventEmitter<QueryParameters>();
 
-
+  public enableSelect = false;
   public CallStates = CallState;
   public searchForm: FormGroup;
   public currentParams: QueryParameters;
@@ -84,6 +84,15 @@ export class GenericListComponent implements OnInit, OnDestroy {
   onNewClicked = () => this.newClicked.emit();
   onRefreshClicked = () => this.refreshClicked.emit(this.currentParams);
   onCellClicked = (event: any) => this.tableClicked.emit(event);
+  onClearFilters = () => {
+    this.currentParams = {
+      pageNumber: 1,
+      pageSize: this.definition.defaultPageSize,
+      sort: {...this.definition.tableDefinition.defaultSort},
+      criteria: {[this.definition.searchProperty]: ''}
+    }
+    this.onParamsChanged(this.currentParams);
+  }
 
   onPaginatorChanges = (changes: PaginatorEvent) => {
     if (changes.pageNumber == this.currentParams.pageNumber &&
