@@ -207,4 +207,5 @@ export class GenericFormComponent implements OnInit, OnDestroy, OnChanges {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
+  asIsOrder(a, b) { return 1; }
 }

@@ -1,0 +1,29 @@
+<!--suppress TypeScriptValidateTypes -->
+<h2 mat-dialog-title>Αλλαγή Κατηγορίας</h2>
+<div mat-dialog-content>
+  <p>Επιλέξτε μια κατηγορία</p>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Κατηγορία</mat-label>
+    <mat-select #select>
+      <mat-option *ngFor="let ctg of (categories$ | async) | keyvalue: asIsOrder" [value]="ctg">
+        {{ctg.value}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+
+<div>
+  <!-- Actions -->
+  <mat-divider id="actions"></mat-divider>
+  <div class="actions" fxLayout="row" fxLayoutGap="12px">
+    <div class="filler"></div>
+    <button mat-stroked-button mat-dialog-close="0">Ακύρωση</button>
+    <button mat-flat-button color="simple" smp-base-button [mat-dialog-close]="select.value">
+      <i class="fas fa-check"></i>
+      &nbsp;&nbsp;
+      Ενημέρωση
+    </button>
+  </div>
+
+</div>

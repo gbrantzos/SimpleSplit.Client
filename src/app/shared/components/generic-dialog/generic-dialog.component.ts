@@ -11,14 +11,13 @@ export class GenericDialogComponent implements OnInit {
   public title: string;
   public message: string;
 
-  constructor(public dialogRef:  MatDialogRef<GenericDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<GenericDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: GenericDialogModel) {
     this.title = data.title;
     this.message = data.message;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   onCancel = () => this.dialogRef.close(false)
   onYes = () => this.dialogRef.close(true)

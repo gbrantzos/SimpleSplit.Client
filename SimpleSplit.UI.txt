@@ -1,6 +1,8 @@
 SimpleSplit - UI App
 ======================================================================
 
+[ ]  Unlimited page size
+[ ]  Components clean up
 [ ]  Translation
         https://stackoverflow.com/questions/38915977/make-sure-translations-json-file-has-loaded-before-continuing-to-load-angular-ap
 

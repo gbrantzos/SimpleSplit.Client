@@ -1,9 +1,9 @@
 ﻿import { Injectable } from "@angular/core";
-import { Lookup, LookupItems } from "@shared/services/schema.models";
+import { Lookup } from "@shared/services/schema.models";
 import { map, Observable, of } from "rxjs";
 
 interface CacheFactory {
-  source: () => Observable<LookupItems>;
+  source: () => Observable<Map<string, string | any>>;
   cacheable: boolean
 }
 
@@ -12,7 +12,7 @@ export class LookupService {
   private readonly lookupFactories: { [name: string]: CacheFactory } = {};
   private readonly cache: { [name: string]: Observable<Lookup> } = {};
 
-  registerLookup(name: string, cacheable: boolean, source: () => Observable<LookupItems>) {
+  registerLookup(name: string, cacheable: boolean, source: () => Observable<Map<string, string | any>>) {
     this.lookupFactories[name] = {
       source,
       cacheable

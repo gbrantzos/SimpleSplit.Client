@@ -28,15 +28,35 @@
     <button class="small" mat-stroked-button matTooltip="Καθαρισμός φίλτρων" (click)="onClearFilters()">
       <i class="far fa-trash-alt"></i>
     </button>
-    <button class="small" mat-stroked-button matTooltip="Επιλογή εγγραφών" (click)="enableSelect = !enableSelect">
+    <button *ngIf="!!definition.showSelect"
+            class="small"
+            mat-stroked-button
+            matTooltip="Επιλογή εγγραφών" (click)="enableSelect = !enableSelect">
       <i class="far fa-check-square"></i>
     </button>
+
+    <ng-container *ngIf="definition.actions">
+      <button mat-button [matMenuTriggerFor]="actions"
+              class="small"
+              mat-stroked-button
+              matTooltip="Ενέργειες">
+        <i class="fas fa-bolt"></i>
+      </button>
+      <mat-menu #actions="matMenu">
+        <button mat-menu-item *ngFor="let act of definition.actions" (click)="onActionSelected(act.name)">
+          <i [class]="act.icon | split2array:' '" class="menu-icon"></i>
+          {{act.label}}
+        </button>
+      </mat-menu>
+    </ng-container>
+
   </div>
 
   <!-- Table -->
   <div class="auto-overflow-y" fxFlex>
     <div class="table-wrapper full-height" fxLayout="column" *ngIf="state.callState === CallStates.Finished">
-      <smp-generic-table [definition]="definition.tableDefinition"
+      <smp-generic-table #table
+                         [definition]="definition.tableDefinition"
                          [data]="{
                             rows: state.result.rows,
                             sort: currentParams.sort

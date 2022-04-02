@@ -93,7 +93,8 @@ export class GenericTableComponent implements OnInit {
     this.sortChanged.emit(this.currentSort);
   }
 
-  onCellClicked(row, columnDef: ColumnDefinition) {
+  onCellClicked(event, row, columnDef: ColumnDefinition) {
+    event.stopPropagation();
     if (!columnDef.enableClickEvent) { return }
     this.cellClicked.emit(row);
   }
@@ -107,9 +108,9 @@ export class GenericTableComponent implements OnInit {
     if (columnDef.numericFormat) {
       rawValue = formatNumber(rawValue, this.locale, columnDef.numericFormat);
     }
-    if (columnDef.lookupValues) {
-      rawValue = columnDef.lookupValues[rawValue];
-    }
+     if (columnDef.lookupValues) {
+       rawValue = columnDef.lookupValues.get(rawValue.toString());
+     }
 
     return `${rawValue}${columnDef.suffix ?? ''}`;
   }

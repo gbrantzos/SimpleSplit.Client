@@ -11,7 +11,7 @@
         [ngClass]="c.labelClass">
       {{c.label ?? c.name}}
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="c.class" (click)="onCellClicked(element, c)">
+    <td mat-cell *matCellDef="let element" [ngClass]="c.class" (click)="onCellClicked($event, element, c)">
       {{prepareDisplay(element, c)}}
     </td>
   </ng-container>

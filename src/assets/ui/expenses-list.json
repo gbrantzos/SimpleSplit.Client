@@ -11,6 +11,19 @@
     ],
     "searchProperty": "description",
     "enableAdvancedSearch": true,
+    "showSelect": true,
+    "actions": [
+      {
+        "name": "setCategory",
+        "label": "Αλλαγή κατηγορίας",
+        "icon": "fas fa-tags"
+      },
+      {
+        "name": "createSettlement",
+        "label": "Δημιουργία εκκαθάρισης",
+        "icon": "fas fa-cubes"
+      }
+    ],
     "tableDefinition": {
       "availableColumns": [
         {
@@ -134,7 +147,9 @@
       },
       {
         "name": "isOwnerCharge",
-        "label": "Επιβάρυνση ιδιοκτήτη", "type": "checkbox", "flex": "100"
+        "label": "Επιβάρυνση ιδιοκτήτη",
+        "type": "checkbox",
+        "flex": "100"
       }
     ]
   }

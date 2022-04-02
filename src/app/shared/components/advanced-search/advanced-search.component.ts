@@ -3,13 +3,13 @@ import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { MatSidenav } from '@angular/material/sidenav';
 import {
   ADVANCED_SEARCH_SETUP,
-  AdvancedSearchSetup, Condition,
+  AdvancedSearchSetup,
+  Condition,
   ConditionGroup,
   isConditionGroup
 } from "@shared/components/advanced-search/advanced-search.models";
 import { CriteriaDefinition } from "@shared/services/schema.models";
 import * as moment from "moment";
-import { forkJoin, map, Observable, of } from "rxjs";
 
 @Component({
   selector: 'smp-advanced-search',
@@ -25,14 +25,11 @@ export class AdvancedSearchComponent implements OnInit {
 
   public properties: { key: string, label: string }[] = [];
   public operators: { key: string, label: string }[] = [];
-  public lookups$: Observable<any>;
-  public lookupValues: { [key: string]: string }[] = [];
-  public form: FormGroup;
   public activeEditorIndex = -1;
   public groupingMethod = 1;
 
+  public form: FormGroup;
   private rootGroup: ConditionGroup;
-  private lookupSources: { [key: string]: any } = {};
 
   get criteriaRow(): FormArray { return this.form.get('criteria') as FormArray; }
 
@@ -68,28 +65,6 @@ export class AdvancedSearchComponent implements OnInit {
       {key: 'in', label: 'περιλαμβάνεται σε'},
       {key: 'nin', label: 'δεν περιλαμβάνεται σε'},
     ];
-
-    this.definitions.forEach(def => {
-      if (def.lookupValues) {
-        const values = Object.keys(def.lookupValues).map(key => {
-          return {
-            key: key,
-            value: def.lookupValues[key]
-          };
-        })
-        this.lookupSources[def.property] = of(values);
-      }
-      if (def.lookupValuesAsync) {
-        this.lookupSources[def.property] = def.lookupValuesAsync;
-      }
-    });
-    this.lookups$ = forkJoin(this.lookupSources)
-      .pipe(map(result => {
-        Object.keys(result).forEach(key => {
-          this.lookupValues[key] = result[key];
-        })
-        return result;
-      }));
 
     this.groupingMethod = this.rootGroup.grouping == "and" ? 1 : 2;
     this.rootGroup.conditions.filter(c => !isConditionGroup(c)).forEach((c: Condition) => {
@@ -185,13 +160,7 @@ export class AdvancedSearchComponent implements OnInit {
   }
 
   refreshLookups() {
-    this.lookups$ = forkJoin(this.lookupSources)
-      .pipe(map(result => {
-        Object.keys(result).forEach(key => {
-          this.lookupValues[key] = result[key];
-        })
-        return result;
-      }));
+    // TODO
   }
 
   operatorsForProperty(property: string) {
@@ -227,7 +196,7 @@ export class AdvancedSearchComponent implements OnInit {
     const operatorLabel = this.operators.find(op => op.key === operator)?.label;
     let value = definition.input == 'date'
       ? moment(rawValue ?? '').utcOffset(0, true).format('DD/MM/YYYY')
-      : (!!definition.lookupValuesAsync || !!definition.lookupValues)
+      : !!definition.lookupValues
         ? this.getLookupsDisplay(property, rawValue)
         : rawValue;
     if (definition.input == 'checkbox') {
@@ -241,8 +210,12 @@ export class AdvancedSearchComponent implements OnInit {
     const values: string[] = Array.isArray(rawValue)
       ? rawValue
       : rawValue.split(',');
+    const definition = this.definitionForProperty(property)
+    return values.map(v => definition.lookupValues.get(v)).join(', ');
+  }
 
-    return values.map(v => this.lookupValues[property].find(p => p.key === v).value).join(', ');
+  asIsOrder(a, b) {
+    return 1;
   }
 }
 

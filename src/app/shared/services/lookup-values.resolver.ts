@@ -1,7 +1,7 @@
 ﻿import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { LookupService } from "@shared/services/lookup.service";
-import { FormDefinition, Lookup, Schema } from "@shared/services/schema.models";
+import { CriteriaDefinition, FormDefinition, Lookup, Schema } from "@shared/services/schema.models";
 import { catchError, firstValueFrom, forkJoin, map, Observable, of } from "rxjs";
 
 @Injectable({providedIn: "root"})
@@ -36,7 +36,7 @@ export class LookupValuesResolver {
       }))
   }
 
-  resolveLookups(lookupNames: string[], refreshCache = false): Promise<Lookup[]>{
+  resolveLookups(lookupNames: string[], refreshCache = false): Promise<Lookup[]> {
     const forkSources = [];
     lookupNames.forEach(n => forkSources.push(this.lookupService.getLookup(n, refreshCache)));
     return firstValueFrom(forkJoin(forkSources).pipe(catchError(err => {
@@ -56,5 +56,17 @@ export class LookupValuesResolver {
     })
 
     return formDefinition;
+  }
+
+  async resolveSearchDefinition(searchDefinition: CriteriaDefinition[]): Promise<CriteriaDefinition[]> {
+    const lookupItems = searchDefinition.filter(i => !!i.lookupName);
+    const resolved = await this.resolveLookups(lookupItems.map(i => i.lookupName));
+
+    lookupItems.forEach(item => {
+      const lookup = resolved.find(l => l.name == item.lookupName);
+      item.lookupValues = lookup.items;
+    })
+
+    return [...searchDefinition.filter(i => !i.lookupName), ...lookupItems].sort((a, b) => a.label.localeCompare(b.label));
   }
 }

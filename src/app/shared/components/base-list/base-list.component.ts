@@ -9,7 +9,7 @@ import {
   emptyConditionGroup
 } from "@shared/components/advanced-search/advanced-search.models";
 import { GenericEditorComponent } from "@shared/components/generic-editor/generic-editor.component";
-import { GenericListComponent } from "@shared/components/generic-list/generic-list.component";
+import { ActionSelected, GenericListComponent } from "@shared/components/generic-list/generic-list.component";
 import { QueryParameters } from "@shared/models/query-parameters";
 import { DialogService } from "@shared/services/dialog.service";
 import { GenericStoreService, StoreState } from "@shared/services/generic-store.service";
@@ -77,6 +77,8 @@ export class BaseListComponent<TEntity extends BaseModel> implements OnInit {
 
   onAdvancedSearch() { this.displayAdvancedSearch(); }
 
+  onAdvancedSearchClear() { this.advancedSearch = emptyConditionGroup(); }
+
   saveEntity = async (entity: TEntity) => {
     const message = await this.store.save(entity);
 
@@ -122,7 +124,7 @@ export class BaseListComponent<TEntity extends BaseModel> implements OnInit {
     this.sidenav.open()
   }
 
-  displayAdvancedSearch() {
+  async displayAdvancedSearch() {
     if (!!this.currentParams.criteria && (!this.advancedSearch || this.advancedSearch.conditions.length == 0)) {
       this.advancedSearch = emptyConditionGroup();
       Object.keys(this.currentParams.criteria).forEach(key => {
@@ -141,7 +143,7 @@ export class BaseListComponent<TEntity extends BaseModel> implements OnInit {
 
     const setup: AdvancedSearchSetup = {
       sidenavHost: this.sidenav,
-      definitions: this.searchDefinition,
+      definitions: await this.lookupResolver.resolveSearchDefinition(this.searchDefinition),
       applySearch: args => {
         this.list.onClearSearch(true);
         this.advancedSearch = args;
@@ -164,4 +166,6 @@ export class BaseListComponent<TEntity extends BaseModel> implements OnInit {
     this.vrf.createComponent(AdvancedSearchComponent, {injector});
     this.sidenav.open()
   }
+
+  onActionSelected(action: ActionSelected) { }
 }

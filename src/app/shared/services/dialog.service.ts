@@ -12,10 +12,11 @@ export class DialogService {
   constructor(private snackBar: MatSnackBar, private dialog: MatDialog) { }
 
   public confirm(message: string, title: string = 'Προσοχή'): Promise<boolean> {
-    const data:  GenericDialogModel = {
+    const data: GenericDialogModel = {
       type: "warning",
       title: title,
-      message: message
+      message: message,
+      showCancel: true
     };
 
     const dialogRef = this.dialog.open(GenericDialogComponent, {
@@ -24,7 +25,29 @@ export class DialogService {
       data: data
     });
 
-    const dialogCall = dialogRef.afterClosed()
+    const dialogCall = dialogRef
+      .afterClosed()
+      .pipe(map(res => res === true));
+
+    return firstValueFrom(dialogCall);
+  }
+
+  public alert(message: string, title: string = 'Προσοχή'): Promise<boolean> {
+    const data: GenericDialogModel = {
+      type: "alert",
+      title: title,
+      message: message,
+      showCancel: false
+    };
+
+    const dialogRef = this.dialog.open(GenericDialogComponent, {
+      width: '560px',
+      panelClass: ['generic-dialog-container', `generic-dialog-container-${data.type}`],
+      data: data
+    });
+
+    const dialogCall = dialogRef
+      .afterClosed()
       .pipe(map(res => res === true));
 
     return firstValueFrom(dialogCall);
@@ -72,4 +95,5 @@ export interface GenericDialogModel {
   type: 'alert' | 'warning' | 'information';
   title: string;
   message: string;
+  showCancel: boolean;
 }

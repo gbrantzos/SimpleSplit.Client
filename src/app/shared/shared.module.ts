@@ -11,6 +11,7 @@ import { LoadingComponent } from '@shared/components/loading/loading.component';
 import { NoDataComponent } from '@shared/components/no-data/no-data.component';
 import { ImageFallbackDirective } from "@shared/directives/image-fallback.directive";
 import { materialModules } from "@shared/materialModules";
+import { Split2ArrayPipe } from "@shared/pipes/split.pipe";
 import { TypeofPipe } from "@shared/pipes/typeof.pipe";
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
 import { GenericFormComponent } from './components/generic-form/generic-form.component';
@@ -49,7 +50,8 @@ export const SIMPLE_SPLIT_FORMATS = {
     ImageFallbackDirective,
     GenericFormComponent,
     BaseListComponent,
-    TypeofPipe
+    TypeofPipe,
+    Split2ArrayPipe
   ],
   imports: [
     CommonModule,

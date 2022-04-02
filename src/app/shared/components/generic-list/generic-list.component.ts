@@ -1,11 +1,26 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { FormControl, FormGroup } from "@angular/forms";
+import { GenericTableComponent } from "@shared/components/generic-table/generic-table.component";
 import { PaginatorEvent } from "@shared/components/paginator/paginator.component";
 import { QueryParameters } from "@shared/models/query-parameters";
 import { CallState, StoreState } from "@shared/services/generic-store.service";
 import { defaultDefinition, ListDefinition, SortInfo } from "@shared/services/schema.models";
 import { debounceTime, distinctUntilChanged } from "rxjs";
 import { SubSink } from "subsink";
+
+export interface ActionSelected {
+  action: string;
+  rows: any[];
+}
 
 @Component({
   selector: 'smp-generic-list',
@@ -14,6 +29,7 @@ import { SubSink } from "subsink";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenericListComponent implements OnInit, OnDestroy {
+  @ViewChild("table") table: GenericTableComponent;
   @Input() definition: ListDefinition = defaultDefinition;
   @Input() state: StoreState<any>;
 
@@ -21,8 +37,10 @@ export class GenericListComponent implements OnInit, OnDestroy {
   @Output() refreshClicked: EventEmitter<QueryParameters> = new EventEmitter<QueryParameters>();
   @Output() paramsChanged: EventEmitter<QueryParameters> = new EventEmitter<QueryParameters>();
   @Output() tableClicked: EventEmitter<any> = new EventEmitter<any>();
+  @Output() clearFilter: EventEmitter<any> = new EventEmitter<any>();
   @Output() advancedSearch: EventEmitter<any> = new EventEmitter();
   @Output() paramsInitialised: EventEmitter<QueryParameters> = new EventEmitter<QueryParameters>();
+  @Output() actionSelected: EventEmitter<ActionSelected> = new EventEmitter<ActionSelected>()
 
   public enableSelect = false;
   public CallStates = CallState;
@@ -84,6 +102,7 @@ export class GenericListComponent implements OnInit, OnDestroy {
   onNewClicked = () => this.newClicked.emit();
   onRefreshClicked = () => this.refreshClicked.emit(this.currentParams);
   onCellClicked = (event: any) => this.tableClicked.emit(event);
+
   onClearFilters = () => {
     this.currentParams = {
       pageNumber: 1,
@@ -91,7 +110,16 @@ export class GenericListComponent implements OnInit, OnDestroy {
       sort: {...this.definition.tableDefinition.defaultSort},
       criteria: {[this.definition.searchProperty]: ''}
     }
+    this.searchForm.get('searchValue').setValue('', {emitEvent: false})
+    this.clearFilter.emit();
     this.onParamsChanged(this.currentParams);
+  }
+
+  onActionSelected(action: string) {
+    this.actionSelected.emit({
+      action,
+      rows: this.table.selection.selected
+    });
   }
 
   onPaginatorChanges = (changes: PaginatorEvent) => {

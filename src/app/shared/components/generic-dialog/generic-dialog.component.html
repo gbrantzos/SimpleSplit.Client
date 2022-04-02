@@ -17,6 +17,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-stroked-button (click)="onCancel()">Ακύρωση</button>
+  <button mat-stroked-button (click)="onCancel()" *ngIf="data.showCancel">Ακύρωση</button>
   <button mat-flat-button color="primary" class="mat-simple" (click)="onYes()">&nbsp;&nbsp; Εντάξει &nbsp;&nbsp;</button>
 </mat-dialog-actions>

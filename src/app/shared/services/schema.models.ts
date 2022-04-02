@@ -1,6 +1,4 @@
-﻿import { Observable } from "rxjs";
-
-export interface Schema {
+﻿export interface Schema {
   listDefinition: ListDefinition,
   searchDefinition: CriteriaDefinition[],
   editorDefinition?: FormDefinition
@@ -14,7 +12,13 @@ export interface ListDefinition {
   pageSizes: number[];
   searchProperty: string;
   enableAdvancedSearch: boolean;
-  tableDefinition: TableDefinition
+  showSelect?: boolean;
+  tableDefinition: TableDefinition;
+  actions?: [{
+    name: string;
+    label: string;
+    icon?: string;
+  }]
 }
 
 export interface TableDefinition {
@@ -40,9 +44,7 @@ export interface ColumnDefinition {
   numericFormat?: string;
   suffix?: string;
   lookupName?: string;
-  lookupValues?: {
-    [key: string]: string
-  }
+  lookupValues?: Map<string, string | any>
 }
 
 export interface CriteriaDefinition {
@@ -51,20 +53,13 @@ export interface CriteriaDefinition {
   input: 'text' | 'select' | 'date' | 'checkbox';
   multi?: boolean;
   lookupName?: string;
-  lookupValues?: {
-    [key: string]: string
-  },
-  lookupValuesAsync?: Observable<{ key: string, label: string }>
+  lookupValues?:  Map<string, string | any>
 }
 
 export interface Lookup {
   name: string;
-  items: LookupItems;
+  items: Map<string, string | any>;
   cacheable: boolean;
-}
-
-export interface LookupItems {
-  [key: string]: string | any
 }
 
 export interface FormDefinition {
@@ -83,9 +78,7 @@ export interface FormItem {
   class?: string;
   flex?: string;
   lookupName?: string;
-  lookupValues?: {
-    [key: string]: string
-  };
+  lookupValues?:  Map<string, string | any>;
   lookupOptions?: {
     multi?: boolean;
     dynamic?: boolean;
@@ -123,4 +116,3 @@ export const defaultDefinition: ListDefinition = {
     }
   }
 };
-

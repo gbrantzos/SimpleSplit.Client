@@ -12,8 +12,10 @@
         <span *ngIf="!!item.prefix" matPrefix>{{item.prefix}}</span>
         <i *ngIf="!!item.suffixIcon" matSuffix class="action-icon" [ngClass]="split(item.suffixIcon)"></i>
         <i *ngIf="!!item.prefixIcon" matPrefix class="action-icon" [ngClass]="split(item.prefixIcon)"></i>
-        <input [type]="item.type" matInput
+        <input [type]="item.type" matInput #input
                placeholder="{{ item.label }}"
+               (keydown.enter)="input.blur()"
+               onfocus="this.select()"
                [formControlName]="item.name"
                [ngClass]="item.class"/>
         <mat-error *ngIf="hasErrors(item.name)">
@@ -42,9 +44,10 @@
       <mat-form-field *ngSwitchCase="item.type === 'date'" class="form-field" [fxFlex]="item.flex">
         <span *ngIf="!!item.suffix" matSuffix>{{item.suffix}}</span>
         <span *ngIf="!!item.prefix" matPrefix>{{item.prefix}}</span>
-        <input matInput
+        <input matInput #input
                [matDatepicker]="picker"
                placeholder="{{ item.label }}"
+               (keydown.enter)="input.blur()"
                [formControlName]="item.name"
                [ngClass]="item.class"
         />
@@ -73,7 +76,7 @@
                     [compareWith]="compareObjects"
                     [multiple]="!!item.lookupOptions?.multi"
                     [ngClass]="item.class">
-          <mat-option *ngFor="let op of item.lookupValues | keyvalue" [value]="op.key">
+          <mat-option *ngFor="let op of item.lookupValues | keyvalue: asIsOrder" [value]="op.key">
             {{ (op.value | typeof) === 'string' ? op.value : op.value[item.lookupOptions.displayProperty] }}
           </mat-option>
         </mat-select>
