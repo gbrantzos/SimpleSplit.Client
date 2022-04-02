@@ -73,7 +73,6 @@
       <mat-form-field *ngSwitchCase="item.type === 'select'" class="form-field" [fxFlex]="item.flex">
         <mat-select placeholder="{{ item.label }}"
                     [formControlName]="item.name"
-                    [compareWith]="compareObjects"
                     [multiple]="!!item.lookupOptions?.multi"
                     [ngClass]="item.class">
           <mat-option *ngFor="let op of item.lookupValues | keyvalue: asIsOrder" [value]="op.key">

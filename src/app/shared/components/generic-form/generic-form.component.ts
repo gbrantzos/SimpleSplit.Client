@@ -3,7 +3,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges, OnDestroy,
+  OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges
@@ -156,8 +157,6 @@ export class GenericFormComponent implements OnInit, OnDestroy, OnChanges {
 
     return errorMessage;
   }
-
-  compareObjects = (o1: any, o2: any) => typeof o2 === 'number' ? o1 === o2.toString() : o1 === o2;
 
   split = (text: string, separator: string = ' '): string[] => text.split(separator)
 
