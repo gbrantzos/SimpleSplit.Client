@@ -80,8 +80,11 @@
           </mat-option>
         </mat-select>
         <i matSuffix class="fas fa-times-circle fa-fw action-icon" (click)="onClearSelect($event, item)"></i>
-        <i matSuffix *ngIf="!!item?.lookupOptions.dynamic" class="fas fa-sync action-icon"
-           (click)="onRefreshSelect($event, item)"></i>
+        <i matSuffix
+           *ngIf="!!item?.lookupOptions.dynamic"
+           class="fas fa-sync action-icon"
+           (click)="onRefreshSelect($event, item)">
+        </i>
         <mat-hint *ngIf="item.hint" align="end">{{item.hint}}</mat-hint>
         <mat-error *ngIf="hasErrors(item.name)">
           {{ getErrorMessage(item.name) }}

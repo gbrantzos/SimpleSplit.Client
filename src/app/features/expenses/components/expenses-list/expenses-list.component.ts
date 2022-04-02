@@ -16,17 +16,17 @@ import { firstValueFrom } from "rxjs";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExpensesListComponent extends BaseListComponent<Expense> {
-  constructor(store: ExpensesStore,
+  constructor(private expensesStore: ExpensesStore,
               route: ActivatedRoute,
               lookupResolver: LookupValuesResolver,
               dialog: DialogService,
               private matDialog: MatDialog,
               @SkipSelf() injector: Injector) {
-    super(store, route, lookupResolver, dialog, injector);
+    super(expensesStore, route, lookupResolver, dialog, injector);
   }
 
-  override onNew() {
-    this.displayEditor({
+  override newEntity(): Expense {
+    return {
       id: 0,
       rowVersion: 0,
       description: '<<Περιγραφή>>',
@@ -34,11 +34,10 @@ export class ExpensesListComponent extends BaseListComponent<Expense> {
       amount: 0,
       category: undefined,
       isOwnerCharge: false
-    });
+    }
   }
 
   override async onActionSelected(action: ActionSelected) {
-    console.log(action);
     if (!action.rows.length) {
       this.dialog.alert('Για την ενέργεια <strong>Αλλαγή Κατηγορίας</strong>, πρέπει να επιλέξετε εγγραφές από την λίστα!');
       return;
@@ -49,7 +48,17 @@ export class ExpensesListComponent extends BaseListComponent<Expense> {
         panelClass: ['generic-dialog-container-information']
       })
       .afterClosed());
-    console.log({category, rows: action.rows});
+    if (!category.key) { return; }
+
+    const message = await this.expensesStore.updateCategory(action.rows, category.key);
+    if (message !== '') {
+      console.warn(`Η ενημέρωση απέτυχε: ${message}`, message);
+      this.dialog.snackError(`Η ενημέρωση απέτυχε!\n${message}`);
+      return;
+    }
+
+    this.dialog.snackSuccess('Η ενημέρωση ολοκληρώθηκε!', 'Κλείσιμο');
+    this.loadData();
   }
 
 }

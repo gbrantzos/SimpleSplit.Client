@@ -10,13 +10,20 @@ import { map } from "rxjs";
 export class SelectCategoryComponent implements OnInit {
   public categories$;
 
-  constructor(lookupService: LookupService) {
+  constructor(private lookupService: LookupService) {
     this.categories$ = lookupService
       .getLookup('EXPENSES::CATEGORIES')
       .pipe(map(lookup => lookup.items));
   }
 
   ngOnInit(): void { }
+
+  async onRefreshSelect(event: MouseEvent) {
+    event.stopPropagation();
+    this.categories$ = this.lookupService
+      .getLookup('EXPENSES::CATEGORIES', true)
+      .pipe(map(lookup => lookup.items));
+  }
 
   asIsOrder(a, b) { return 1; }
 }
