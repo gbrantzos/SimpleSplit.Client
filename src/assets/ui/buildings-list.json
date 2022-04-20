@@ -1,0 +1,40 @@
+﻿{
+  "listDefinition": {
+    "name": "BuildingsList",
+    "header": "Λίστα Κτηρίων",
+    "storageKey": "BuildingsList_QueryParameters",
+    "defaultPageSize": 10,
+    "pageSizes": [
+      5,
+      10,
+      20
+    ],
+    "searchProperty": "description",
+    "enableAdvancedSearch": false,
+    "showSelect": false,
+    "tableDefinition": {
+      "availableColumns": [
+        {
+          "name": "id",
+          "label": "Α/Α"
+        },
+        {
+          "name": "rowVersion"
+        },
+        {
+          "name": "description",
+          "label": "Περιγραφή",
+          "class": "hover-link",
+          "enableClickEvent": true
+        }
+      ],
+      "displayedColumns": [
+        "description"
+      ],
+      "defaultSort": {
+        "column": "description",
+        "direction": "asc"
+      }
+    }
+  }
+}

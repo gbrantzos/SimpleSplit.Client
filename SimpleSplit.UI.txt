@@ -24,3 +24,30 @@ Generic-form, todo's
 - hidden items
 - value formatter (?????)
 - master/detail sections
+
+
+
+
+
+
+
+SimpleSplit.UI
+
+Support master/details structures
+- Add type 'array' or 'collection'
+- Display expression using new Function()
+- Child items, array of FormItem (the detail definition)
+- Fixed values, to support expense kinds... (???)
+
+
+
+Level / Code
+Dweller
+Owner
+Heating/Elevator/Others
+
+Schema stuff
+
+- Form Definition
+- Lookup definition
+- List definition (schema)

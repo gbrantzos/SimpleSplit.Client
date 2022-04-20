@@ -33,6 +33,14 @@ const routes: Routes = [
           description: 'Εξοδα',
           module: 'expenses'
         }
+      },
+      {
+        path: 'buildings',
+        loadChildren: () => import('./features/buildings/buildings.module').then(m => m.BuildingsModule),
+        data: {
+          description: 'Κτήρια',
+          module: 'buildings'
+        }
       }
     ]
   },

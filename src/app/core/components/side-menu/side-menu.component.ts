@@ -45,6 +45,15 @@ export class SideMenuComponent implements OnInit, OnDestroy {
       name: 'Κατηγορίες',
       route: '/expenses/categories',
     }]
+  }, {
+    name: 'Κτήρια',
+    route: '/buildings',
+    module: 'buildings',
+    icon: 'far fa-building',
+    children:[{
+      name: 'Λιστα',
+      route: '/buildings/list'
+    }]
   }]
 
   public buildInfo: string;
