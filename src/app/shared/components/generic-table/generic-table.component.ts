@@ -27,6 +27,7 @@ export class GenericTableComponent implements OnInit {
   public availableColumns = [];
   public displayedColumns = []
   public tableDefinition: TableDefinition;
+  private columnExpressions: Map<string, Function>;
 
   @Input() set definition(value: TableDefinition) {
     this.tableDefinition = value;
@@ -34,12 +35,18 @@ export class GenericTableComponent implements OnInit {
     this.displayedColumns = this.enableSelect
       ? ['select', ...value.displayedColumns]
       : value.displayedColumns
+
+    const temp = this.tableDefinition
+      .availableColumns
+      .filter(c => !!c.expression)
+      .map(c => [c.name, new Function('row', c.expression)] as [string, Function]);
+    this.columnExpressions = new Map(temp);
   }
 
   @Input() set enableSelect(value: boolean) {
     this.displayedColumns = value
-       ? ['select', ...this.tableDefinition.displayedColumns]
-       : this.tableDefinition.displayedColumns
+      ? ['select', ...this.tableDefinition.displayedColumns]
+      : this.tableDefinition.displayedColumns
   }
 
   @Input() set data(data: { rows: any[], sort: SortInfo }) {
@@ -99,18 +106,22 @@ export class GenericTableComponent implements OnInit {
     this.cellClicked.emit(row);
   }
 
-  prepareDisplay(row, columnDef): any {
+  prepareDisplay(row, columnDef: ColumnDefinition): any {
     let rawValue = row[columnDef.name];
 
+    if (!!columnDef.expression) {
+      const f = this.columnExpressions.get(columnDef.name);
+      return f(row);
+    }
     if (columnDef.dateFormat) {
       rawValue = formatDate(rawValue, columnDef.dateFormat, this.locale);
     }
     if (columnDef.numericFormat) {
       rawValue = formatNumber(rawValue, this.locale, columnDef.numericFormat);
     }
-     if (columnDef.lookupValues) {
-       rawValue = columnDef.lookupValues.get(rawValue.toString());
-     }
+    if (columnDef.lookupValues) {
+      rawValue = columnDef.lookupValues.get(rawValue.toString());
+    }
 
     return `${rawValue}${columnDef.suffix ?? ''}`;
   }

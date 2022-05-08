@@ -44,7 +44,8 @@ export interface ColumnDefinition {
   numericFormat?: string;
   suffix?: string;
   lookupName?: string;
-  lookupValues?: Map<string, string | any>
+  lookupValues?: Map<string, string | any>;
+  expression?: string;
 }
 
 export interface CriteriaDefinition {
@@ -73,7 +74,7 @@ export interface FormDefinition {
 export interface FormItem {
   name: string;
   label: string;
-  type: 'text' | 'textarea' | 'number' | 'select' | 'date' | 'checkbox';
+  type: 'text' | 'textarea' | 'number' | 'select' | 'date' | 'checkbox' | 'array';
   isNumber?: boolean;
   class?: string;
   flex?: string;
@@ -92,6 +93,12 @@ export interface FormItem {
   prefix?: string;
   suffixIcon?: string;
   prefixIcon?: string;
+  arrayOptions?: {
+    formDefinition?: FormDefinition;
+    displayProperty?: string;
+    displayExpression?: string;
+    newItemExpression?: string;
+  }
 }
 
 export interface Validator {

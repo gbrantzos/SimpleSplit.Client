@@ -20,7 +20,7 @@
     <button *ngIf="allowDelete" mat-stroked-button color="warn" (click)="onDelete()">Διαγραφή</button>
     <div class="filler"></div>
     <button mat-stroked-button (click)="onClose()">Ακύρωση</button>
-    <button mat-flat-button color="simple" smp-base-button (click)="onSubmit()" [disabled]="!form.valid">
+    <button (click)="onSubmit()" [disabled]="!form.valid" color="simple" mat-flat-button smp-base-button>
       <i class="fas fa-check"></i>
       &nbsp;&nbsp;
       Αποθήκευση

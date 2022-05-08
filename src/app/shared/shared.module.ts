@@ -21,6 +21,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
 import { ServerErrorComponent } from './components/server-error/server-error.component';
 import { BaseButtonDirective } from './directives/base-button.directive';
 import { BaseListComponent } from './components/base-list/base-list.component';
+import { GenericArrayComponent } from './components/generic-array/generic-array.component';
+import {RowDisplayPipe} from "@shared/pipes/rowDisplay.pipe";
 
 export const SIMPLE_SPLIT_FORMATS = {
   parse: {
@@ -51,7 +53,9 @@ export const SIMPLE_SPLIT_FORMATS = {
     GenericFormComponent,
     BaseListComponent,
     TypeofPipe,
-    Split2ArrayPipe
+    Split2ArrayPipe,
+    RowDisplayPipe,
+    GenericArrayComponent
   ],
   imports: [
     CommonModule,

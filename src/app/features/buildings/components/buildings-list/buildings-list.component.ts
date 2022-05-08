@@ -12,7 +12,6 @@ import { LookupValuesResolver } from "@shared/services/lookup-values.resolver";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BuildingsListComponent extends BaseListComponent<Building> {
-
   constructor(private buildingsStore: BuildingsStore,
               route: ActivatedRoute,
               lookupResolver: LookupValuesResolver,

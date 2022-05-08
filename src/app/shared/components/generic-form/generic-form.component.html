@@ -91,6 +91,18 @@
         </mat-error>
       </mat-form-field>
 
+      <!-- Array -->
+      <div *ngSwitchCase="item.type === 'array'" class="form-field" [fxFlex]="100">
+        <smp-generic-array [definition]="item.arrayOptions.formDefinition"
+                           [label]="item.label"
+                           [displayProperty]="item.arrayOptions.displayProperty"
+                           [displayExpression]="item.arrayOptions.displayExpression"
+                           [newItemExpression]="item.arrayOptions.newItemExpression"
+                           [model]="model[item.name]"
+                           (arrayChanged)="onArrayChanged($event, item.name)">
+        </smp-generic-array>
+      </div>
+
     </ng-container>
   </ng-container>
 

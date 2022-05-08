@@ -48,6 +48,9 @@ export class LookupValuesResolver {
 
   async resolveForm(formDefinition: FormDefinition): Promise<FormDefinition> {
     const lookupItems = formDefinition.items.filter(i => !!i.lookupName);
+    if (lookupItems.length ==0) {
+      return formDefinition;
+    }
     const resolved = await this.resolveLookups(lookupItems.map(i => i.lookupName));
 
     lookupItems.forEach(item => {

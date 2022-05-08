@@ -6,14 +6,15 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
-  SimpleChanges
+  Output, QueryList,
+  SimpleChanges, ViewChildren
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { LookupValuesResolver } from "@shared/services/lookup-values.resolver";
-import { FormDefinition, FormItem, Validator } from "@shared/services/schema.models";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {LookupValuesResolver} from "@shared/services/lookup-values.resolver";
+import {FormDefinition, FormItem, Validator} from "@shared/services/schema.models";
 import * as moment from "moment";
-import { Subscription } from "rxjs";
+import {Subscription} from "rxjs";
+import {GenericArrayComponent} from "@shared/components/generic-array/generic-array.component";
 
 export interface ModelChangedEvent {
   previous: any | undefined;
@@ -28,6 +29,7 @@ export interface ModelChangedEvent {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenericFormComponent implements OnInit, OnDestroy, OnChanges {
+  @ViewChildren(GenericArrayComponent) arrays: QueryList<GenericArrayComponent>;
   @Input() definition: FormDefinition;
   @Input() model: any;
   @Output() modelChanged: EventEmitter<any> = new EventEmitter<any>();
@@ -39,9 +41,17 @@ export class GenericFormComponent implements OnInit, OnDestroy, OnChanges {
   private _pristine = true;
   get pristine() { return this._pristine; }
 
-  get valid() { return this.form.valid; }
+  get valid() { return this.form.valid && !this.arraysEditing; }
 
-  get invalid() { return !this.form.valid; }
+  get invalid() { return !this.valid; }
+
+  get arraysEditing() {
+    const temp = this.arrays?.toArray() ?? [];
+    if (temp && temp.length > 0) {
+      return temp.filter(a => a.editing).length > 0;
+    }
+    return false;
+  }
 
   private previous: any;
   private subscription: Subscription;
@@ -121,6 +131,12 @@ export class GenericFormComponent implements OnInit, OnDestroy, OnChanges {
   onClearSelect = (event, item: FormItem) => {
     event.stopPropagation();
     this.form.controls[item.name].setValue(null);
+  }
+
+  onArrayChanged(value: any, modelProperty: string) {
+    // console.log(value, modelProperty);
+    this.form.controls[modelProperty].setValue(value);
+    this.model[modelProperty] = value;
   }
 
   hasErrors(key: string): boolean {

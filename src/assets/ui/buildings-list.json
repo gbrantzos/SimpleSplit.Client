@@ -26,15 +26,152 @@
           "label": "Περιγραφή",
           "class": "hover-link",
           "enableClickEvent": true
+        },
+        {
+          "name": "apartmentsCount",
+          "label": "Διαμερίσματα",
+          "expression": "return `${row.apartments?.length} διαμερίσματα`"
         }
       ],
       "displayedColumns": [
-        "description"
+        "description",
+        "apartmentsCount"
       ],
       "defaultSort": {
         "column": "description",
         "direction": "asc"
       }
     }
+  },
+  "editorDefinition": {
+    "name": "buildings-editor",
+    "label": "Στοιχεία Κτηρίου",
+    "items": [
+      {
+        "name": "description",
+        "label": "Περιγραφή",
+        "type": "text",
+        "flex": "100",
+        "validators": [
+          {
+            "name": "required"
+          }
+        ]
+      },
+      {
+        "name": "addressStreet",
+        "label": "Οδός",
+        "type": "text",
+        "flex": 60
+      },
+      {
+        "name": "addressNumber",
+        "label": "Αριθμός",
+        "type": "text",
+        "flex": 40
+      },
+      {
+        "name": "addressCity",
+        "label": "Πόλη",
+        "type": "text",
+        "flex": 60
+      },
+      {
+        "name": "addressZipCode",
+        "label": "ΤΚ",
+        "type": "text",
+        "flex": 40
+      },
+      {
+        "name": "apartments",
+        "type": "array",
+        "label": "Διαμερίσματα",
+        "arrayOptions": {
+          "formDefinition": {
+            "name": "apartment-editor",
+            "label": "Στοιχεία Διαμερίσματος",
+            "items": [
+              {
+                "name": "code",
+                "type": "text",
+                "label": "Κωδικός",
+                "flex": 40,
+                "validators": [
+                  {
+                    "name": "required"
+                  }
+                ]
+              },
+              {
+                "name": "floor",
+                "type": "text",
+                "label": "Όροφος",
+                "flex": 60,
+                "validators": [
+                  {
+                    "name": "required"
+                  }
+                ]
+              },
+              {
+                "name": "owner",
+                "type": "text",
+                "label": "Ιδιοκτήτης",
+                "flex": 100,
+                "validators": [
+                  {
+                    "name": "required"
+                  }
+                ]
+              },
+              {
+                "name": "dweller",
+                "type": "text",
+                "label": "Ενοικιαστής",
+                "flex": 100
+              },
+              {
+                "name": "heatingRatio",
+                "type": "number",
+                "label": "Θέρμανση",
+                "flex": 33,
+                "suffix": "‰",
+                "validators": [
+                  {
+                    "name": "required"
+                  }
+                ]
+              },
+              {
+                "name": "elevatorRatio",
+                "type": "number",
+                "label": "Ανελκυστήρας",
+                "flex": 34,
+                "suffix": "‰",
+                "validators": [
+                  {
+                    "name": "required"
+                  }
+                ]
+              },
+              {
+                "name": "sharedRatio",
+                "type": "number",
+                "label": "Λοιπά",
+                "flex": 33,
+                "suffix": "‰",
+                "validators": [
+                  {
+                    "name": "required"
+                  }
+                ]
+              }
+            ]
+          },
+          "displayExpression": "return !row.code ? '--N/A--' : (row.code + ', '  + (!!row.dweller ? row.dweller : row.owner));",
+          "newItemExpression": "return { owner: '>>Εισάγετε όνομα<<', heatingRatio: 0, elevatorRatio: 0, sharedRatio: 0}"
+        }
+      }
+    ]
   }
 }

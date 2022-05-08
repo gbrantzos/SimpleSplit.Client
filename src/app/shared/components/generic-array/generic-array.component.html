@@ -1,0 +1,39 @@
+<div class="header" fxLayoutAlign="center center" fxLayoutGap="12px">
+  <p id="label"><i class="far fa-clone fa-rotate-270 fa-fw"></i>&nbsp;&nbsp;{{label}}</p>
+  <div class="filler"></div>
+  <p class="link" (click)="addItem()">Προσθήκη</p>
+</div>
+<div class="row" *ngFor="let row of model; let i = index">
+
+  <!-- Row display -->
+  <div class="row-display"
+       fxLayout="row"
+       fxLayoutAlign="center center"
+       fxLayoutGap="8px">
+    <div fxFlex="18px"><i class="fas fa-caret-right fa-fw"></i></div>
+    <div fxFlex>{{row | rowDisplay : displayProperty:displayFn}}</div>
+    <div fxFlex="42px" *ngIf="activeEditorIndex != i">
+      <i class="far fa-edit fa-fw action-icon" (click)="setActiveEditor(i)"></i>
+      <i class="far fa-trash-alt fa-fw action-icon" (click)="removeItem(i)" style="margin-left: 4px"></i>
+    </div>
+  </div>
+
+  <!-- Row editor -->
+  <div class="row-editor" *ngIf="activeEditorIndex == i">
+    <h4>{{definition.label}}</h4>
+    <smp-generic-form #form
+                      [definition]="definition"
+                      [model]="row" (modelChanged)="onModelChanged($event)">
+    </smp-generic-form>
+    <div class="actions" fxLayoutAlign="center center" fxLayoutGap="12px">
+      <div class="filler"></div>
+      <p class="link" (click)="saveEdit(i)">Αποθήκευση</p>
+      <p class="link" (click)="cancelEdit()">Ακύρωση</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="empty" *ngIf="!model || model?.length == 0">
+  <i class="far fa-file fa-4x"></i>
+</div>
