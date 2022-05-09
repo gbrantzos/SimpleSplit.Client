@@ -69,6 +69,7 @@ export interface FormDefinition {
   class?: string | string [];
   width?: string;
   items: FormItem[];
+  modelChangedExpression?: string;
 }
 
 export interface FormItem {
@@ -76,6 +77,7 @@ export interface FormItem {
   label: string;
   type: 'text' | 'textarea' | 'number' | 'select' | 'date' | 'checkbox' | 'array';
   isNumber?: boolean;
+  readonly?: boolean;
   class?: string;
   flex?: string;
   lookupName?: string;

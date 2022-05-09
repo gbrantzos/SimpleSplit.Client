@@ -6,8 +6,10 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  Output, QueryList,
-  SimpleChanges, ViewChildren
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChildren
 } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {LookupValuesResolver} from "@shared/services/lookup-values.resolver";
@@ -35,15 +37,24 @@ export class GenericFormComponent implements OnInit, OnDestroy, OnChanges {
   @Output() modelChanged: EventEmitter<any> = new EventEmitter<any>();
   public form: FormGroup;
 
+  private modelChangedFn: any = null;
   private _dirty = false;
-  get dirty() { return this._dirty; }
+  get dirty() {
+    return this._dirty;
+  }
 
   private _pristine = true;
-  get pristine() { return this._pristine; }
+  get pristine() {
+    return this._pristine;
+  }
 
-  get valid() { return this.form.valid && !this.arraysEditing; }
+  get valid() {
+    return this.form.valid && !this.arraysEditing;
+  }
 
-  get invalid() { return !this.valid; }
+  get invalid() {
+    return !this.valid;
+  }
 
   get arraysEditing() {
     const temp = this.arrays?.toArray() ?? [];
@@ -56,23 +67,30 @@ export class GenericFormComponent implements OnInit, OnDestroy, OnChanges {
   private previous: any;
   private subscription: Subscription;
 
-  constructor(private lookupResolver: LookupValuesResolver) { }
+  constructor(private lookupResolver: LookupValuesResolver) {
+  }
 
   ngOnInit(): void {
     this.subscription = this.form
       .valueChanges
       .subscribe(value => {
         const current = this.getModel();
-        this.modelChanged.emit({
+        const changes = {
           previous: this.previous,
           current: current,
           rawValue: value
-        } as ModelChangedEvent);
+        } as ModelChangedEvent;
+        if (this.modelChangedFn) {
+          this.modelChangedFn(changes, this.form);
+        }
+        this.modelChanged.emit(changes);
         this.previous = {...current};
       });
   }
 
-  ngOnDestroy(): void { this.subscription.unsubscribe(); }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes['definition']) {
@@ -95,6 +113,9 @@ export class GenericFormComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     this.form = new FormGroup(formGroup);
+    if (this.definition.modelChangedExpression) {
+      this.modelChangedFn = new Function('changes', 'form', this.definition.modelChangedExpression);
+    }
   }
 
   setModel(model: any, leaveDirty = false) {
@@ -222,5 +243,7 @@ export class GenericFormComponent implements OnInit, OnDestroy, OnChanges {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
-  asIsOrder(a, b) { return 1; }
+  asIsOrder(a, b) {
+    return 1;
+  }
 }

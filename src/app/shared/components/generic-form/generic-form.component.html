@@ -17,6 +17,7 @@
                (keydown.enter)="input.blur()"
                onfocus="this.select()"
                [formControlName]="item.name"
+               [readonly]="item.readonly"
                [ngClass]="item.class"/>
         <mat-error *ngIf="hasErrors(item.name)">
           {{ getErrorMessage(item.name, item.label) }}
@@ -32,6 +33,7 @@
                   [formControlName]="item.name"
                   [rows]="item.textareaRows || 8"
                   [ngClass]="item.class"
+                  [readonly]="item.readonly"
                   cdkTextareaAutosize
                   [cdkAutosizeMaxRows]="item.textareaMaxRows || item.textareaRows || 8"></textarea>
         <mat-error *ngIf="hasErrors(item.name)">
@@ -49,6 +51,7 @@
                placeholder="{{ item.label }}"
                (keydown.enter)="input.blur()"
                [formControlName]="item.name"
+               [readonly]="item.readonly"
                [ngClass]="item.class"
         />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

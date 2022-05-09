@@ -4,7 +4,7 @@
   <span><b>{{this.title}}</b></span>
   <span class="filler"></span>
   <span>{{userDisplayName}}</span>
-  <img #userImage [src]="userAvatar" class="avatar" alt="User avatar" (click)="onUserClick()"/>
+  <img #userImage [src]="userAvatar" class="avatar" alt="User avatar" (click)="onUserClick()" fallback/>
 
   <button mat-icon-button (click)="onUserClick()">
     <mat-icon fontSet="fas" fontIcon="fa-caret-down"></mat-icon>

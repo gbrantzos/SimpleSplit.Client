@@ -52,6 +52,7 @@
         "label": "Περιγραφή",
         "type": "text",
         "flex": "100",
+        "readonly": true,
         "validators": [
           {
             "name": "required"
@@ -62,19 +63,34 @@
         "name": "addressStreet",
         "label": "Οδός",
         "type": "text",
-        "flex": 60
+        "flex": 60,
+        "validators": [
+          {
+            "name": "required"
+          }
+        ]
       },
       {
         "name": "addressNumber",
         "label": "Αριθμός",
         "type": "text",
-        "flex": 40
+        "flex": 40,
+        "validators": [
+          {
+            "name": "required"
+          }
+        ]
       },
       {
         "name": "addressCity",
         "label": "Πόλη",
         "type": "text",
-        "flex": 60
+        "flex": 60,
+        "validators": [
+          {
+            "name": "required"
+          }
+        ]
       },
       {
         "name": "addressZipCode",
@@ -172,6 +188,7 @@
           "newItemExpression": "return { owner: '>>Εισάγετε όνομα<<', heatingRatio: 0, elevatorRatio: 0, sharedRatio: 0}"
         }
       }
-    ]
+    ],
+    "modelChangedExpression": "const description = `${changes.current.addressStreet} ${changes.current.addressNumber} ${changes.current.addressCity}`;  form.controls['description'].setValue(description?.trim(), { emitEvent: false });"
   }
 }
