@@ -101,6 +101,7 @@
                            [displayProperty]="item.arrayOptions.displayProperty"
                            [displayExpression]="item.arrayOptions.displayExpression"
                            [newItemExpression]="item.arrayOptions.newItemExpression"
+                           [orderingProperty]="item.arrayOptions.orderingProperty"
                            [model]="model[item.name]"
                            (arrayChanged)="onArrayChanged($event, item.name)">
         </smp-generic-array>

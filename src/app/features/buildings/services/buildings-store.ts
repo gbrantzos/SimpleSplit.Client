@@ -5,6 +5,7 @@ import { GenericStoreService } from "@shared/services/generic-store.service";
 
 export interface Building extends BaseModel {
   description: string;
+  apartments: [];
 }
 
 @Injectable()

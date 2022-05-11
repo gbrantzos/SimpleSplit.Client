@@ -100,6 +100,7 @@ export interface FormItem {
     displayProperty?: string;
     displayExpression?: string;
     newItemExpression?: string;
+    orderingProperty: string;
   }
 }
 

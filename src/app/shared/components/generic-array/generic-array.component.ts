@@ -15,6 +15,7 @@ export class GenericArrayComponent implements OnInit {
   @Input() displayProperty: string;
   @Input() displayExpression: string;
   @Input() newItemExpression: string;
+  @Input() orderingProperty: string;
   @Input() definition: FormDefinition;
   @Input() model: any[];
 

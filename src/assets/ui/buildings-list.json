@@ -185,7 +185,8 @@
             ]
           },
           "displayExpression": "return !row.code ? '--N/A--' : (row.code + ', '  + (!!row.dweller ? row.dweller : row.owner));",
-          "newItemExpression": "return { owner: '>>Εισάγετε όνομα<<', heatingRatio: 0, elevatorRatio: 0, sharedRatio: 0}"
+          "newItemExpression": "return { owner: '>>Εισάγετε όνομα<<', heatingRatio: 0, elevatorRatio: 0, sharedRatio: 0}",
+          "orderingProperty": "code"
         }
       }
     ],

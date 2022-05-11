@@ -21,4 +21,12 @@ export class BuildingsListComponent extends BaseListComponent<Building> {
     super(buildingsStore, route, lookupResolver, dialog, injector);
   }
 
+  override newEntity(): Building {
+    return {
+      id: 0,
+      rowVersion: 0,
+      description: '',
+      apartments: []
+    }
+  }
 }

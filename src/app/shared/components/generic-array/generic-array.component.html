@@ -3,7 +3,7 @@
   <div class="filler"></div>
   <p class="link" (click)="addItem()">Προσθήκη</p>
 </div>
-<div class="row" *ngFor="let row of model; let i = index">
+<div class="row" *ngFor="let row of model | orderBy: orderingProperty ; let i = index">
 
   <!-- Row display -->
   <div class="row-display"

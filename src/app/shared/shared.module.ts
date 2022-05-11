@@ -23,6 +23,7 @@ import { BaseButtonDirective } from './directives/base-button.directive';
 import { BaseListComponent } from './components/base-list/base-list.component';
 import { GenericArrayComponent } from './components/generic-array/generic-array.component';
 import {RowDisplayPipe} from "@shared/pipes/rowDisplay.pipe";
+import {OrderModule} from "ngx-order-pipe";
 
 export const SIMPLE_SPLIT_FORMATS = {
   parse: {
@@ -61,10 +62,12 @@ export const SIMPLE_SPLIT_FORMATS = {
     CommonModule,
     ReactiveFormsModule,
     ...materialModules,
+    OrderModule
   ],
   exports: [
     ReactiveFormsModule,
     ...materialModules,
+    OrderModule,
     ListHeaderComponent,
     LoadingComponent,
     NoDataComponent,
