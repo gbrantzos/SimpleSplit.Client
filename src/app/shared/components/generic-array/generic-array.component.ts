@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {FormDefinition} from "@shared/services/schema.models";
+import {ArrayOptions, FormDefinition} from "@shared/services/schema.models";
 import {GenericFormComponent} from "@shared/components/generic-form/generic-form.component";
 import {DialogService} from "@shared/services/dialog.service";
 
@@ -12,12 +12,17 @@ import {DialogService} from "@shared/services/dialog.service";
 export class GenericArrayComponent implements OnInit {
   @ViewChild('form') form: GenericFormComponent;
   @Input() label: string;
-  @Input() displayProperty: string;
-  @Input() displayExpression: string;
-  @Input() newItemExpression: string;
-  @Input() orderingProperty: string;
-  @Input() definition: FormDefinition;
-  @Input() model: any[];
+  @Input() arrayOptions: ArrayOptions;
+
+  private _model: any[];
+  @Input()
+  get model(): any[] {
+    return this._model;
+  }
+
+  set model(value: any[]) {
+    this._model = value.sort((a, b) => a[this.arrayOptions.orderingProperty].localeCompare(b[this.arrayOptions.orderingProperty]));
+  }
 
   @Output() arrayChanged: EventEmitter<any> = new EventEmitter<any>();
 
@@ -34,11 +39,11 @@ export class GenericArrayComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.displayExpression) {
-      this.displayFn = new Function('row', this.displayExpression);
+    if (this.arrayOptions.displayExpression) {
+      this.displayFn = new Function('row', this.arrayOptions.displayExpression);
     }
-    if (this.newItemExpression) {
-      this.newItemFn = new Function('model', this.newItemExpression);
+    if (this.arrayOptions.newItemExpression) {
+      this.newItemFn = new Function('model', this.arrayOptions.newItemExpression);
     }
     if (!this.model) {
       this.model = [];

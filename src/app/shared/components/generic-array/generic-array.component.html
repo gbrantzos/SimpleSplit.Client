@@ -3,7 +3,7 @@
   <div class="filler"></div>
   <p class="link" (click)="addItem()">Προσθήκη</p>
 </div>
-<div class="row" *ngFor="let row of model | orderBy: orderingProperty ; let i = index">
+<div class="row" *ngFor="let row of model ; let i = index">
 
   <!-- Row display -->
   <div class="row-display"
@@ -11,7 +11,7 @@
        fxLayoutAlign="center center"
        fxLayoutGap="8px">
     <div fxFlex="18px"><i class="fas fa-caret-right fa-fw"></i></div>
-    <div fxFlex>{{row | rowDisplay : displayProperty:displayFn}}</div>
+    <div fxFlex>{{row | rowDisplay : arrayOptions.displayProperty:displayFn}}</div>
     <div fxFlex="42px" *ngIf="activeEditorIndex != i">
       <i class="far fa-edit fa-fw action-icon" (click)="setActiveEditor(i)"></i>
       <i class="far fa-trash-alt fa-fw action-icon" (click)="removeItem(i)" style="margin-left: 4px"></i>
@@ -20,9 +20,9 @@
 
   <!-- Row editor -->
   <div class="row-editor" *ngIf="activeEditorIndex == i">
-    <h4>{{definition.label}}</h4>
+    <h4>{{arrayOptions.formDefinition.label}}</h4>
     <smp-generic-form #form
-                      [definition]="definition"
+                      [definition]="arrayOptions.formDefinition"
                       [model]="row" (modelChanged)="onModelChanged($event)">
     </smp-generic-form>
     <div class="actions" fxLayoutAlign="center center" fxLayoutGap="12px">

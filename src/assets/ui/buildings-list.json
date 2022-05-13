@@ -108,9 +108,9 @@
             "label": "Στοιχεία Διαμερίσματος",
             "items": [
               {
-                "name": "code",
+                "name": "sortingNum",
                 "type": "text",
-                "label": "Κωδικός",
+                "label": "Α/Α",
                 "flex": 40,
                 "validators": [
                   {
@@ -119,9 +119,9 @@
                 ]
               },
               {
-                "name": "floor",
+                "name": "code",
                 "type": "text",
-                "label": "Όροφος",
+                "label": "Κωδικός",
                 "flex": 60,
                 "validators": [
                   {
@@ -185,8 +185,8 @@
             ]
           },
           "displayExpression": "return !row.code ? '--N/A--' : (row.code + ', '  + (!!row.dweller ? row.dweller : row.owner));",
-          "newItemExpression": "return { owner: '>>Εισάγετε όνομα<<', heatingRatio: 0, elevatorRatio: 0, sharedRatio: 0}",
-          "orderingProperty": "code"
+          "newItemExpression": "return { owner: '>>Εισάγετε όνομα<<', heatingRatio: 0, elevatorRatio: 0, sharedRatio: 0, sortingNum: (model.length +1).toString().padStart(3, '0').slice(-3)}",
+          "orderingProperty": "sortingNum"
         }
       }
     ],

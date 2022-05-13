@@ -23,7 +23,6 @@
     "@angular/platform-browser": "~13.3.6",
     "@angular/platform-browser-dynamic": "~13.3.6",
     "@angular/router": "~13.3.6",
-    "ngx-order-pipe": "^2.2.0",
     "rxjs": "~7.4.0",
     "subsink": "^1.0.2",
     "ts-md5": "^1.2.11",

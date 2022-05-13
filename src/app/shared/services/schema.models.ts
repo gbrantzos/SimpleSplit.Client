@@ -95,13 +95,15 @@ export interface FormItem {
   prefix?: string;
   suffixIcon?: string;
   prefixIcon?: string;
-  arrayOptions?: {
-    formDefinition?: FormDefinition;
-    displayProperty?: string;
-    displayExpression?: string;
-    newItemExpression?: string;
-    orderingProperty: string;
-  }
+  arrayOptions?: ArrayOptions;
+}
+
+export interface ArrayOptions {
+  formDefinition?: FormDefinition;
+  displayProperty?: string;
+  displayExpression?: string;
+  newItemExpression?: string;
+  orderingProperty: string;
 }
 
 export interface Validator {
