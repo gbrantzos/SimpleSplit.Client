@@ -46,6 +46,7 @@
   "editorDefinition": {
     "name": "buildings-editor",
     "label": "Στοιχεία Κτηρίου",
+    "width": "520",
     "items": [
       {
         "name": "description",

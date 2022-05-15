@@ -2,7 +2,6 @@ SimpleSplit - UI App
 ======================================================================
 
 [ ]  Unlimited page size
-[ ]  Components clean up
 [ ]  Translation
         https://stackoverflow.com/questions/38915977/make-sure-translations-json-file-has-loaded-before-continuing-to-load-angular-ap
 
@@ -18,36 +17,11 @@ Schema based UI
     * Menu entry (group, label, icon)
 - Menu service
 
-
-Generic-form, todo's
-- async validators
-- hidden items
-- value formatter (?????)
-- master/detail sections
-
-
-
-
-
-
-
-SimpleSplit.UI
-
-Support master/details structures
-- Add type 'array' or 'collection'
-- Display expression using new Function()
-- Child items, array of FormItem (the detail definition)
-- Fixed values, to support expense kinds... (???)
-
-
-
-Level / Code
-Dweller
-Owner
-Heating/Elevator/Others
-
 Schema stuff
-
 - Form Definition
 - Lookup definition
 - List definition (schema)
+
+Generic-form, todo's
+- async validators
+- value formatter (?????)
